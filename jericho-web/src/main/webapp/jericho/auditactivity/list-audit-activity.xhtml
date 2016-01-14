@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <ui:composition template="/jericho/template/template.xhtml">
+        <ui:define name="contents">
+            <p:messages />
+            <b:panel look="primary">
+                <f:facet name="heading">Search Audit Activity</f:facet>
+                <f:view>
+                    <h:form>
+                        <h:panelGrid columns="2" styleClass="globalPanelGrid">
+                            <h:outputLabel value="User:" for="users" />
+                            <b:selectOneMenu id="users" value="#{auditActivityBean.selectedUserId}" fieldSize="sm">
+                                <f:selectItems value="#{auditActivityBean.userList}" 
+                                               var="user" 
+                                               itemValue="#{user.id}" 
+                                               itemLabel="#{user.firstname}&nbsp;#{user.surname}" />
+                            </b:selectOneMenu>
+                            
+                            <h:outputLabel value="From Date:" for="fromDateButton" />
+                            <p:calendar id="fromDateButton" value="#{auditActivityBean.auditActivitySearchCriteria.activityFromDate}" showOn="button" />
+                            
+                            <h:outputLabel value="To Date:" for="toDateButton" />
+                            <p:calendar id="toDateButton" value="#{auditActivityBean.auditActivitySearchCriteria.activityToDate}" showOn="button" />
+                        </h:panelGrid>
+                        <b:commandButton value="Search" action="#{auditActivityBean.searchAuditActivity()}" size="sm"/>&nbsp;
+                    </h:form>
+                </f:view>
+            </b:panel>
+            
+            <p:panel header="Audit Activities">
+                <p:dataTable id="datalist" value="#{auditActivityBean.auditActivities}" var="item"
+                             paginator="true" paginatorPosition="bottom"
+                             rowKey="#{item.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             >
+
+                    <p:column style="idColumnWidth">
+                        <f:facet name="header">
+                            <h:outputText value="ID"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column style="width: 10%">
+                        <f:facet name="header">
+                            <h:outputText value="Activity Type"/>
+                        </f:facet>
+                        <h:outputText value="#{item.activityType}"/>
+                    </p:column>
+                    <p:column style="width: 10%">
+                        <f:facet name="header">
+                            <h:outputText value="User Name"/>
+                        </f:facet>
+                        <h:outputText value="#{!empty item.createdBy.firstname ? 
+                                               item.createdBy.firstname.concat(' ').concat(item.createdBy.surname):
+                                               item.createdBy}"/>
+                    </p:column>
+                    <p:column style="width: 10%">
+                        <f:facet name="header">
+                            <h:outputText value="Effective Date"/>
+                        </f:facet>
+                        <h:outputText value="#{item.createDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column style="width: 10%">
+                        <f:facet name="header">
+                            <h:outputText value="Entity Name"/>
+                        </f:facet>
+                        <h:outputText value="#{item.entityName}"/>
+                    </p:column>
+                    <p:column style="width: 50%">
+                        <f:facet name="header">
+                            <h:outputText value="Description"/>
+                        </f:facet>
+                        <h:outputText value="#{item.description}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

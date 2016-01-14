@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:body>
+        <ui:composition>
+            <h2>Jericho Property Investment System<br/>
+                <small>Where We Expand Our Territory</small>
+            </h2>
+            <ui:remove>
+                <h:form>
+                    <h:commandLink action="#{logoutBean.logout}" value="Logout" />
+                </h:form>
+            </ui:remove>
+        </ui:composition>
+    </h:body>
+</html>

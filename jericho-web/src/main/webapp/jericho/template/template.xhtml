@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Jericho Property Investment Management System</title>
+        <h:outputStylesheet library="css" name="jericho.css"  />
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <h:outputScript library="js" name="jsfcrud.js"/>
+    </h:head>
+    <h:body>
+        <!--<p:growl id="growl" life="10000" />-->
+        <b:container>
+            <b:row>
+                <b:column>
+                    <ui:insert name="menu">
+                        <ui:include src="bar-menu.xhtml" />
+                    </ui:insert>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column>
+                    <ui:insert name="contents">
+                            Default content
+                    </ui:insert>
+                </b:column>
+            </b:row>
+            
+            
+            <ui:remove>
+            <b:row>
+                <b:column>
+                    <ui:insert name="header">
+                        <ui:include src="header.xhtml" />
+                    </ui:insert>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column col-md="3">
+                    <ui:insert name="menu">
+                        <ui:include src="menu.xhtml" />
+                    </ui:insert>
+                </b:column>
+                <b:column col-md="7">
+                    <ui:insert name="contents">
+                            Default content
+                    </ui:insert>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="2">
+                    <ui:insert name="footer">
+                        <ui:include src="footer.xhtml" />
+                    </ui:insert>
+                </b:column>
+            </b:row>
+            </ui:remove>
+            
+        </b:container>
+    </h:body>
+
+
+</html>
+

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UserViewDlg" widgetVar="UserViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{testBundle.ViewUserTitle}">
+            <h:form id="UserViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{userBean.selected != null}">
+                        <h:outputText value="ID"/>
+                        <h:outputText value="#{userBean.selected.id}" title="#{testBundle.ViewUserTitle_id}"/>
+                        
+                        <h:outputText value="Firstname"/>
+                        <h:outputText value="#{userBean.selected.firstname}" title="#{testBundle.ViewUserTitle_firstname}"/>
+                        
+                        <h:outputText value="Surname"/>
+                        <h:outputText value="#{userBean.selected.surname}" title="#{testBundle.ViewUserTitle_surname}"/>
+                        
+                        <h:outputText value="Email"/>
+                        <h:outputText value="#{userBean.selected.email}" title="#{testBundle.ViewUserTitle_email}"/>
+                        
+                        <h:outputText value="Username"/>
+                        <h:outputText value="#{userBean.selected.username}" title="#{testBundle.ViewUserTitle_username}"/>
+                        
+                        <h:outputText value="Roles"/>
+                        <ui:repeat value="#{userBean.selected.roles}" var="role">
+                            <h:outputText value="#{role.name}"/>
+                        </ui:repeat>
+                        
+                        <h:outputText value="Created By"/>
+                        <h:outputText value="#{userBean.selected.createdBy.username}" title="#{testBundle.ViewUserTitle_createdBy}"/>
+                        
+                        <h:outputText value="Create Date"/>
+                        <h:outputText value="#{userBean.selected.createDate}" title="#{testBundle.ViewUserTitle_createDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="Last Modified By"/>
+                        <h:outputText value="#{userBean.selected.lastModifiedBy.username}" title="#{testBundle.ViewUserTitle_lastModifiedBy}"/>
+                        
+                        <h:outputText value="Last Modify Date"/>
+                        <h:outputText value="#{userBean.selected.lastModifyDate}" title="#{testBundle.ViewUserTitle_lastModifyDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{testBundle.Close}" onclick="UserViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

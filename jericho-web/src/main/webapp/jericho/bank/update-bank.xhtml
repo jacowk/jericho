@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BankUpdateDlg" widgetVar="BankUpdateDialog" modal="true" resizable="false" appendTo="@(body)" header="Update Bank">
+            <h:form id="BankUpdateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{bankBean.bank != null}">
+                        <p:outputLabel for="name" value="Name: " />
+                        <p:inputText id="name" value="#{bankBean.bank.name}" title="Name: " />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bankBean.updateBank}" value="Update" update="display,:BankListForm:datalist,:globalMessages" oncomplete="handleSubmit(args, 'BankUpdateDialog');"/>
+                    <p:commandButton value="Cancel" onclick="BankUpdateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

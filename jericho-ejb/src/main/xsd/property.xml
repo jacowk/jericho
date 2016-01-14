@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF=8" ?>
+<properties>
+	<property>
+		<id>1</id>
+		<erf>1111</erf>
+		<portion>11</portion>
+		<property-size>99</property-size>
+		<address>
+			<address-line-1></address-line-1>
+			<address-line-2></address-line-2>
+			<address-line-3></address-line-3>
+			<address-line-4></address-line-4>
+			<address-line-5></address-line-5>
+			<greater-area></greater-area>
+		</address>
+	</property>
+	<property>
+		<id>1</id>
+		<erf>1111</erf>
+		<portion>11</portion>
+		<property-size>99</property-size>
+		<address>
+			<address-line-1></address-line-1>
+			<address-line-2></address-line-2>
+			<address-line-3></address-line-3>
+			<address-line-4></address-line-4>
+			<address-line-5></address-line-5>
+			<greater-area></greater-area>
+		</address>
+	</property>
+</properties>

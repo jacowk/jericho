@@ -1,0 +1,24 @@
+create database camelpoc;
+create database serverpoc;
+
+create table property (
+	id int not null auto_increment,
+	original_id int,
+	erf int,
+	portion int,
+	property_size int,
+	address_line_1 varchar(255),
+	address_line_2 varchar(255),
+	address_line_3 varchar(255),
+	address_line_4 varchar(255),
+	address_line_5 varchar(255),
+	greater_area varchar(255),
+	create_date timestamp,
+	primary key(id)
+);
+
+drop table property;
+
+show tables;
+select * from property;
+truncate table property;

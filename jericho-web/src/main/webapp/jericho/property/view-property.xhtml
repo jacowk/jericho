@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PropertyViewDlg" widgetVar="PropertyViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{jerichoBundle.ViewPropertyTitle}">
+            <h:form id="PropertyViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{propertyBean.selected != null}">
+                        <h:outputText value="#{jerichoBundle.ViewPropertyLabel_id}"/>
+                        <h:outputText value="#{propertyBean.selected.id}" title="#{jerichoBundle.ViewPropertyTitle_id}"/>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewAddressLabel_addressLine1}"/>
+                        <h:outputText value="#{propertyBean.selected.address.addressLine1}" title="#{jerichoBundle.ViewAddressTitle_addressLine1}"/>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewAddressLabel_addressLine2}"/>
+                        <h:outputText value="#{propertyBean.selected.address.addressLine2}" title="#{jerichoBundle.ViewAddressTitle_addressLine2}"/>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewAddressLabel_addressLine3}"/>
+                        <h:outputText value="#{propertyBean.selected.address.addressLine3}" title="#{jerichoBundle.ViewAddressTitle_addressLine3}"/>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewAddressLabel_addressLine4}"/>
+                        <h:outputText value="#{propertyBean.selected.address.addressLine4}" title="#{jerichoBundle.ViewAddressTitle_addressLine4}"/>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewAddressLabel_addressLine5}"/>
+                        <h:outputText value="#{propertyBean.selected.address.addressLine5}" title="#{jerichoBundle.ViewAddressTitle_addressLine5}"/>
+                        
+                        <h:outputText value="Greater Area"/>
+                        <h:outputText value="#{propertyBean.selectedGreaterArea.name}" title="Greater Area"/>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewPropertyLabel_erf}"/>
+                        <h:outputText value="#{propertyBean.selected.erf}" title="#{jerichoBundle.ViewPropertyTitle_erf}"/>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewPropertyLabel_portion}"/>
+                        <h:outputText value="#{propertyBean.selected.portion}" title="#{jerichoBundle.ViewPropertyTitle_portion}"/>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewPropertyLabel_propertySize}"/>
+                        <h:outputText value="#{propertyBean.selected.propertySize}" title="#{jerichoBundle.ViewPropertyTitle_propertySize}"/>
+                        
+                        <h:outputText value="Action Date"/>
+                        <h:outputText value="#{propertyBean.selected.actionDate}" title="Action Date">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="Action Value"/>
+                        <h:outputText value="#{propertyBean.selected.actionValue}" title="Action Value" />
+                        
+                        <h:outputText value="#{jerichoBundle.ViewPropertyLabel_createdBy}"/>
+                        <h:outputText value="#{propertyBean.selected.createdBy.username}" title="#{jerichoBundle.ViewPropertyTitle_createdBy}"/>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewPropertyLabel_createDate}"/>
+                        <h:outputText value="#{propertyBean.selected.createDate}" title="#{jerichoBundle.ViewPropertyTitle_createDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewPropertyLabel_lastModifiedBy}"/>
+                        <h:outputText value="#{propertyBean.selected.lastModifiedBy.username}" title="#{jerichoBundle.ViewPropertyTitle_lastModifiedBy}"/>
+                        
+                        <h:outputText value="#{jerichoBundle.ViewPropertyLabel_lastModifyDate}"/>
+                        <h:outputText value="#{propertyBean.selected.lastModifyDate}" title="#{jerichoBundle.ViewPropertyTitle_lastModifyDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{jerichoBundle.Close}" onclick="PropertyViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

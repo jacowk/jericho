@@ -1,0 +1,10 @@
+select p.id, 
+	p.portion, 
+	p.property_size,
+	a.address_line_1,
+	a.address_line_2,
+	a.address_line_3
+from property p
+left join address a on a.id = p.address_id
+left join property_flip pf on pf.property_id = p.id
+where p.erf = 1111;

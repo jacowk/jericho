@@ -1,0 +1,178 @@
+select * from contractor_audit_trail;
+select * from attorney;
+select * from attorney_audit_trail;
+select * from property;
+select * from property_flip;
+select * from address;
+select * from audit_activity;
+select * from permission where name like '%Attorney%';
+describe user_activity;
+select * from users;
+show tables;
+select * from bank;
+select * from user_activity;
+select * from bank_audit_trail;
+select * from contractor_audit_trail;
+
+select * from bank;
+select * from bank_audit_trail;
+
+select * from user_activity;
+select * from attorney_audit_trail;
+select * from estate_agent;
+select * from estate_agent_audit_trail;
+
+select * from permission_role pr where pr.permission_id = 45;
+
+select * from permission where name like 'Test%' and service_name is null;
+
+--8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 = admin
+insert into users(firstname, surname, email, username, password, created_by, create_date)
+values('Admin', 'Admin', 'jaco.wk@gmail.com', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1, curdate());
+
+--5dc8037aa11096acfa23f0f76d5009acf149be3e5db49280f6aefb8951be5812 = jericho
+insert into users(firstname, surname, email, username, password, created_by, create_date)
+values('Jericho', 'Jericho', 'jaco.wk@gmail.com', 'jericho', '5dc8037aa11096acfa23f0f76d5009acf149be3e5db49280f6aefb8951be5812', 1, curdate());
+
+insert into groups(groupname, username, create_date, created_by) values('admin', 'admin', curdate(), 1);
+insert into groups(groupname, username, create_date, created_by) values('jericho', 'jericho', curdate(), 1);
+
+insert into permission(name, service_name, created_by, create_date) values('Add User', 'addUser', 1, curdate()); --1
+insert into permission(name, service_name, created_by, create_date) values('Update User', 'updateUser', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark User Deleted', 'deleteUser', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Users', 'searchUsers', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Role', 'addRole', 1, curdate()); --5
+insert into permission(name, service_name, created_by, create_date) values('Update Role', 'updateRole', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Role Deleted', 'deleteRole', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Roles', 'searchRoles', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Permission', 'addPermission', 1, curdate()); --9
+insert into permission(name, service_name, created_by, create_date) values('Update Permission', 'updatePermission', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Permission Deleted', 'deletePermission', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Permissions', 'searchPermissions', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Address', 'addAddress', 1, curdate()); --13
+insert into permission(name, service_name, created_by, create_date) values('Update Address', 'updateAddress', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Address Deleted', 'markAddressDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Addresses', 'searchAddress', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Property', 'addProperty', 1, curdate()); --17
+insert into permission(name, service_name, created_by, create_date) values('Update Property', 'updateProperty', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Property Deleted', 'markPropertyDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Property', 'searchProperties', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Property Flip', 'addPropertyFlip', 1, curdate()); --21
+insert into permission(name, service_name, created_by, create_date) values('Update Property Flip', 'updatePropertyFlip', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Property Flip Deleted', 'markPropertyFlipDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Property Flip', 'searchPropertyFlips', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Greater Area', 'addGreaterArea', 1, curdate()); --25
+insert into permission(name, service_name, created_by, create_date) values('Update Greater Area', 'updateGreaterArea', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Greater Area Deleted', 'markGreaterAreaDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Greater Areas', 'searchGreaterAreas', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Attorney', 'addAttorney', 1, curdate()); --29
+insert into permission(name, service_name, created_by, create_date) values('Update Attorney', 'updateAttorney', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Attorney Deleted', 'markAttorneyDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Attorneys', 'searchAttorneys', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Bank', 'addBank', 1, curdate()); --33
+insert into permission(name, service_name, created_by, create_date) values('Update Bank', 'updateBank', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Bank Deleted', 'markBankDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Banks', 'searchBanks', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Contractor', 'addContractor', 1, curdate()); --37
+insert into permission(name, service_name, created_by, create_date) values('Update Contractor', 'updateContractor', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Contractor Deleted', 'markContractorDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Contractors', 'searchContractors', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Estate Agent', 'addEstateAgent', 1, curdate()); --41
+insert into permission(name, service_name, created_by, create_date) values('Update Estate Agent', 'updateEstateAgent', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Estate Agent Deleted', 'markEstateAgentDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Estate Agents', 'searchEstateAgents', 1, curdate());
+
+insert into role(name, created_by, create_date) values('Administrator', 1, curdate());
+insert into role(name, created_by, create_date) values('Manager', 1, curdate());
+insert into role(name, created_by, create_date) values('Supervisor', 1, curdate());
+insert into role(name, created_by, create_date) values('Call Centre Agent', 1, curdate());
+insert into role(name, created_by, create_date) values('Data Capturer', 1, curdate());
+
+insert into permission_role(role_id, permission_id) values(1, 1);
+insert into permission_role(role_id, permission_id) values(1, 2);
+insert into permission_role(role_id, permission_id) values(1, 3);
+insert into permission_role(role_id, permission_id) values(1, 4);
+insert into permission_role(role_id, permission_id) values(1, 5);
+insert into permission_role(role_id, permission_id) values(1, 6);
+insert into permission_role(role_id, permission_id) values(1, 7);
+insert into permission_role(role_id, permission_id) values(1, 8);
+insert into permission_role(role_id, permission_id) values(1, 9);
+insert into permission_role(role_id, permission_id) values(1, 10);
+insert into permission_role(role_id, permission_id) values(1, 11);
+insert into permission_role(role_id, permission_id) values(1, 12);
+insert into permission_role(role_id, permission_id) values(1, 13);
+insert into permission_role(role_id, permission_id) values(1, 14);
+insert into permission_role(role_id, permission_id) values(1, 15);
+insert into permission_role(role_id, permission_id) values(1, 16);
+insert into permission_role(role_id, permission_id) values(1, 17);
+insert into permission_role(role_id, permission_id) values(1, 18);
+insert into permission_role(role_id, permission_id) values(1, 19);
+insert into permission_role(role_id, permission_id) values(1, 20);
+insert into permission_role(role_id, permission_id) values(1, 21);
+insert into permission_role(role_id, permission_id) values(1, 22);
+insert into permission_role(role_id, permission_id) values(1, 23);
+insert into permission_role(role_id, permission_id) values(1, 24);
+insert into permission_role(role_id, permission_id) values(1, 25);
+insert into permission_role(role_id, permission_id) values(1, 26);
+insert into permission_role(role_id, permission_id) values(1, 27);
+insert into permission_role(role_id, permission_id) values(1, 28);
+insert into permission_role(role_id, permission_id) values(1, 29);
+insert into permission_role(role_id, permission_id) values(1, 30);
+insert into permission_role(role_id, permission_id) values(1, 31);
+insert into permission_role(role_id, permission_id) values(1, 32);
+insert into permission_role(role_id, permission_id) values(1, 33);
+insert into permission_role(role_id, permission_id) values(1, 34);
+insert into permission_role(role_id, permission_id) values(1, 35);
+insert into permission_role(role_id, permission_id) values(1, 36);
+insert into permission_role(role_id, permission_id) values(1, 37);
+insert into permission_role(role_id, permission_id) values(1, 38);
+insert into permission_role(role_id, permission_id) values(1, 39);
+insert into permission_role(role_id, permission_id) values(1, 40);
+insert into permission_role(role_id, permission_id) values(1, 41);
+insert into permission_role(role_id, permission_id) values(1, 42);
+insert into permission_role(role_id, permission_id) values(1, 43);
+insert into permission_role(role_id, permission_id) values(1, 44);
+
+--select * from attorney_audit_trail;
+--select * from permission p where p.name like '%Attorney%';
+--select * from role;
+--select * from permission_role;
+
+--update permission_role 
+--set role_id = 2 
+--where role_id = 1 
+--and permission_id = 29;
+
+--select * from permission;
+
+insert into user_role(user_id, role_id) values(1, 1);
+insert into user_role(user_id, role_id) values(2, 1);
+
+insert into greater_area(name, created_by, create_date) values('North', 1, curdate());
+insert into greater_area(name, created_by, create_date) values('South', 1, curdate());
+insert into greater_area(name, created_by, create_date) values('East', 1, curdate());
+insert into greater_area(name, created_by, create_date) values('West', 1, curdate());
+
+insert into address(address_line_1, address_line_2, address_line_3, greater_area_id, created_by, create_date) values ('1 Some str', 'Suburb 1', 'Area 1', 1, 1, curdate());
+insert into address(address_line_1, address_line_2, address_line_3, greater_area_id, created_by, create_date) values ('2 Some str', 'Suburb 2', 'Area 2', 2, 1, curdate());
+
+insert into property(erf_no, portion_no, property_size, address_id, created_by, create_date) values (1111, 11, 11, 1, 1, curdate());
+insert into property(erf_no, portion_no, property_size, address_id, created_by, create_date) values (2222, 22, 22, 2, 1, curdate());
+
+insert into area(name, created_by, create_date) values("RANDBURG", 1, curdate());
+
+insert into suburb(name, box_code, street_code, area_id, created_by, create_date) values('HONEYDEW RIDGE', '', '2170', 1, 1, curdate());
+insert into suburb(name, box_code, street_code, area_id, created_by, create_date) values('HONEYDEW RIDGE EXT 11', '', '2170', 1, 1, curdate());
+
+select * from role;
+select * from permission_role pr where role_id = 6;

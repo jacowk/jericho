@@ -1,0 +1,27 @@
+/* 
+    Created on : 18 Jul 2015, 11:22:30 AM
+    Author     : Jaco Koekemoer
+*/
+.tableIdColumn {
+    width: 10%;
+}
+
+.formLabelColumn {
+    width: 20%;
+}
+
+.formTextColumn {
+    width: 40%;
+}
+
+.formMessageColumn {
+    width: 40%;
+}
+
+.globalPanelGrid {
+    width: 100%;
+}
+
+.idColumnWidth {
+    width: 5%;
+}

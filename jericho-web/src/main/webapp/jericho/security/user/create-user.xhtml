@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UserCreateDlg" 
+                  widgetVar="UserCreateDialog" modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{testBundle.CreateUserTitle}">
+            <h:form id="UserCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="3" rendered="#{userBean.selected != null}">
+                        <p:outputLabel value="#{testBundle.CreateUserLabel_firstname}" for="firstname" />
+                        <p:inputText id="firstname" 
+                                     value="#{userBean.selected.firstname}" 
+                                     title="#{testBundle.CreateUserTitle_firstname}"
+                                     required="true" />
+                        &nbsp;
+                        
+                        <p:outputLabel value="#{testBundle.CreateUserLabel_surname}" for="surname" />
+                        <p:inputText id="surname" value="#{userBean.selected.surname}" 
+                                     title="#{testBundle.CreateUserTitle_surname}"
+                                     required="true"/>
+                        &nbsp;
+                        
+                        <p:outputLabel value="#{testBundle.CreateUserLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{userBean.selected.email}" 
+                                     title="#{testBundle.CreateUserTitle_email}"
+                                     required="true">
+                            <p:ajax event="keydown" update="emailExists" 
+                                    listener="#{userBean.ajaxCheckEmailExists()}" />
+                        </p:inputText>
+                        <h:outputText id="emailExists" 
+                                      value="#{userBean.emailExistsMessage}" 
+                                      style="color:red" />
+                        
+                        <p:outputLabel value="#{testBundle.CreateUserLabel_username}" for="username" />
+                        <p:inputText id="username" value="#{userBean.selected.username}" 
+                                     title="#{testBundle.CreateUserTitle_username}"
+                                     required="true">
+                            <p:ajax event="keydown" update="userExists" 
+                                    listener="#{userBean.ajaxCheckUserExists()}" />
+                        </p:inputText>
+                        <h:outputText id="userExists" 
+                                      value="#{userBean.userExistsMessage}" 
+                                      style="color:red" />
+                        
+                        <p:outputLabel value="#{testBundle.CreateUserLabel_password}" for="password" />
+                        <h:inputSecret id="password" value="#{userBean.selected.password}" 
+                                     title="#{testBundle.CreateUserTitle_password}"
+                                     required="true"/>
+                        &nbsp;
+                        
+                        <p:outputLabel value="#{testBundle.CreateUserLabel_confirmPassword}" for="confirmPassword" />
+                        <h:inputSecret id="confirmPassword" value="#{userBean.confirmPassword}" 
+                                     title="#{testBundle.CreateUserTitle_confirmPassword}"
+                                     required="true"/>
+                        &nbsp;
+                        
+                        <p:outputLabel value="#{testBundle.CreateUserLabel_role}" for="role" />
+                        <p:selectOneMenu id="role" value="#{userBean.selectedRoleId}"
+                                         required="true">
+                            <f:selectItem itemLabel="Select Role" itemValue="#{null}" />
+                            <f:selectItems value="#{userBean.roles}"
+                                           var="role" itemValue="#{role.id}" 
+                                           itemLabel="#{role.name}"/>
+                        </p:selectOneMenu>
+                        &nbsp;
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{userBean.create}" value="#{testBundle.Save}" update="display,:UserListForm:datalist,:growl" oncomplete="handleSubmit(args,'UserCreateDialog');"/>
+                    <p:commandButton value="#{testBundle.Cancel}" onclick="UserCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

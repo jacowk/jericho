@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+         <!-- XML Schema Generated from XML Document on Thu Jul 23 2015 15:17:15 GMT+0200 (South Africa Standard Time) -->
+         <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
+         <xs:element name="property">
+               <xs:complexType>
+                     <xs:sequence>
+                           <xs:element name="id" type="xs:int"></xs:element>
+                           <xs:element name="erf-number" type="xs:int"></xs:element>
+                           <xs:element name="portion" type="xs:int"></xs:element>
+                           <xs:element name="size" type="xs:int"></xs:element>
+                           <xs:element name="address">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="address-line-1"></xs:element>
+                                             <xs:element name="address-line-2"></xs:element>
+                                             <xs:element name="address-line-3"></xs:element>
+                                             <xs:element name="address-line-4"></xs:element>
+                                             <xs:element name="address-line-5"></xs:element>
+											 <xs:element name="greater-area"></xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+						   <xs:element name="create-date" type="xs:date"></xs:element>
+                     </xs:sequence>
+               </xs:complexType>
+         </xs:element>
+   </xs:schema>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    
+    <ui:composition template="/jericho/template/template.xhtml">
+        <ui:define name="contents">
+            <p:messages id="globalMessages" />
+            <b:panel look="primary">
+                <f:facet name="heading">Search Permissions</f:facet>
+                <h:form>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="name" value="Name: " />
+                        <b:inputText placeholder="Name" 
+                                     id="name" 
+                                     value="#{permissionBean.permissionSearchCriteria.name}" 
+                                     title="Name" fieldSize="sm" />
+                    </h:panelGrid>
+                    <b:commandButton value="Search" action="#{permissionBean.searchPermissions()}" size="sm"/>&nbsp;
+                </h:form>
+            </b:panel>
+            
+            <h:form id="PermissionListForm">
+                <p:panel header="Permissions Search Result">
+                    <p:dataTable id="datalist" value="#{permissionBean.permissions}" var="item"
+                                 selectionMode="single" selection="#{permissionBean.permission}"
+                                 paginator="true" paginatorPosition="bottom"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                        
+                        <p:ajax event="rowSelect"   update="addButton updateButton viewButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="addButton updateButton viewButton deleteButton"/>
+                        
+                        <p:column class="idColumnWidth">
+                            <f:facet name="header">
+                                <h:outputText value="ID"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        
+                        <p:column width="45%">
+                            <f:facet name="header">
+                                <h:outputText value="Name"/>
+                            </f:facet>
+                            <h:outputText value="#{item.name}"/>
+                        </p:column>
+                        
+                        <p:column width="45%">
+                            <f:facet name="header">
+                                <h:outputText value="Service Name"/>
+                            </f:facet>
+                            <h:outputText value="#{item.serviceName}"/>
+                        </p:column>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton id="addButton" icon="ui-icon-plus"  value="#{jerichoWebBundle.Add}" actionListener="#{permissionBean.prepareAdd}" update=":PermissionAddForm" oncomplete="PF('PermissionAddDialog').show()"/>
+                            <p:commandButton id="updateButton"   icon="ui-icon-pencil" value="#{jerichoWebBundle.Update}" update=":PermissionUpdateForm" oncomplete="PF('PermissionUpdateDialog').show()" disabled="#{empty permissionBean.permission}" onclick="#{permissionBean.prepareRolesForUpdate()}" />
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{jerichoWebBundle.View}" update=":PermissionViewForm" oncomplete="PF('PermissionViewDialog').show()" disabled="#{empty permissionBean.permission}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{jerichoWebBundle.Delete}" actionListener="#{permissionBean.deletePermission}" update=":globalMessages,datalist" disabled="#{empty permissionBean.permission}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+            
+            <ui:include src="add-permission.xhtml"/>
+            <ui:include src="update-permission.xhtml"/>
+            <ui:include src="view-permission.xhtml"/>
+        </ui:define>
+    </ui:composition>
+          
+</html>

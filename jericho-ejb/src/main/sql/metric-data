@@ -1,0 +1,362 @@
+select md.metric_file, md.metric_type, md.total, md.value, md.max, md.average
+from metric_data md, file_sequence fs
+where md.metric_file = fs.metric_file
+and md.metric_type in ('RMA') --DIT * NORM / NOM
+and md.metric_file like 'commons-math%'
+and md.metric_file not like '%RC%'
+--and fs.sequence = 1
+order by fs.sequence asc, md.metric_type asc;
+
+select * from metric_data;
+
+
+select * from file_sequence fs
+select count(*) from file_sequence fs
+where fs.metric_file like '%%'
+and fs.metric_file not like '%RC%';
+
+select * from metric_data md where md.metric_type like 'TLOC';
+select * from metric_data md where md.metric_type like 'NOP';
+select * from metric_data md where md.metric_type like 'PAR';
+select * from metric_data md where md.metric_type like 'NORM' and md.metric_file like 'commons-io%';
+select distinct metric_type from metric_data where total is not null;
+truncate table metric_data;
+
+
+/* Calculating correlation coefficient */
+select m1.metric_file, m1.average as average1, m2.average as average2
+from metric_data m1, metric_data m2, file_sequence fs
+where m1.metric_file = m2.metric_file
+and m1.metric_file = fs.metric_file
+and m1.metric_type like 'RMI'
+and m2.metric_type like 'CA'
+and m1.metric_file like 'commons-exec%'
+and m1.metric_file not like '%RC%'
+order by fs.sequence asc;
+
+select * from metric_data;
+select * from file_sequence fs where fs.metric_file like '%pool%';
+update file_sequence set version = '2.4' where id = 193;
+show tables;
+
+select md.metric_file, md.total, md.average, md.standard_deviation, md.max, fs.version
+from metric_data md, file_sequence fs
+where md.metric_file = fs.metric_file
+and md.metric_type like 'TLOC'
+--and md.metric_type like 'CE'
+and md.metric_file like 'commons-exec%'
+and md.metric_file not like '%RC%'
+order by fs.sequence asc;
+
+select * from metric_data;
+
+
+select md.metric_file, md.average, md.standard_deviation, md.max
+from metric_data md, file_sequence fs
+where md.metric_file = fs.metric_file
+--and md.metric_type like 'TLOC'
+and md.metric_type like 'CE'
+and md.metric_file like 'commons-io%'
+and md.metric_file not like '%RC%'
+order by fs.sequence asc;
+
+select fs.metric_file
+from file_sequence fs
+where fs.metric_file like 'commons-io%'
+and fs.metric_file not like '%RC%'
+order by fs.sequence asc;
+
+select * from metric_data where metric_type like 'NOP';
+select * from metric_data where metric_type like 'TLOC';
+delete from metric_data where metric_type like 'TLOC';
+
+
+create database camelpoc;
+
+File, ID, Description, Per, Avg, StdDev, Max
+commons-exec-1.2-RC1.xml,RMI,Instability,packageFragment,0.503,0.321,0.889
+
+create table metric_data (
+	id int not null auto_increment,
+	metric_file varchar(255),
+	metric_type varchar(10),
+	average decimal(10,3),
+	standard_deviation decimal(10,3),
+	max decimal(10,3),
+	total decimal(10,3),
+	value decimal(10,3),
+	primary key(id)
+);
+
+alter table metric_data
+add value decimal(10, 3);
+
+alter table metric_data
+add total decimal(10, 3);
+
+create table file_sequence (
+	id int not null auto_increment,
+	sequence int,
+	metric_file varchar(255),
+	primary key(id)
+);
+
+select * from metric_data;
+select count(*) from metric_data;
+truncate table metric_data;
+
+select distinct metric_file from metric_data order by metric_file asc;
+
+create table metric_data (
+	id int not null auto_increment,
+	average decimal(10,3),
+	standard_deviation decimal(10,3),
+	max decimal(10,3),
+	metric_file_id int,
+	metric_type_id int,
+	primary key(id)
+);
+
+create table metric_file(
+	id int not null auto_increment,
+	filename varchar(255),
+	primary key(id)
+);
+
+create table metric_type(
+	id int not null auto_increment,
+	code varchar(10),
+	description varchar(255),
+	primary key(id)
+);
+
+drop table metric_data;
+drop table metric_file;
+drop table metric_type;
+
+show tables;
+select * from metric_data;
+select * from metric_type;
+
+insert into metric_type(description, code) values ("Number of Parameters", "PAR");
+insert into metric_type(description, code) values ("Number of Static Attributes", "NSF");
+insert into metric_type(description, code) values ("Efferent Coupling", "CE");
+insert into metric_type(description, code) values ("Specialization Index", "SIX");
+insert into metric_type(description, code) values ("Number of Classes", "NOC");
+insert into metric_type(description, code) values ("Number of Attributes", "NOF");
+insert into metric_type(description, code) values ("Abstractness", "RMA");
+insert into metric_type(description, code) values ("Normalized Distance", "RMD");
+insert into metric_type(description, code) values ("Number of Static Methods", "NSM");
+insert into metric_type(description, code) values ("Number of Interfaces", "NOI");
+insert into metric_type(description, code) values ("Total Lines of Code", "TLOC");
+insert into metric_type(description, code) values ("Weighted Methods Per Class", "WMC");
+insert into metric_type(description, code) values ("Number of Methods", "NOM");
+insert into metric_type(description, code) values ("Depth of Inheritance Tree", "DIT");
+insert into metric_type(description, code) values ("Number of Packages", "NOP");
+insert into metric_type(description, code) values ("Instability", "RMI");
+insert into metric_type(description, code) values ("Mccabe Cyclomatic Complexity", "VG");
+insert into metric_type(description, code) values ("Nested Block Depth", "NBD");
+insert into metric_type(description, code) values ("Lack of Cohesion of methods", "LCOM");
+insert into metric_type(description, code) values ("Method Lines of Code", "MLOC");
+insert into metric_type(description, code) values ("Number of Overridden Methods", "NORM");
+insert into metric_type(description, code) values ("Afferent Coupling", "CA");
+insert into metric_type(description, code) values ("Number of Children", "NSC");
+
+select * from file_sequence;
+truncate table file_sequence;
+insert into file_sequence(sequence, metric_file) values (1,'commons-exec-EXEC_1_0.xml');
+insert into file_sequence(sequence, metric_file) values (2,'commons-exec-EXEC_1_0_0.xml');
+insert into file_sequence(sequence, metric_file) values (3,'commons-exec-EXEC_1_0_0_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (4,'commons-exec-EXEC_1_0_0_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (5,'commons-exec-EXEC_1_0_1.xml');
+insert into file_sequence(sequence, metric_file) values (6,'commons-exec-EXEC_1_0_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (7,'commons-exec-EXEC_1_0_1_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (8,'commons-exec-EXEC_1_0_1_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (9,'commons-exec-EXEC_1_0_1_RC4.xml');
+insert into file_sequence(sequence, metric_file) values (10,'commons-exec-EXEC_1_0_1_RC5.xml');
+insert into file_sequence(sequence, metric_file) values (11,'commons-exec-EXEC_1_1.xml');
+insert into file_sequence(sequence, metric_file) values (12,'commons-exec-1.2.xml');
+insert into file_sequence(sequence, metric_file) values (13,'commons-exec-1.2-RC1.xml');
+insert into file_sequence(sequence, metric_file) values (14,'commons-exec-1.2-RC2.xml');
+insert into file_sequence(sequence, metric_file) values (15,'commons-exec-1.3.xml');
+insert into file_sequence(sequence, metric_file) values (16,'commons-exec-1.3-RC1.xml');
+insert into file_sequence(sequence, metric_file) values (1,'commons-io-IO_1_0.xml');
+insert into file_sequence(sequence, metric_file) values (2,'commons-io-IO_1_0_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (3,'commons-io-IO_1_0_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (4,'commons-io-IO_1_1.xml');
+insert into file_sequence(sequence, metric_file) values (5,'commons-io-IO_1_2.xml');
+insert into file_sequence(sequence, metric_file) values (6,'commons-io-IO_1_3.xml');
+insert into file_sequence(sequence, metric_file) values (7,'commons-io-IO_1_3_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (8,'commons-io-IO_1_3_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (9,'commons-io-IO_1_3_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (10,'commons-io-IO_1_3_1.xml');
+insert into file_sequence(sequence, metric_file) values (11,'commons-io-IO_1_3_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (12,'commons-io-IO_1_3_1_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (13,'commons-io-IO_1_3_1_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (14,'commons-io-commons-io-1.3.2.xml');
+insert into file_sequence(sequence, metric_file) values (15,'commons-io-commons-io-1.4.xml');
+insert into file_sequence(sequence, metric_file) values (16,'commons-io-commons-io-1.4-RC1.xml');
+insert into file_sequence(sequence, metric_file) values (17,'commons-io-commons-io-1.4-RC2.xml');
+insert into file_sequence(sequence, metric_file) values (18,'commons-io-commons-io-1.4-RC3.xml');
+insert into file_sequence(sequence, metric_file) values (19,'commons-io-commons-io-2.0.xml');
+insert into file_sequence(sequence, metric_file) values (20,'commons-io-commons-io-2.0-rc1.xml');
+insert into file_sequence(sequence, metric_file) values (21,'commons-io-commons-io-2.0-rc2.xml');
+insert into file_sequence(sequence, metric_file) values (22,'commons-io-commons-io-2.0-rc3.xml');
+insert into file_sequence(sequence, metric_file) values (23,'commons-io-commons-io-2.0-rc4.xml');
+insert into file_sequence(sequence, metric_file) values (24,'commons-io-commons-io-2.0-rc5.xml');
+insert into file_sequence(sequence, metric_file) values (25,'commons-io-commons-io-2.0.1.xml');
+insert into file_sequence(sequence, metric_file) values (26,'commons-io-commons-io-2.0.1-rc1.xml');
+insert into file_sequence(sequence, metric_file) values (27,'commons-io-commons-io-2.1.xml');
+insert into file_sequence(sequence, metric_file) values (28,'commons-io-commons-io-2.1-RC1.xml');
+insert into file_sequence(sequence, metric_file) values (29,'commons-io-commons-io-2.1-RC2.xml');
+insert into file_sequence(sequence, metric_file) values (30,'commons-io-commons-io-2.1-RC3.xml');
+insert into file_sequence(sequence, metric_file) values (31,'commons-io-commons-io-2.1-RC4.xml');
+insert into file_sequence(sequence, metric_file) values (32,'commons-io-commons-io-2.1-RC5.xml');
+insert into file_sequence(sequence, metric_file) values (33,'commons-io-commons-io-2.1-RC6.xml');
+insert into file_sequence(sequence, metric_file) values (34,'commons-io-2.2.xml');
+insert into file_sequence(sequence, metric_file) values (35,'commons-io-2.2-RC1.xml');
+insert into file_sequence(sequence, metric_file) values (36,'commons-io-2.2-RC2.xml');
+insert into file_sequence(sequence, metric_file) values (37,'commons-io-2.2-RC3.xml');
+insert into file_sequence(sequence, metric_file) values (38,'commons-io-2.2-RC4.xml');
+insert into file_sequence(sequence, metric_file) values (39,'commons-io-2.3.xml');
+insert into file_sequence(sequence, metric_file) values (40,'commons-io-2.3-RC1.xml');
+insert into file_sequence(sequence, metric_file) values (41,'commons-io-2.4.xml');
+insert into file_sequence(sequence, metric_file) values (42,'commons-io-2.4-RC1.xml');
+insert into file_sequence(sequence, metric_file) values (43,'commons-io-2.4-RC2.xml');
+insert into file_sequence(sequence, metric_file) values (1,'commons-math-MATH_1_0.xml');
+insert into file_sequence(sequence, metric_file) values (2,'commons-math-MATH_1_0_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (3,'commons-math-MATH_1_0_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (4,'commons-math-MATH_1_1.xml');
+insert into file_sequence(sequence, metric_file) values (5,'commons-math-MATH_1_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (6,'commons-math-MATH_1_1_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (7,'commons-math-MATH_1_1_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (8,'commons-math-MATH_1_1_RC4.xml');
+insert into file_sequence(sequence, metric_file) values (9,'commons-math-MATH_1_1_RC5.xml');
+insert into file_sequence(sequence, metric_file) values (10,'commons-math-MATH_1_2.xml');
+insert into file_sequence(sequence, metric_file) values (11,'commons-math-MATH_1_2_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (12,'commons-math-MATH_1_2_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (13,'commons-math-MATH_1_2_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (14,'commons-math-MATH_2_0.xml');
+insert into file_sequence(sequence, metric_file) values (15,'commons-math-MATH_2_0_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (16,'commons-math-MATH_2_0_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (17,'commons-math-MATH_2_0_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (18,'commons-math-MATH_2_0_RC4.xml');
+insert into file_sequence(sequence, metric_file) values (19,'commons-math-MATH_2_1.xml');
+insert into file_sequence(sequence, metric_file) values (20,'commons-math-MATH_2_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (21,'commons-math-MATH_2_1_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (22,'commons-math-MATH_2_1_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (23,'commons-math-MATH_2_2.xml');
+insert into file_sequence(sequence, metric_file) values (24,'commons-math-MATH_2_2_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (25,'commons-math-MATH_2_2_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (26,'commons-math-MATH_2_2_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (27,'commons-math-MATH_2_2_RC4.xml');
+insert into file_sequence(sequence, metric_file) values (28,'commons-math-MATH_2_2_RC5.xml');
+insert into file_sequence(sequence, metric_file) values (29,'commons-math-MATH_2_2_RC6.xml');
+insert into file_sequence(sequence, metric_file) values (30,'commons-math-MATH_3_0.xml');
+insert into file_sequence(sequence, metric_file) values (31,'commons-math-MATH_3_0_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (32,'commons-math-MATH_3_0_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (33,'commons-math-MATH_3_0_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (34,'commons-math-MATH_3_1.xml');
+insert into file_sequence(sequence, metric_file) values (35,'commons-math-MATH_3_1_1.xml');
+insert into file_sequence(sequence, metric_file) values (36,'commons-math-MATH_3_1_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (37,'commons-math-MATH_3_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (38,'commons-math-MATH_3_1_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (39,'commons-math-MATH_3_1_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (40,'commons-math-MATH_3_1_RC4.xml');
+insert into file_sequence(sequence, metric_file) values (41,'commons-math-MATH_3_1_RC5.xml');
+insert into file_sequence(sequence, metric_file) values (42,'commons-math-MATH_3_2.xml');
+insert into file_sequence(sequence, metric_file) values (43,'commons-math-MATH_3_2_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (44,'commons-math-MATH_3_2_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (45,'commons-math-MATH_3_2_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (46,'commons-math-MATH_3_2_RC4.xml');
+insert into file_sequence(sequence, metric_file) values (47,'commons-math-MATH_3_2_RC5.xml');
+insert into file_sequence(sequence, metric_file) values (48,'commons-math-MATH_3_3.xml');
+insert into file_sequence(sequence, metric_file) values (49,'commons-math-MATH_3_3_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (50,'commons-math-MATH_3_3_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (51,'commons-math-MATH_3_3_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (52,'commons-math-MATH_3_4.xml');
+insert into file_sequence(sequence, metric_file) values (53,'commons-math-MATH_3_4_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (54,'commons-math-MATH_3_4_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (55,'commons-math-MATH_3_4_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (56,'commons-math-MATH_3_4_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (57,'commons-math-MATH_3_5.xml');
+insert into file_sequence(sequence, metric_file) values (58,'commons-math-MATH_3_5_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (59,'commons-math-MATH_3_5_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (1,'junit-r3.8.2.xml');
+insert into file_sequence(sequence, metric_file) values (2,'junit-r4.6.xml');
+insert into file_sequence(sequence, metric_file) values (3,'junit-r4.7.xml');
+insert into file_sequence(sequence, metric_file) values (4,'junit-r4.8.xml');
+insert into file_sequence(sequence, metric_file) values (5,'junit-r4.8b1.xml');
+insert into file_sequence(sequence, metric_file) values (6,'junit-r4.8b2.xml');
+insert into file_sequence(sequence, metric_file) values (7,'junit-r4.8b3.xml');
+insert into file_sequence(sequence, metric_file) values (8,'junit-r4.8.1.xml');
+insert into file_sequence(sequence, metric_file) values (9,'junit-r4.8.2.xml');
+insert into file_sequence(sequence, metric_file) values (10,'junit-r4.9.xml');
+insert into file_sequence(sequence, metric_file) values (11,'junit-r4.9b1.xml');
+insert into file_sequence(sequence, metric_file) values (12,'junit-r4.9b3.xml');
+insert into file_sequence(sequence, metric_file) values (13,'junit-r4.9b4.xml');
+insert into file_sequence(sequence, metric_file) values (14,'junit-r4.10.xml');
+insert into file_sequence(sequence, metric_file) values (15,'junit-r4.11-beta-1.xml');
+insert into file_sequence(sequence, metric_file) values (16,'junit-r4.11.xml');
+insert into file_sequence(sequence, metric_file) values (17,'junit-r4.12-beta-1.xml');
+insert into file_sequence(sequence, metric_file) values (18,'junit-r4.12-beta-2.xml');
+insert into file_sequence(sequence, metric_file) values (19,'junit-r4.12-beta-3.xml');
+insert into file_sequence(sequence, metric_file) values (20,'junit-r4.12.xml');
+insert into file_sequence(sequence, metric_file) values (1,'commons-pool-POOL_1_0.xml');
+insert into file_sequence(sequence, metric_file) values (2,'commons-pool-POOL_1_0_1.xml');
+insert into file_sequence(sequence, metric_file) values (3,'commons-pool-POOL_1_1.xml');
+insert into file_sequence(sequence, metric_file) values (4,'commons-pool-POOL_1_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (5,'commons-pool-POOL_1_2.xml');
+insert into file_sequence(sequence, metric_file) values (6,'commons-pool-POOL_1_2_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (7,'commons-pool-POOL_1_3.xml');
+insert into file_sequence(sequence, metric_file) values (8,'commons-pool-POOL_1_3_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (9,'commons-pool-POOL_1_3_RC4.xml');
+insert into file_sequence(sequence, metric_file) values (10,'commons-pool-POOL_1_4.xml');
+insert into file_sequence(sequence, metric_file) values (11,'commons-pool-POOL_1_4_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (12,'commons-pool-POOL_1_4_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (13,'commons-pool-POOL_1_4_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (14,'commons-pool-POOL_1_5.xml');
+insert into file_sequence(sequence, metric_file) values (15,'commons-pool-POOL_1_5_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (16,'commons-pool-POOL_1_5_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (17,'commons-pool-POOL_1_5_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (18,'commons-pool-POOL_1_5_1.xml');
+insert into file_sequence(sequence, metric_file) values (19,'commons-pool-POOL_1_5_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (20,'commons-pool-POOL_1_5_2.xml');
+insert into file_sequence(sequence, metric_file) values (21,'commons-pool-POOL_1_5_2_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (22,'commons-pool-POOL_1_5_2_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (23,'commons-pool-POOL_1_5_3.xml');
+insert into file_sequence(sequence, metric_file) values (24,'commons-pool-POOL_1_5_3_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (25,'commons-pool-POOL_1_5_4_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (26,'commons-pool-POOL_1_5_5.xml');
+insert into file_sequence(sequence, metric_file) values (27,'commons-pool-POOL_1_5_5_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (28,'commons-pool-POOL_1_5_5_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (29,'commons-pool-POOL_1_5_6.xml');
+insert into file_sequence(sequence, metric_file) values (30,'commons-pool-POOL_1_5_6_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (31,'commons-pool-POOL_1_5_6_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (32,'commons-pool-POOL_1_5_7.xml');
+insert into file_sequence(sequence, metric_file) values (33,'commons-pool-POOL_1_5_7_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (34,'commons-pool-POOL_1_5_7_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (35,'commons-pool-POOL_1_5_7_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (36,'commons-pool-POOL_1_6.xml');
+insert into file_sequence(sequence, metric_file) values (37,'commons-pool-POOL_1_6_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (38,'commons-pool-POOL_1_6_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (39,'commons-pool-POOL_1_6_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (40,'commons-pool-POOL_1_6_RC4.xml');
+insert into file_sequence(sequence, metric_file) values (41,'commons-pool-POOL_2_0.xml');
+insert into file_sequence(sequence, metric_file) values (42,'commons-pool-POOL_2_0_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (43,'commons-pool-POOL_2_0_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (44,'commons-pool-POOL_2_0_RC3.xml');
+insert into file_sequence(sequence, metric_file) values (45,'commons-pool-POOL_2_0_RC4.xml');
+insert into file_sequence(sequence, metric_file) values (46,'commons-pool-POOL_2_1.xml');
+insert into file_sequence(sequence, metric_file) values (47,'commons-pool-POOL_2_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (48,'commons-pool-POOL_2_1_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (49,'commons-pool-POOL_2_2.xml');
+insert into file_sequence(sequence, metric_file) values (50,'commons-pool-POOL_2_2_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (51,'commons-pool-POOL_2_2_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (52,'commons-pool-POOL_2_3.xml');
+insert into file_sequence(sequence, metric_file) values (53,'commons-pool-POOL_2_3_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (54,'commons-pool-POOL_2_3_RC2.xml');
+insert into file_sequence(sequence, metric_file) values (55,'commons-pool-POOL_2_4.xml');
+insert into file_sequence(sequence, metric_file) values (56,'commons-pool-POOL_2_4_1.xml');
+insert into file_sequence(sequence, metric_file) values (57,'commons-pool-POOL_2_4_1_RC1.xml');
+insert into file_sequence(sequence, metric_file) values (58,'commons-pool-POOL_2_4_RC1.xml');

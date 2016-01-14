@@ -1,0 +1,80 @@
+set foreign_key_checks = 0;
+drop table account;
+drop table address;
+drop table area;
+drop table area_suburb;
+drop table attorney;
+drop table audit_activity;
+drop table bank;
+drop table contact;
+drop table contractor;
+drop table diary;
+drop table diary_item;
+drop table document;
+drop table estate_agent;
+drop table followup_item;
+drop table greater_area;
+drop table groups;
+drop table milestone;
+drop table note;
+drop table permission;
+drop table permission_role;
+drop table property;
+drop table property_flip;
+drop table property_flip_attorney;
+drop table property_flip_contractor;
+drop table property_flip_estate_agent;
+drop table purchaser;
+drop table role;
+drop table seller;
+drop table suburb;
+drop table transaction;
+drop table transaction_item;
+drop table user_role;
+drop table users;
+set foreign_key_checks = 1;
+
+
+show tables;
+describe contact;
+
+select p.id, 
+	p.portion, 
+	p.property_size,
+	a.address_line_1,
+	a.address_line_2,
+	a.address_line_3
+from property p
+left join address a on a.id = p.address_id
+left join property_flip pf on pf.property_id = p.id
+where p.erf = 1111;
+
+select * from property_flip pf;
+select * from address;
+
+select u.username, r.name as role, p.name as permission
+from users u, role r, permission p, user_role ur, permission_role pr
+where u.id = ur.user_id
+and r.id = ur.role_id
+and p.id = pr.permission_id
+and r.id = pr.role_id
+and u.id = 3;
+
+select u.username, r.name as role
+from users u, role r, user_role ur
+where u.id = ur.user_id
+and r.id = ur.role_id
+and u.id = 3;
+
+
+select * from users;
+select * from groups;
+select * from role;
+select * from permission;
+select * from permission_role;
+select * from user_role;
+select * from audit_activity order by create_date desc;
+
+use jericho;
+show tables;
+describe user;

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstateAgentViewDlg" widgetVar="EstateAgentViewDialog" modal="true" resizable="false" appendTo="@(body)" header="View Estate Agent">
+            <h:form id="EstateAgentViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{estateAgentBean.estateAgent != null}">
+                        <h:outputText value="ID: "/>
+                        <h:outputText value="#{estateAgentBean.estateAgent.id}" title="ID"/>
+                        
+                        <h:outputText value="Name: "/>
+                        <h:outputText value="#{estateAgentBean.estateAgent.name}" title="Name"/>
+                        
+                        <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
+                        <h:outputText value="#{estateAgentBean.estateAgent.createdBy.username}" title="#{jerichoWebBundle.CreatedBy}"/>
+                        
+                        <h:outputText value="#{jerichoWebBundle.CreateDate}"/>
+                        <h:outputText value="#{estateAgentBean.estateAgent.createDate}" title="#{jerichoWebBundle.CreateDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{jerichoWebBundle.LastModifiedBy}"/>
+                        <h:outputText value="#{estateAgentBean.estateAgent.lastModifiedBy.username}" title="#{jerichoWebBundle.LastModifiedBy}"/>
+                        
+                        <h:outputText value="#{jerichoWebBundle.LastModifyDate}"/>
+                        <h:outputText value="#{estateAgentBean.estateAgent.lastModifyDate}" title="#{jerichoWebBundle.LastModifyDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{jerichoBundle.Close}" onclick="EstateAgentViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

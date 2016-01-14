@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:body>
+        <ui:composition>
+            <h:form>
+                <b:navBar brand="Jericho" brandHref="#" inverse="true" static="true">
+                    <b:navbarLinks>
+                        <b:navLink value="Home" href="#{menuBean.home()}"></b:navLink>
+                        <b:navLink value="Profile" href="#"></b:navLink>
+                        <b:dropMenu value="Security">
+                            <b:navLink value="Users" href="#{menuBean.users()}"/>
+                            <b:navLink value="Permissions" href="#{menuBean.permissions()}"/>
+                            <b:navLink value="Roles" href="#{menuBean.roles()}"/>
+                            <b:navLink value="Audit Activites" href="#{menuBean.auditActivities()}"/>
+                        </b:dropMenu>
+                        <b:dropMenu value="Property">
+                            <b:navLink value="Properties" href="#{menuBean.properties()}" />
+                            <b:navLink value="Clients" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Diary" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Accounts" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Documents" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Notes" href="http://www.bootsfaces.net" />
+                            <b:navLink></b:navLink>
+                            <b:navLink header="Addresses"/>
+                            <b:navLink value="Areas" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Greater Areas" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Suburbs" href="http://www.bootsfaces.net" />
+                        </b:dropMenu>
+                        <b:dropMenu value="Third Parties">
+                            <b:navLink value="Attorneys" href="#{menuBean.attorneys()}" />
+                            <b:navLink value="Banks" href="#{menuBean.banks()}" />
+                            <b:navLink value="Contractors" href="#{menuBean.contractors()}" />
+                            <b:navLink value="Estate Agents" href="#{menuBean.estateagents()}" />
+                        </b:dropMenu>
+                        <b:navLink value="Logout" href="#{menuBean.logout()}"></b:navLink>
+                    </b:navbarLinks>
+                </b:navBar>
+            </h:form>
+        </ui:composition>
+    </h:body>
+</html>

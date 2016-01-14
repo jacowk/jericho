@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PropertyCreateDlg" widgetVar="PropertyCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{jerichoBundle.CreatePropertyTitle}">
+            <h:form id="PropertyCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{propertyBean.selected != null}">
+                        <p:outputLabel value="#{jerichoBundle.CreateAddressLabel_addressLine1}" for="addressLine1" />
+                        <p:inputText id="addressLine1" value="#{propertyBean.selected.address.addressLine1}" title="#{jerichoBundle.CreateAddressTitle_addressLine1}" />
+                        
+                        <p:outputLabel value="#{jerichoBundle.CreateAddressLabel_addressLine2}" for="addressLine2" />
+                        <p:inputText id="addressLine2" value="#{propertyBean.selected.address.addressLine2}" title="#{jerichoBundle.CreateAddressTitle_addressLine2}" />
+                        
+                        <p:outputLabel value="#{jerichoBundle.CreateAddressLabel_addressLine3}" for="addressLine3" />
+                        <p:inputText id="addressLine3" value="#{propertyBean.selected.address.addressLine3}" title="#{jerichoBundle.CreateAddressTitle_addressLine3}" />
+                        
+                        <p:outputLabel value="#{jerichoBundle.CreateAddressLabel_addressLine4}" for="addressLine4" />
+                        <p:inputText id="addressLine4" value="#{propertyBean.selected.address.addressLine4}" title="#{jerichoBundle.CreateAddressTitle_addressLine4}" />
+                        
+                        <p:outputLabel value="#{jerichoBundle.CreateAddressLabel_addressLine5}" for="addressLine5" />
+                        <p:inputText id="addressLine5" value="#{propertyBean.selected.address.addressLine5}" title="#{jerichoBundle.CreateAddressTitle_addressLine5}" />
+                        
+                        <p:outputLabel value="Greater Area" for="greaterArea" />
+                        <p:selectOneMenu id="greaterArea" value="#{propertyBean.selectedGreaterAreaId}"
+                                         required="true">
+                            <f:selectItem itemLabel="Select Greater Area" itemValue="#{null}" />
+                            <f:selectItems value="#{propertyBean.greaterAreas}"
+                                           var="greaterArea" itemValue="#{greaterArea.id}" 
+                                           itemLabel="#{greaterArea.name}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{jerichoBundle.CreatePropertyLabel_erf}" for="erf" />
+                        <p:inputText id="erf" value="#{propertyBean.selected.erfNumber}" title="#{jerichoBundle.CreatePropertyTitle_erf}" />
+                        
+                        <p:outputLabel value="#{jerichoBundle.CreatePropertyLabel_portion}" for="portion" />
+                        <p:inputText id="portion" value="#{propertyBean.selected.portionNumber}" title="#{jerichoBundle.CreatePropertyTitle_portion}" />
+                        
+                        <p:outputLabel value="#{jerichoBundle.CreatePropertyLabel_propertySize}" for="propertySize" />
+                        <p:inputText id="propertySize" value="#{propertyBean.selected.propertySize}" title="#{jerichoBundle.CreatePropertyTitle_propertySize}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{propertyBean.create}" value="#{jerichoBundle.Save}" update="display,:PropertyListForm:datalist,:growl" oncomplete="handleSubmit(args,'PropertyCreateDialog');"/>
+                    <p:commandButton value="#{jerichoBundle.Cancel}" onclick="PropertyCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
