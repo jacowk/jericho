@@ -17,7 +17,7 @@ import za.co.jericho.util.validation.StringValidator;
 })
 public class GreaterArea extends AbstractEntity {
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     public String getName() {

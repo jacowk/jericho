@@ -28,15 +28,22 @@
                             <b:navLink value="Notes" href="http://www.bootsfaces.net" />
                             <b:navLink></b:navLink>
                             <b:navLink header="Addresses"/>
-                            <b:navLink value="Areas" href="http://www.bootsfaces.net" />
-                            <b:navLink value="Greater Areas" href="http://www.bootsfaces.net" />
-                            <b:navLink value="Suburbs" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Areas" href="#{menuBean.areas()}" />
+                            <b:navLink value="Greater Areas" href="#{menuBean.greaterAreas()}" />
+                            <b:navLink value="Suburbs" href="#{menuBean.suburbs()}" />
                         </b:dropMenu>
                         <b:dropMenu value="Third Parties">
                             <b:navLink value="Attorneys" href="#{menuBean.attorneys()}" />
                             <b:navLink value="Banks" href="#{menuBean.banks()}" />
                             <b:navLink value="Contractors" href="#{menuBean.contractors()}" />
                             <b:navLink value="Estate Agents" href="#{menuBean.estateagents()}" />
+                        </b:dropMenu>
+                        <b:dropMenu value="Reports">
+                            <b:navLink value="Leads to Sales" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Amount of Leads Actioned" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Leads per Area" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Profit and Loss by Date" href="http://www.bootsfaces.net" />
+                            <b:navLink value="Totals per Status" href="http://www.bootsfaces.net" />
                         </b:dropMenu>
                         <b:navLink value="Logout" href="#{menuBean.logout()}"></b:navLink>
                     </b:navbarLinks>

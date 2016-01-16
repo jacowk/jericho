@@ -64,10 +64,27 @@ public class MenuBean implements Serializable{
     } 
     
     /* Property Menu */
+    /* Properties Menu */
     public String properties() {
         return "/jericho/property/list-properties.xhtml";
     }
     
+    /* Area Menu */
+    public String areas() {
+        return "/jericho/address/area/list-areas.xhtml";
+    }
+    
+    /* Greater Area Menu */
+    public String greaterAreas() {
+        return "/jericho/address/greaterarea/list-greater-areas.xhtml";
+    }
+    
+    /* Suburb Menu */
+    public String suburbs() {
+        return "/jericho/address/suburb/list-suburbs.xhtml";
+    }
+    
+    /* Third Parties Menu */
     /* Attorney Menu */
     public String attorneys() {
         return "/jericho/attorney/list-attorneys.xhtml";

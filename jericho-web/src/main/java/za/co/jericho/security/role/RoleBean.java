@@ -178,7 +178,7 @@ public class RoleBean implements Serializable {
             if (role != null) {
                 SessionServices sessionServices = new SessionServices();
                 User currentUser = sessionServices.getUserFromSession();
-                role.setPermissions(permissionsTarget);
+                role.addPermissionCollection(permissionsTarget);
                 role.setLastModifiedBy(currentUser);
                 role.setLastModifyDate(new Date());
                 role = manageSecurityRoleService.updateRole(role);

@@ -5,15 +5,17 @@ import za.co.jericho.address.domain.*;
 import java.util.*;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import za.co.jericho.address.search.*;
-import za.co.jericho.audit.AuditActivityFactory;
-import za.co.jericho.audit.lookup.AuditActivityType;
-import za.co.jericho.audit.lookup.EntityName;
+import za.co.jericho.annotations.AuditTrail;
+import za.co.jericho.annotations.SecurityPermission;
+import za.co.jericho.annotations.UserActivityMonitor;
 import za.co.jericho.exception.DeleteNotSupportedException;
 import za.co.jericho.exception.ServiceBeanException;
+import za.co.jericho.interceptors.AuditTrailInterceptor;
+import za.co.jericho.interceptors.SecurityPermissionInterceptor;
+import za.co.jericho.interceptors.UserActivityMonitorInterceptor;
 import za.co.jericho.security.ServiceName;
-import za.co.jericho.security.service.permissioncheck.PermissionChecker;
-import za.co.jericho.security.service.permissioncheck.UserPermissionChecker;
 import za.co.jericho.util.conversion.StringConvertor;
 import za.co.jericho.util.conversion.StringDataConvertor;
 import za.co.jericho.util.validation.EntityStateValidator;
@@ -21,15 +23,15 @@ import za.co.jericho.util.validation.EntityValidator;
 
 @Stateless
 @Remote(ManageAddressService.class)
+@Interceptors({SecurityPermissionInterceptor.class, AuditTrailInterceptor.class,
+UserActivityMonitorInterceptor.class})
 public class ManageAddressServiceBean extends AbstractServiceBean
 implements ManageAddressService {
 
+    @SecurityPermission(serviceName = ServiceName.ADD_ADDRESS)
+    @AuditTrail(serviceName = ServiceName.ADD_ADDRESS)
     @Override
     public Address addAddress(Address address) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(address.getCreatedBy(), ServiceName.ADD_ADDRESS.getValue());
-        
         /* Validations */
         /* State validation */
         address.validate();
@@ -39,23 +41,13 @@ implements ManageAddressService {
         if (entityValidator.isValidateEntityBeforeCreate(address)) {
             getEntityManager().persist(address);
         }
-        /* Audit Activity Logging */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.ADDRESS, //EntityName entityName
-            ServiceName.ADD_ADDRESS.getValue(), //String serviceName
-            AuditActivityType.ADD, //AuditActivityType activityType
-            address.toString(), //String description
-            address.getCreatedBy())); //User currentUser
         return address;
     }
 
+    @SecurityPermission(serviceName = ServiceName.UPDATE_ADDRESS)
+    @AuditTrail(serviceName = ServiceName.UPDATE_ADDRESS)
     @Override
     public Address updateAddress(Address address) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(address.getLastModifiedBy(), ServiceName.UPDATE_ADDRESS.getValue());
-        
         /* Validations */
         /* State validation */
         address.validate();
@@ -65,31 +57,22 @@ implements ManageAddressService {
         if (entityValidator.isValidateEntityBeforeUpdate(address)) {
             getEntityManager().merge(address);
         }
-        /* Audit Activity Logging */
-        /* Long entityId, String entityName, String serviceBeanName, String serviceName, String activityType, String description, User currentUser */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.ADDRESS, //EntityName entityName
-            ServiceName.UPDATE_ADDRESS.getValue(), //String serviceName
-            AuditActivityType.UPDATE, //AuditActivityType auditActivityType
-            address.toString(), //String description
-            address.getLastModifiedBy())); //User currentUser
         return address;
     }
 
+    @SecurityPermission(serviceName = ServiceName.MARK_ADDRESS_DELETED)
+    @UserActivityMonitor(serviceName = ServiceName.MARK_ADDRESS_DELETED)
     @Override
     public Address markAddressDeleted(Address address) {
         throw new DeleteNotSupportedException("Deleting an address is not supported");
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_ADDRESSES)
+    @UserActivityMonitor(serviceName = ServiceName.SEARCH_ADDRESSES)
     @Override
     public Collection<Address> searchAddresses(AddressSearchCriteria addressSearchCriteria) {
         Collection<Address> addresses = new ArrayList<>();
         if (addressSearchCriteria != null) {
-            /* Check permissions */
-            PermissionChecker permissionChecker = new UserPermissionChecker();
-            permissionChecker.check(addressSearchCriteria.getServiceUser(), ServiceName.SEARCH_ADDRESSES.getValue());
-            
             /* Service logic */
             StringConvertor stringConvertor = new StringDataConvertor();
             StringBuilder searchUsersStringBuilder = new StringBuilder();
@@ -124,15 +107,6 @@ implements ManageAddressService {
                 .setParameter("area", addressSearchCriteria.getArea())
                 .setParameter("greaterArea", addressSearchCriteria.getGreaterArea())
                 .getResultList();
-            
-            /* Audit Activity Logging */
-            AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-            manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-                (EntityName.ADDRESS, //String entityName
-                ServiceName.SEARCH_ADDRESSES.getValue(), //String serviceName
-                AuditActivityType.SEARCH, //String activityType
-                addressSearchCriteria.toString(), //String description
-                addressSearchCriteria.getServiceUser())); //User currentUser
         }
         else {
             throw new ServiceBeanException("Address search criteria not provided");
@@ -140,24 +114,25 @@ implements ManageAddressService {
         return addresses;
     }
     
+    @SecurityPermission(serviceName = ServiceName.SEARCH_ADDRESSES)
     @Override
     public Address findAddress(Object id) {
         return getEntityManager().find(Address.class, id);
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_ADDRESSES)
     @Override
     public Collection<Address> findAllAddresses() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager()
+            .getCriteriaBuilder().createQuery();
         cq.select(cq.from(Address.class));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @SecurityPermission(serviceName = ServiceName.ADD_AREA)
+    @AuditTrail(serviceName = ServiceName.ADD_AREA)
     @Override
     public Area addArea(Area area) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(area.getCreatedBy(), ServiceName.ADD_AREA.getValue());
-        
         /* Validations */
         /* State validation */
         area.validate();
@@ -167,23 +142,13 @@ implements ManageAddressService {
         if (entityValidator.isValidateEntityBeforeCreate(area)) {
             getEntityManager().persist(area);
         }
-        /* Audit Activity Logging */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.AREA, //EntityName entityName
-            ServiceName.ADD_AREA.getValue(), //String serviceName
-            AuditActivityType.ADD, //AuditActivityType activityType
-            area.toString(), //String description
-            area.getCreatedBy())); //User currentUser
         return area;
     }
 
+    @SecurityPermission(serviceName = ServiceName.UPDATE_AREA)
+    @AuditTrail(serviceName = ServiceName.UPDATE_AREA)
     @Override
     public Area updateArea(Area area) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(area.getLastModifiedBy(), ServiceName.UPDATE_AREA.getValue());
-        
         /* Validations */
         /* State validation */
         area.validate();
@@ -193,45 +158,28 @@ implements ManageAddressService {
         if (entityValidator.isValidateEntityBeforeUpdate(area)) {
             getEntityManager().merge(area);
         }
-        /* Audit Activity Logging */
-        /* Long entityId, String entityName, String serviceBeanName, String serviceName, String activityType, String description, User currentUser */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.AREA, //EntityName entityName
-            ServiceName.UPDATE_AREA.getValue(), //String serviceName
-            AuditActivityType.UPDATE, //AuditActivityType auditActivityType
-            area.toString(), //String description
-            area.getLastModifiedBy())); //User currentUser
         return area;
     }
 
+    @SecurityPermission(serviceName = ServiceName.MARK_AREA_DELETED)
+    @UserActivityMonitor(serviceName = ServiceName.MARK_AREA_DELETED)
     @Override
     public Area markAreaDeleted(Area area) {
         throw new DeleteNotSupportedException("Deleting an area is not supported");
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_AREAS)
+    @UserActivityMonitor(serviceName = ServiceName.SEARCH_AREAS)
     @Override
     public Collection<Area> searchAreas(AreaSearchCriteria areaSearchCriteria) {
         Collection<Area> areas = new ArrayList<>();
         if (areaSearchCriteria != null) {
-            /* Check permissions */
-            PermissionChecker permissionChecker = new UserPermissionChecker();
-            permissionChecker.check(areaSearchCriteria.getServiceUser(), ServiceName.SEARCH_AREAS.getValue());
             StringConvertor stringConvertor = new StringDataConvertor();
             String name = stringConvertor.convertForDatabaseSearch
                 (areaSearchCriteria.getName(), areaSearchCriteria.getSearchType());
             areas = getEntityManager().createNamedQuery("findAreaByName")
                 .setParameter("name", name)
                 .getResultList();
-            
-            /* Audit Activity Logging */
-            AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-            manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-                (EntityName.AREA, //String entityName
-                ServiceName.SEARCH_AREAS.getValue(), //String serviceName
-                AuditActivityType.SEARCH, //String activityType
-                areaSearchCriteria.toString(), //String description
-                areaSearchCriteria.getServiceUser())); //User currentUser
         }
         else {
             throw new ServiceBeanException("Area search criteria not provided");
@@ -239,24 +187,25 @@ implements ManageAddressService {
         return areas;
     }
     
+    @SecurityPermission(serviceName = ServiceName.SEARCH_AREAS)
     @Override
     public Area findArea(Object id) {
         return getEntityManager().find(Area.class, id);
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_AREAS)
     @Override
     public Collection<Area> findAllAreas() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager()
+            .getCriteriaBuilder().createQuery();
         cq.select(cq.from(Area.class));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @SecurityPermission(serviceName = ServiceName.ADD_SUBURB)
+    @AuditTrail(serviceName = ServiceName.ADD_SUBURB)
     @Override
     public Suburb addSuburb(Suburb suburb) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(suburb.getCreatedBy(), ServiceName.ADD_SUBURB.getValue());
-        
         /* Validations */
         /* State validation */
         suburb.validate();
@@ -266,23 +215,13 @@ implements ManageAddressService {
         if (entityValidator.isValidateEntityBeforeCreate(suburb)) {
             getEntityManager().persist(suburb);
         }
-        /* Audit Activity Logging */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.SUBURB, //EntityName entityName
-            ServiceName.ADD_SUBURB.getValue(), //String serviceName
-            AuditActivityType.ADD, //AuditActivityType activityType
-            suburb.toString(), //String description
-            suburb.getCreatedBy())); //User currentUser
         return suburb;
     }
 
+    @SecurityPermission(serviceName = ServiceName.UPDATE_SUBURB)
+    @AuditTrail(serviceName = ServiceName.UPDATE_SUBURB)
     @Override
     public Suburb updateSuburb(Suburb suburb) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(suburb.getLastModifiedBy(), ServiceName.UPDATE_SUBURB.getValue());
-        
         /* Validations */
         /* State validation */
         suburb.validate();
@@ -292,31 +231,22 @@ implements ManageAddressService {
         if (entityValidator.isValidateEntityBeforeUpdate(suburb)) {
             getEntityManager().merge(suburb);
         }
-        /* Audit Activity Logging */
-        /* Long entityId, String entityName, String serviceBeanName, String serviceName, String activityType, String description, User currentUser */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.SUBURB, //EntityName entityName
-            ServiceName.UPDATE_SUBURB.getValue(), //String serviceName
-            AuditActivityType.UPDATE, //AuditActivityType auditActivityType
-            suburb.toString(), //String description
-            suburb.getLastModifiedBy())); //User currentUser
         return suburb;
     }
 
+    @SecurityPermission(serviceName = ServiceName.MARK_SUBURB_DELETED)
+    @UserActivityMonitor(serviceName = ServiceName.MARK_SUBURB_DELETED)
     @Override
     public Suburb markSuburbDeleted(Suburb suburb) {
         throw new DeleteNotSupportedException("Deleting a suburb is not supported");
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_SUBURBS)
+    @UserActivityMonitor(serviceName = ServiceName.SEARCH_SUBURBS)
     @Override
     public Collection<Suburb> searchSuburbs(SuburbSearchCriteria suburbSearchCriteria) {
         Collection<Suburb> suburbs = new ArrayList<>();
         if (suburbSearchCriteria != null) {
-            /* Check permissions */
-            PermissionChecker permissionChecker = new UserPermissionChecker();
-            permissionChecker.check(suburbSearchCriteria.getServiceUser(), ServiceName.SEARCH_SUBURBS.getValue());
-            
             /* Service logic */
             StringConvertor stringConvertor = new StringDataConvertor();
             StringBuilder searchUsersStringBuilder = new StringBuilder();
@@ -333,15 +263,6 @@ implements ManageAddressService {
                 .setParameter("boxCode", boxCode)
                 .setParameter("streetCode", streetCode)
                 .getResultList();
-            
-            /* Audit Activity Logging */
-            AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-            manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-                (EntityName.SUBURB, //String entityName
-                ServiceName.SEARCH_SUBURBS.getValue(), //String serviceName
-                AuditActivityType.SEARCH, //String activityType
-                suburbSearchCriteria.toString(), //String description
-                suburbSearchCriteria.getServiceUser())); //User currentUser
         }
         else {
             throw new ServiceBeanException("Suburb search criteria not provided");
@@ -349,24 +270,25 @@ implements ManageAddressService {
         return suburbs;
     }
     
+    @SecurityPermission(serviceName = ServiceName.SEARCH_SUBURBS)
     @Override
     public Suburb findSuburb(Object id) {
         return getEntityManager().find(Suburb.class, id);
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_SUBURBS)
     @Override
     public Collection<Suburb> findAllSuburbs() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager()
+            .getCriteriaBuilder().createQuery();
         cq.select(cq.from(Suburb.class));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @SecurityPermission(serviceName = ServiceName.ADD_GREATER_AREA)
+    @AuditTrail(serviceName = ServiceName.ADD_GREATER_AREA)
     @Override
     public GreaterArea addGreaterArea(GreaterArea greaterArea) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(greaterArea.getCreatedBy(), ServiceName.ADD_GREATER_AREA.getValue());
-        
         /* Validations */
         /* State validation */
         greaterArea.validate();
@@ -376,23 +298,13 @@ implements ManageAddressService {
         if (entityValidator.isValidateEntityBeforeCreate(greaterArea)) {
             getEntityManager().persist(greaterArea);
         }
-        /* Audit Activity Logging */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.GREATER_AREA, //EntityName entityName
-            ServiceName.ADD_GREATER_AREA.getValue(), //String serviceName
-            AuditActivityType.ADD, //AuditActivityType activityType
-            greaterArea.toString(), //String description
-            greaterArea.getCreatedBy())); //User currentUser
         return greaterArea;
     }
 
+    @SecurityPermission(serviceName = ServiceName.UPDATE_GREATER_AREA)
+    @AuditTrail(serviceName = ServiceName.UPDATE_GREATER_AREA)
     @Override
     public GreaterArea updateGreaterArea(GreaterArea greaterArea) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(greaterArea.getLastModifiedBy(), ServiceName.UPDATE_GREATER_AREA.getValue());
-        
         /* Validations */
         /* State validation */
         greaterArea.validate();
@@ -402,45 +314,28 @@ implements ManageAddressService {
         if (entityValidator.isValidateEntityBeforeUpdate(greaterArea)) {
             getEntityManager().merge(greaterArea);
         }
-        /* Audit Activity Logging */
-        /* Long entityId, String entityName, String serviceBeanName, String serviceName, String activityType, String description, User currentUser */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.GREATER_AREA, //EntityName entityName
-            ServiceName.UPDATE_GREATER_AREA.getValue(), //String serviceName
-            AuditActivityType.UPDATE, //AuditActivityType auditActivityType
-            greaterArea.toString(), //String description
-            greaterArea.getLastModifiedBy())); //User currentUser
         return greaterArea;
     }
 
+    @SecurityPermission(serviceName = ServiceName.MARK_GREATER_AREA_DELETED)
+    @UserActivityMonitor(serviceName = ServiceName.MARK_GREATER_AREA_DELETED)
     @Override
     public GreaterArea markGreaterAreaDeleted(GreaterArea greaterArea) {
         throw new DeleteNotSupportedException("Deleting a greater area is not supported");
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_GREATER_AREAS)
+    @UserActivityMonitor(serviceName = ServiceName.SEARCH_GREATER_AREAS)
     @Override
     public Collection<GreaterArea> searchGreaterAreas(GreaterAreaSearchCriteria greaterAreaSearchCriteria) {
         Collection<GreaterArea> greaterAreas = new ArrayList<>();
         if (greaterAreaSearchCriteria != null) {
-            /* Check permissions */
-            PermissionChecker permissionChecker = new UserPermissionChecker();
-            permissionChecker.check(greaterAreaSearchCriteria.getServiceUser(), ServiceName.SEARCH_GREATER_AREAS.getValue());
             StringConvertor stringConvertor = new StringDataConvertor();
             String name = stringConvertor.convertForDatabaseSearch
                 (greaterAreaSearchCriteria.getName(), greaterAreaSearchCriteria.getSearchType());
             greaterAreas = getEntityManager().createNamedQuery("findGreaterAreaByName")
                 .setParameter("name", name)
                 .getResultList();
-            
-            /* Audit Activity Logging */
-            AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-            manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-                (EntityName.GREATER_AREA, //String entityName
-                ServiceName.SEARCH_GREATER_AREAS.getValue(), //String serviceName
-                AuditActivityType.SEARCH, //String activityType
-                greaterAreaSearchCriteria.toString(), //String description
-                greaterAreaSearchCriteria.getServiceUser())); //User currentUser
         }
         else {
             throw new ServiceBeanException("Greater Area search criteria not provided");
@@ -448,14 +343,17 @@ implements ManageAddressService {
         return greaterAreas;
     }
     
+    @SecurityPermission(serviceName = ServiceName.SEARCH_GREATER_AREAS)
     @Override
     public GreaterArea findGreaterArea(Object id) {
         return getEntityManager().find(GreaterArea.class, id);
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_GREATER_AREAS)
     @Override
     public Collection<GreaterArea> findAllGreaterAreas() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager()
+            .getCriteriaBuilder().createQuery();
         cq.select(cq.from(GreaterArea.class));
         return getEntityManager().createQuery(cq).getResultList();
     }

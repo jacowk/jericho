@@ -24,7 +24,10 @@
                         <f:facet name="sourceCaption">Available Permissions</f:facet>
                         <f:facet name="targetCaption">Selected Permissions</f:facet>
                     </p:pickList>
-                    <p:commandButton actionListener="#{roleBean.updateRole}" value="Update" update="display,:RoleListForm:datalist,:globalMessages" oncomplete="handleSubmit(args, 'RoleUpdateDialog');"/>
+                    <p:commandButton actionListener="#{roleBean.updateRole}" 
+                                     value="Update" 
+                                     update="display,:RoleListForm:datalist,:globalMessages" 
+                                     oncomplete="handleSubmit(args, 'RoleUpdateDialog');"/>
                     <p:commandButton value="Cancel" onclick="RoleUpdateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

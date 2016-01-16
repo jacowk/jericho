@@ -1,5 +1,8 @@
+select * from area;
+
 select * from role;
 select * from permission_role pr where role_id = 6;
+describe permission_role;
 
 select * from permission p where p.name like '%Attorney%';
 select * from permission_role pr where pr.permission_id = 45;
@@ -99,6 +102,16 @@ insert into permission(name, service_name, created_by, create_date) values('Upda
 insert into permission(name, service_name, created_by, create_date) values('Mark Estate Agent Deleted', 'markEstateAgentDeleted', 1, curdate());
 insert into permission(name, service_name, created_by, create_date) values('Search Estate Agents', 'searchEstateAgents', 1, curdate());
 
+insert into permission(name, service_name, created_by, create_date) values('Add Area', 'addArea', 1, curdate()); --45
+insert into permission(name, service_name, created_by, create_date) values('Update Area', 'updateArea', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Area Deleted', 'markAreaDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Areas', 'searchAreas', 1, curdate());
+
+insert into permission(name, service_name, created_by, create_date) values('Add Suburb', 'addSuburb', 1, curdate()); --49
+insert into permission(name, service_name, created_by, create_date) values('Update Suburb', 'updateSuburb', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Suburb Deleted', 'markSuburbDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Suburbs', 'searchSuburbs', 1, curdate());
+
 insert into role(name, created_by, create_date) values('Administrator', 1, curdate());
 insert into role(name, created_by, create_date) values('Manager', 1, curdate());
 insert into role(name, created_by, create_date) values('Supervisor', 1, curdate());
@@ -149,6 +162,14 @@ insert into permission_role(role_id, permission_id) values(1, 41);
 insert into permission_role(role_id, permission_id) values(1, 42);
 insert into permission_role(role_id, permission_id) values(1, 43);
 insert into permission_role(role_id, permission_id) values(1, 44);
+insert into permission_role(role_id, permission_id) values(1, 45);
+insert into permission_role(role_id, permission_id) values(1, 46);
+insert into permission_role(role_id, permission_id) values(1, 47);
+insert into permission_role(role_id, permission_id) values(1, 48);
+insert into permission_role(role_id, permission_id) values(1, 49);
+insert into permission_role(role_id, permission_id) values(1, 50);
+insert into permission_role(role_id, permission_id) values(1, 51);
+insert into permission_role(role_id, permission_id) values(1, 52);
 
 --select * from attorney_audit_trail;
 --select * from permission p where p.name like '%Attorney%';

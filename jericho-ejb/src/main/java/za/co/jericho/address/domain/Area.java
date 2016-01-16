@@ -21,7 +21,7 @@ import za.co.jericho.util.validation.StringValidator;
 })
 public class Area extends AbstractEntity {
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
     @OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Suburb> suburb;

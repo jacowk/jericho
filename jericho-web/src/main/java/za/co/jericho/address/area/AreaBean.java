@@ -1,4 +1,4 @@
-package za.co.jericho.bank;
+package za.co.jericho.address.area;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -10,9 +10,9 @@ import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.apache.log4j.LogManager;
-import za.co.jericho.bank.domain.Bank;
-import za.co.jericho.bank.search.BankSearchCriteria;
-import za.co.jericho.bank.service.ManageBankService;
+import za.co.jericho.address.domain.Area;
+import za.co.jericho.address.search.AreaSearchCriteria;
+import za.co.jericho.address.service.ManageAddressService;
 import za.co.jericho.security.domain.User;
 import za.co.jericho.session.SessionServices;
 import za.co.jericho.util.JerichoWebUtil;
@@ -21,19 +21,19 @@ import za.co.jericho.util.JsfUtil;
 /**
  *
  * @author Jaco Koekemoer
- * Date: 2015-12-05
+ * Date: 2016-01-16
  */
-@ManagedBean(name = "bankBean")
+@ManagedBean(name = "areaBean")
 @SessionScoped
-public class BankBean implements Serializable {
+public class AreaBean implements Serializable {
     
-    private Bank bank;
-    private BankSearchCriteria bankSearchCriteria = new BankSearchCriteria();
-    private Collection<Bank> banks = null;
+    private Area area;
+    private AreaSearchCriteria areaSearchCriteria = new AreaSearchCriteria();
+    private Collection<Area> areas = null;
     @EJB
-    private ManageBankService manageBankService;
+    private ManageAddressService manageAddressService;
     
-    public BankBean() {
+    public AreaBean() {
         
     }
     
@@ -41,67 +41,68 @@ public class BankBean implements Serializable {
     public void init() {
         
     }
-
+    
     /* Getters and Setters */
-    public Bank getBank() {
-        return bank;
+
+    public Area getArea() {
+        return area;
     }
 
-    public void setBank(Bank bank) {
-        this.bank = bank;
+    public void setArea(Area area) {
+        this.area = area;
     }
 
-    public BankSearchCriteria getBankSearchCriteria() {
-        return bankSearchCriteria;
+    public AreaSearchCriteria getAreaSearchCriteria() {
+        return areaSearchCriteria;
     }
 
-    public void setBankSearchCriteria(BankSearchCriteria bankSearchCriteria) {
-        this.bankSearchCriteria = bankSearchCriteria;
+    public void setAreaSearchCriteria(AreaSearchCriteria areaSearchCriteria) {
+        this.areaSearchCriteria = areaSearchCriteria;
     }
 
-    public Collection<Bank> getBanks() {
-        return banks;
+    public Collection<Area> getAreas() {
+        return areas;
     }
 
-    public void setBanks(Collection<Bank> banks) {
-        this.banks = banks;
+    public void setAreas(Collection<Area> areas) {
+        this.areas = areas;
     }
 
-    public ManageBankService getManageBankService() {
-        return manageBankService;
+    public ManageAddressService getManageAddressService() {
+        return manageAddressService;
     }
 
-    public void setManageBankService(ManageBankService manageBankService) {
-        this.manageBankService = manageBankService;
+    public void setManageAddressService(ManageAddressService manageAddressService) {
+        this.manageAddressService = manageAddressService;
     }
     
     /* Service calls */
-    public Bank prepareAdd() {
+    public Area prepareAdd() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("BankBean: prepareAdd")
+            .append("AreaBean: prepareAdd")
             .toString());
-        bank = new Bank();
-        return bank;
+        area = new Area();
+        return area;
     }
     
-    public void addBank() {
+    public void addArea() {
         try {
-            if (bank != null) {
+            if (area != null) {
                 SessionServices sessionServices = new SessionServices();
                 User currentUser = sessionServices.getUserFromSession();
-                bank.setCreatedBy(currentUser);
-                bank.setCreateDate(new Date());
-                bank = manageBankService.addBank(bank);
+                area.setCreatedBy(currentUser);
+                area.setCreateDate(new Date());
+                area = manageAddressService.addArea(area);
                 if (!JsfUtil.isValidationFailed()) {
-                    banks = null;
+                    areas = null;
                 }
                 JerichoWebUtil.addSuccessMessage(ResourceBundle
                     .getBundle("/JerichoWebBundle")
-                     .getString("BankAdded"));
+                     .getString("AreaAdded"));
             }
             else
             {
-                JerichoWebUtil.addErrorMessage("Error occured. The Bank was not created.");
+                JerichoWebUtil.addErrorMessage("Error occured. The Area was not created.");
             }
         }
         catch (EJBException ex) {
@@ -112,19 +113,19 @@ public class BankBean implements Serializable {
         }
     }
     
-    public void updateBank() {
+    public void updateArea() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("BankBean: updateBank").toString());
+            .append("AreaBean: updateArea").toString());
         try {
-            if (bank != null) {
+            if (area != null) {
                 SessionServices sessionServices = new SessionServices();
                 User currentUser = sessionServices.getUserFromSession();
-                bank.setLastModifiedBy(currentUser);
-                bank.setLastModifyDate(new Date());
-                bank = manageBankService.updateBank(bank);
+                area.setLastModifiedBy(currentUser);
+                area.setLastModifyDate(new Date());
+                area = manageAddressService.updateArea(area);
                 JerichoWebUtil.addSuccessMessage(ResourceBundle
                     .getBundle("/JerichoWebBundle")
-                    .getString("BankUpdated"));
+                    .getString("AreaUpdated"));
             }
         }
         catch (EJBException ex) {
@@ -135,22 +136,22 @@ public class BankBean implements Serializable {
         }
     }
     
-    public void deleteBank() {
+    public void deleteArea() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("BankBean: deleteBank").toString());
+            .append("AreaBean: deleteArea").toString());
         try {
-            if (bank != null) {
+            if (area != null) {
                 SessionServices sessionServices = new SessionServices();
                 User currentUser = sessionServices.getUserFromSession();
-                bank.setLastModifiedBy(currentUser);
-                bank.setLastModifyDate(new Date());
-                bank = manageBankService.markBankDeleted(bank);
+                area.setLastModifiedBy(currentUser);
+                area.setLastModifyDate(new Date());
+                area = manageAddressService.markAreaDeleted(area);
                 JerichoWebUtil.addSuccessMessage(ResourceBundle
                     .getBundle("/JerichoWebBundle")
-                    .getString("BankDeleted"));
+                    .getString("AreaDeleted"));
                 if (!JsfUtil.isValidationFailed()) {
-                    bank = null; // Remove selection
-                    bank = null;
+                    area = null; // Remove selection
+                    area = null;
                 }
             }
         }
@@ -162,15 +163,15 @@ public class BankBean implements Serializable {
         }
     }
     
-    public void searchBanks() {
+    public void searchAreas() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("BankBean: searchBanks").toString());
+            .append("AreaBean: searchAreas").toString());
         try {
-            if (bankSearchCriteria != null) {
+            if (areaSearchCriteria != null) {
                 SessionServices sessionServices = new SessionServices();
                 User currentUser = sessionServices.getUserFromSession();
-                bankSearchCriteria.setServiceUser(currentUser);
-                banks = manageBankService.searchBanks(bankSearchCriteria);
+                areaSearchCriteria.setServiceUser(currentUser);
+                areas = manageAddressService.searchAreas(areaSearchCriteria);
             }
         }
         catch (EJBException ex) {

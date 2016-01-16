@@ -3,6 +3,7 @@ package za.co.jericho.security.service;
 import java.util.List;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import org.apache.log4j.LogManager;
 import za.co.jericho.common.service.AbstractServiceBean;
 import za.co.jericho.exception.DeleteNotSupportedException;
 import za.co.jericho.security.domain.Permission;
@@ -36,6 +37,8 @@ implements ManageSecurityRoleService {
 
     @Override
     public Role updateRole(Role role) {
+        LogManager.getRootLogger().info("ManageSecurityRoleServiceBean: updateRole");
+        
         /* Validations */
         /* State validation */
         role.validate();

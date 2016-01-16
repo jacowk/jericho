@@ -1,4 +1,4 @@
-package za.co.jericho.bank;
+package za.co.jericho.address.suburb;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -7,12 +7,10 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import org.apache.log4j.LogManager;
-import za.co.jericho.bank.domain.Bank;
-import za.co.jericho.bank.search.BankSearchCriteria;
-import za.co.jericho.bank.service.ManageBankService;
+import za.co.jericho.address.domain.Suburb;
+import za.co.jericho.address.search.SuburbSearchCriteria;
+import za.co.jericho.address.service.ManageAddressService;
 import za.co.jericho.security.domain.User;
 import za.co.jericho.session.SessionServices;
 import za.co.jericho.util.JerichoWebUtil;
@@ -21,19 +19,17 @@ import za.co.jericho.util.JsfUtil;
 /**
  *
  * @author Jaco Koekemoer
- * Date: 2015-12-05
+ * Date: 2016-01-16
  */
-@ManagedBean(name = "bankBean")
-@SessionScoped
-public class BankBean implements Serializable {
+public class SuburbBean implements Serializable {
     
-    private Bank bank;
-    private BankSearchCriteria bankSearchCriteria = new BankSearchCriteria();
-    private Collection<Bank> banks = null;
+    private Suburb suburb;
+    private SuburbSearchCriteria suburbSearchCriteria = new SuburbSearchCriteria();
+    private Collection<Suburb> suburbs = null;
     @EJB
-    private ManageBankService manageBankService;
+    private ManageAddressService manageAddressService;
     
-    public BankBean() {
+    public SuburbBean() {
         
     }
     
@@ -43,65 +39,65 @@ public class BankBean implements Serializable {
     }
 
     /* Getters and Setters */
-    public Bank getBank() {
-        return bank;
+    public Suburb getSuburb() {
+        return suburb;
     }
 
-    public void setBank(Bank bank) {
-        this.bank = bank;
+    public void setSuburb(Suburb suburb) {
+        this.suburb = suburb;
     }
 
-    public BankSearchCriteria getBankSearchCriteria() {
-        return bankSearchCriteria;
+    public SuburbSearchCriteria getSuburbSearchCriteria() {
+        return suburbSearchCriteria;
     }
 
-    public void setBankSearchCriteria(BankSearchCriteria bankSearchCriteria) {
-        this.bankSearchCriteria = bankSearchCriteria;
+    public void setSuburbSearchCriteria(SuburbSearchCriteria suburbSearchCriteria) {
+        this.suburbSearchCriteria = suburbSearchCriteria;
     }
 
-    public Collection<Bank> getBanks() {
-        return banks;
+    public Collection<Suburb> getSuburbs() {
+        return suburbs;
     }
 
-    public void setBanks(Collection<Bank> banks) {
-        this.banks = banks;
+    public void setSuburbs(Collection<Suburb> suburbs) {
+        this.suburbs = suburbs;
     }
 
-    public ManageBankService getManageBankService() {
-        return manageBankService;
+    public ManageAddressService getManageAddressService() {
+        return manageAddressService;
     }
 
-    public void setManageBankService(ManageBankService manageBankService) {
-        this.manageBankService = manageBankService;
+    public void setManageAddressService(ManageAddressService manageAddressService) {
+        this.manageAddressService = manageAddressService;
     }
-    
+
     /* Service calls */
-    public Bank prepareAdd() {
+    public Suburb prepareAdd() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("BankBean: prepareAdd")
+            .append("SuburbBean: prepareAdd")
             .toString());
-        bank = new Bank();
-        return bank;
+        suburb = new Suburb();
+        return suburb;
     }
     
-    public void addBank() {
+    public void addSuburb() {
         try {
-            if (bank != null) {
+            if (suburb != null) {
                 SessionServices sessionServices = new SessionServices();
                 User currentUser = sessionServices.getUserFromSession();
-                bank.setCreatedBy(currentUser);
-                bank.setCreateDate(new Date());
-                bank = manageBankService.addBank(bank);
+                suburb.setCreatedBy(currentUser);
+                suburb.setCreateDate(new Date());
+                suburb = manageAddressService.addSuburb(suburb);
                 if (!JsfUtil.isValidationFailed()) {
-                    banks = null;
+                    suburbs = null;
                 }
                 JerichoWebUtil.addSuccessMessage(ResourceBundle
                     .getBundle("/JerichoWebBundle")
-                     .getString("BankAdded"));
+                     .getString("SuburbAdded"));
             }
             else
             {
-                JerichoWebUtil.addErrorMessage("Error occured. The Bank was not created.");
+                JerichoWebUtil.addErrorMessage("Error occured. The Suburb was not created.");
             }
         }
         catch (EJBException ex) {
@@ -112,19 +108,19 @@ public class BankBean implements Serializable {
         }
     }
     
-    public void updateBank() {
+    public void updateSuburb() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("BankBean: updateBank").toString());
+            .append("SuburbBean: updateSuburb").toString());
         try {
-            if (bank != null) {
+            if (suburb != null) {
                 SessionServices sessionServices = new SessionServices();
                 User currentUser = sessionServices.getUserFromSession();
-                bank.setLastModifiedBy(currentUser);
-                bank.setLastModifyDate(new Date());
-                bank = manageBankService.updateBank(bank);
+                suburb.setLastModifiedBy(currentUser);
+                suburb.setLastModifyDate(new Date());
+                suburb = manageAddressService.updateSuburb(suburb);
                 JerichoWebUtil.addSuccessMessage(ResourceBundle
                     .getBundle("/JerichoWebBundle")
-                    .getString("BankUpdated"));
+                    .getString("SuburbUpdated"));
             }
         }
         catch (EJBException ex) {
@@ -135,22 +131,22 @@ public class BankBean implements Serializable {
         }
     }
     
-    public void deleteBank() {
+    public void deleteSuburb() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("BankBean: deleteBank").toString());
+            .append("SuburbBean: deleteSuburb").toString());
         try {
-            if (bank != null) {
+            if (suburb != null) {
                 SessionServices sessionServices = new SessionServices();
                 User currentUser = sessionServices.getUserFromSession();
-                bank.setLastModifiedBy(currentUser);
-                bank.setLastModifyDate(new Date());
-                bank = manageBankService.markBankDeleted(bank);
+                suburb.setLastModifiedBy(currentUser);
+                suburb.setLastModifyDate(new Date());
+                suburb = manageAddressService.markSuburbDeleted(suburb);
                 JerichoWebUtil.addSuccessMessage(ResourceBundle
                     .getBundle("/JerichoWebBundle")
-                    .getString("BankDeleted"));
+                    .getString("SuburbDeleted"));
                 if (!JsfUtil.isValidationFailed()) {
-                    bank = null; // Remove selection
-                    bank = null;
+                    suburb = null; // Remove selection
+                    suburb = null;
                 }
             }
         }
@@ -162,15 +158,15 @@ public class BankBean implements Serializable {
         }
     }
     
-    public void searchBanks() {
+    public void searchSuburbs() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("BankBean: searchBanks").toString());
+            .append("SuburbBean: searchSuburbs").toString());
         try {
-            if (bankSearchCriteria != null) {
+            if (suburbSearchCriteria != null) {
                 SessionServices sessionServices = new SessionServices();
                 User currentUser = sessionServices.getUserFromSession();
-                bankSearchCriteria.setServiceUser(currentUser);
-                banks = manageBankService.searchBanks(bankSearchCriteria);
+                suburbSearchCriteria.setServiceUser(currentUser);
+                suburbs = manageAddressService.searchSuburbs(suburbSearchCriteria);
             }
         }
         catch (EJBException ex) {

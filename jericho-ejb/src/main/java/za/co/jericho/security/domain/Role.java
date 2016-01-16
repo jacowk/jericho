@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import org.apache.log4j.LogManager;
 import za.co.jericho.common.domain.AbstractEntity;
 import za.co.jericho.exception.EntityValidationException;
 import za.co.jericho.util.validation.StringDataValidator;
@@ -63,7 +64,12 @@ public class Role extends AbstractEntity {
     }
     
     public void addPermissionCollection(Collection<Permission> permissions) {
+LogManager.getRootLogger().info("Role: addPermissionCollection");
         for (Permission permission: permissions) {
+LogManager.getRootLogger().info("Adding permission " + 
+        permission.getName() +
+        " to role " + 
+        this.getName());
             this.permissions.add(permission);
         }
     }
