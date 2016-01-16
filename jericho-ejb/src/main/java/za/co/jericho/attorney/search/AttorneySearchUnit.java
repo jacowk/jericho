@@ -43,7 +43,7 @@ public class AttorneySearchUnit extends AbstractPersistenceUnit {
             
             searchAttorneysStringBuilder.append("SELECT a FROM Attorney a ");
             searchAttorneysStringBuilder.append("WHERE a.name like :name ");
-            searchAttorneysStringBuilder.append("WHERE a.deleted = false ");
+//            searchAttorneysStringBuilder.append("AND a.deleted <> TRUE");
             String name = stringConvertor.convertForDatabaseSearch
                 (attorneySearchCriteria.getName(), attorneySearchCriteria.getSearchType());
             attorneys = getEntityManager().createQuery(searchAttorneysStringBuilder.toString())

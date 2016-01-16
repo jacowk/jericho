@@ -1,5 +1,11 @@
+select * from role;
+select * from permission_role pr where role_id = 6;
+
+select * from permission p where p.name like '%Attorney%';
+select * from permission_role pr where pr.permission_id = 45;
+
 select * from contractor_audit_trail;
-select * from attorney;
+select * from attorney where deleted = 'false';
 select * from attorney_audit_trail;
 select * from property;
 select * from property_flip;
@@ -25,6 +31,7 @@ select * from estate_agent_audit_trail;
 select * from permission_role pr where pr.permission_id = 45;
 
 select * from permission where name like 'Test%' and service_name is null;
+
 
 --8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 = admin
 insert into users(firstname, surname, email, username, password, created_by, create_date)
@@ -174,5 +181,3 @@ insert into area(name, created_by, create_date) values("RANDBURG", 1, curdate())
 insert into suburb(name, box_code, street_code, area_id, created_by, create_date) values('HONEYDEW RIDGE', '', '2170', 1, 1, curdate());
 insert into suburb(name, box_code, street_code, area_id, created_by, create_date) values('HONEYDEW RIDGE EXT 11', '', '2170', 1, 1, curdate());
 
-select * from role;
-select * from permission_role pr where role_id = 6;

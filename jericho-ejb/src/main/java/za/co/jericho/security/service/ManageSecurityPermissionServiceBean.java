@@ -22,6 +22,11 @@ implements ManageSecurityPermissionService{
 
     @Override
     public Permission addPermission(Permission permission) {
+        /* Validations */
+        /* State validation */
+        permission.validate();
+        
+        /* Service logic */
         EntityValidator entityValidator = new EntityStateValidator();
         if (entityValidator.isValidateEntityBeforeCreate(permission)) {
             getEntityManager().persist(permission);
@@ -31,6 +36,11 @@ implements ManageSecurityPermissionService{
 
     @Override
     public Permission updatePermission(Permission permission) {
+        /* Validations */
+        /* State validation */
+        permission.validate();
+        
+        /* Service logic */
         EntityValidator entityValidator = new EntityStateValidator();
         if (entityValidator.isValidateEntityBeforeUpdate(permission)) {
             getEntityManager().merge(permission);

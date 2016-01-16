@@ -21,11 +21,6 @@
                         <h:outputText value="Service Name: "/>
                         <h:outputText value="#{permissionBean.permission.serviceName}" title="Service Name"/>
                         
-                        <h:outputText value="Roles: "/>
-                        <ui:repeat value="#{permissionBean.permission.roles}" var="role">
-                            <h:outputText value="#{role.name}"/><br/>
-                        </ui:repeat>
-                        
                         <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
                         <h:outputText value="#{permissionBean.permission.createdBy.username}" title="#{jerichoWebBundle.CreatedBy}"/>
                         

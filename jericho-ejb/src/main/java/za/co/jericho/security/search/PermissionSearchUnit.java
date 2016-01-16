@@ -31,7 +31,6 @@ public class PermissionSearchUnit extends AbstractPersistenceUnit {
     public void run() {
         LogManager.getRootLogger().info("PermissionsSearchUnit: run");
         /* Include starts with, ends with and contains */
-        List<Permission> permissions = new ArrayList<>();
         if (permissionSearchCriteria != null) {
             StringConvertor stringConvertor = new StringDataConvertor();
             /* Prepare search criteria */
@@ -47,9 +46,6 @@ public class PermissionSearchUnit extends AbstractPersistenceUnit {
                 searchUsersStringBuilder.append("AND p.serviceName like :serviceName ");
             }
             searchUsersStringBuilder.append("AND p.deleted = false");
-            
-            LogManager.getRootLogger().info("Name: " + name);
-            LogManager.getRootLogger().info("Service Name: " + serviceName);
             
             /* Execute Statement */
             Query query = getEntityManager().createQuery(searchUsersStringBuilder.toString());

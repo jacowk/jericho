@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -102,6 +102,38 @@ public class RoleBean implements Serializable {
     }
     
     /* Service calls */
+    /**
+     * For a role that is updated, the source permissions should only include permissions
+     * not selected for the role, and the target permissions should contain the 
+     * permissions of the selected role.
+     */
+    public void preparePermissionsForUpdate() {
+        LogManager.getRootLogger().info("RoleBean: preparePermissionsForUpdate");
+        if (role != null) {
+            if (role.getPermissions() != null && role.getPermissions().size() > 0) {
+                /* Set permissionsTarget to the current role permissions */
+                for (Permission permission: role.getPermissions()) {
+                    permissionsTarget.add(permission);
+                }
+                /* Remove these permissions from permissionsSource */
+                Collection<Permission> newPermissionsSource = new ArrayList<>();
+                for (Permission sourcePermission: permissionsSource) {
+                    boolean present = false;
+                    for (Permission existingPermission: role.getPermissions()) {
+                        if (Objects.equals(sourcePermission.getId(), existingPermission.getId())) {
+                            present = true;
+                        }
+                    }
+                    if (!present) {
+                        newPermissionsSource.add(sourcePermission);
+                    }
+                }
+                permissionsSource.clear();
+                permissionsSource.addAll(newPermissionsSource);
+            }
+        }
+    }
+    
     public Role prepareAdd() {
         LogManager.getRootLogger().info(new StringBuilder()
             .append("RoleBean: prepareAdd")
@@ -111,6 +143,7 @@ public class RoleBean implements Serializable {
     }
     
     public void addRole() {
+        LogManager.getRootLogger().info("RoleBean: addRole");
         try {
             if (role != null) {
                 SessionServices sessionServices = new SessionServices();
@@ -140,8 +173,7 @@ public class RoleBean implements Serializable {
     }
     
     public void updateRole() {
-        LogManager.getRootLogger().info(new StringBuilder()
-            .append("RoleBean: updateRole").toString());
+        LogManager.getRootLogger().info("RoleBean: updateRole");
         try {
             if (role != null) {
                 SessionServices sessionServices = new SessionServices();

@@ -18,14 +18,6 @@
                         <p:outputLabel for="serviceName" value="Service Name" />
                         <p:inputText id="serviceName" value="#{permissionBean.permission.serviceName}" title="Service Name" />
                     </p:panelGrid>
-                    <p:pickList id="rolePickList" 
-                                value="#{permissionBean.roles}" 
-                                var="role" 
-                                itemLabel="#{role}" 
-                                itemValue="#{role}">
-                        <f:facet name="sourceCaption">Available Roles</f:facet>
-                        <f:facet name="targetCaption">Selected Roles</f:facet>
-                    </p:pickList>
                     <p:commandButton actionListener="#{permissionBean.updatePermission}" value="Update" update="display,:PermissionListForm:datalist,:globalMessages" oncomplete="handleSubmit(args, 'PermissionUpdateDialog');"/>
                     <p:commandButton value="Cancel" onclick="PermissionUpdateDialog.hide()"/>
                 </h:panelGroup>
