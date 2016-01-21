@@ -1,5 +1,6 @@
 package za.co.jericho.audittrail.service;
 
+import za.co.jericho.exception.AuditTrailException;
 import za.co.jericho.security.ServiceName;
 
 /**
@@ -44,7 +45,19 @@ public class AuditTrailServiceFactory implements ServiceFactory {
             serviceName == ServiceName.UPDATE_PERMISSION) {
             return new PermissionAuditTrailService();
         }
-        return null;
+        else if (serviceName == ServiceName.ADD_AREA || 
+            serviceName == ServiceName.UPDATE_AREA) {
+            return new AreaAuditTrailService();
+        }
+        else if (serviceName == ServiceName.ADD_GREATER_AREA || 
+            serviceName == ServiceName.UPDATE_GREATER_AREA) {
+            return new GreaterAreaAuditTrailService();
+        }
+        else if (serviceName == ServiceName.ADD_SUBURB || 
+            serviceName == ServiceName.UPDATE_SUBURB) {
+            return new SuburbAuditTrailService();
+        }
+        throw new AuditTrailException("Audit trail service not found");
     }
     
 }

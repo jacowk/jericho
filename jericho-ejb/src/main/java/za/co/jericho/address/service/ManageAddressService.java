@@ -1,7 +1,6 @@
 package za.co.jericho.address.service;
 
 import java.util.Collection;
-import java.util.List;
 import javax.ejb.Remote;
 import za.co.jericho.address.domain.Address;
 import za.co.jericho.address.domain.Area;

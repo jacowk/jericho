@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import org.apache.log4j.LogManager;
 import za.co.jericho.address.domain.GreaterArea;
 import za.co.jericho.address.search.GreaterAreaSearchCriteria;
@@ -21,6 +23,8 @@ import za.co.jericho.util.JsfUtil;
  * @author Jaco Koekemoer
  * Date: 2016-01-16
  */
+@ManagedBean(name = "greaterAreaBean")
+@SessionScoped
 public class GreaterAreaBean implements Serializable {
     
     private GreaterArea greaterArea;

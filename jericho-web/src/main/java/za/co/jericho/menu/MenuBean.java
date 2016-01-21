@@ -71,17 +71,17 @@ public class MenuBean implements Serializable{
     
     /* Area Menu */
     public String areas() {
-        return "/jericho/address/area/list-areas.xhtml";
+        return "/jericho/address/list-areas.xhtml";
     }
     
     /* Greater Area Menu */
     public String greaterAreas() {
-        return "/jericho/address/greaterarea/list-greater-areas.xhtml";
+        return "/jericho/address/list-greater-areas.xhtml";
     }
     
     /* Suburb Menu */
     public String suburbs() {
-        return "/jericho/address/suburb/list-suburbs.xhtml";
+        return "/jericho/address/list-suburbs.xhtml";
     }
     
     /* Third Parties Menu */

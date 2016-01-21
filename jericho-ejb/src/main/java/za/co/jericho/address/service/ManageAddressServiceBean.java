@@ -252,7 +252,10 @@ implements ManageAddressService {
             StringBuilder searchUsersStringBuilder = new StringBuilder();
             searchUsersStringBuilder.append("SELECT p FROM Suburb p ");
             searchUsersStringBuilder.append("WHERE p.name like :name ");
-            searchUsersStringBuilder.append("AND p.boxCode like :boxCode ");
+            if (suburbSearchCriteria.getBoxCode() != null) {
+                searchUsersStringBuilder.append("AND p.boxCode like :boxCode ");
+            }
+            /* Finish this */
             searchUsersStringBuilder.append("AND p.streetCode like :streetCode ");
             String name = stringConvertor.convertForDatabaseSearch(suburbSearchCriteria.getName(), 
                 suburbSearchCriteria.getSearchType()); 

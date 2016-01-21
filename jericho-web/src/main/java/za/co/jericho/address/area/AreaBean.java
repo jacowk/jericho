@@ -43,7 +43,6 @@ public class AreaBean implements Serializable {
     }
     
     /* Getters and Setters */
-
     public Area getArea() {
         return area;
     }
