@@ -52,10 +52,31 @@
                         </p:column>
                         
                         <f:facet name="footer">
-                            <p:commandButton id="addButton" icon="ui-icon-plus"  value="#{jerichoWebBundle.Add}" actionListener="#{roleBean.prepareAdd}" update=":RoleAddForm" oncomplete="PF('RoleAddDialog').show()"/>
-                            <p:commandButton id="updateButton"   icon="ui-icon-pencil" value="#{jerichoWebBundle.Update}" update=":RoleUpdateForm" oncomplete="PF('RoleUpdateDialog').show()" disabled="#{empty roleBean.role}" onclick="#{roleBean.preparePermissionsForUpdate()}"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{jerichoWebBundle.View}" update=":RoleViewForm" oncomplete="PF('RoleViewDialog').show()" disabled="#{empty roleBean.role}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{jerichoWebBundle.Delete}" actionListener="#{roleBean.deleteRole}" update=":globalMessages,datalist" disabled="#{empty roleBean.role}"/>
+                            <p:commandButton id="addButton" 
+                                             icon="ui-icon-plus"  
+                                             value="#{jerichoWebBundle.Add}" 
+                                             actionListener="#{roleBean.prepareAdd}" 
+                                             update=":RoleAddForm" 
+                                             oncomplete="PF('RoleAddDialog').show()"/>
+                            <p:commandButton id="updateButton"   
+                                             icon="ui-icon-pencil" 
+                                             value="#{jerichoWebBundle.Update}" 
+                                             update=":RoleUpdateForm" 
+                                             oncomplete="PF('RoleUpdateDialog').show()" 
+                                             disabled="#{empty roleBean.role}" 
+                                             onclick="#{roleBean.preparePermissionsForUpdate()}"/>
+                            <p:commandButton id="viewButton"   
+                                             icon="ui-icon-search" 
+                                             value="#{jerichoWebBundle.View}" 
+                                             update=":RoleViewForm" 
+                                             oncomplete="PF('RoleViewDialog').show()" 
+                                             disabled="#{empty roleBean.role}"/>
+                            <p:commandButton id="deleteButton" 
+                                             icon="ui-icon-trash"  
+                                             value="#{jerichoWebBundle.Delete}" 
+                                             actionListener="#{roleBean.deleteRole}" 
+                                             update=":globalMessages,datalist" 
+                                             disabled="#{empty roleBean.role}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>

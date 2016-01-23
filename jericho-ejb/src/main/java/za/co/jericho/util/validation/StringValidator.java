@@ -10,4 +10,6 @@ public interface StringValidator {
     
     public boolean isNullOrEmpty(String data);
     
+    public boolean isNumeric(String data);
+    
 }

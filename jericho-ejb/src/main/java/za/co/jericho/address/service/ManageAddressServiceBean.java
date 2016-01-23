@@ -1,15 +1,24 @@
 package za.co.jericho.address.service;
 
-import za.co.jericho.common.service.*;
-import za.co.jericho.address.domain.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
-import za.co.jericho.address.search.*;
+import javax.persistence.Query;
+import org.apache.log4j.LogManager;
+import za.co.jericho.address.domain.Address;
+import za.co.jericho.address.domain.Area;
+import za.co.jericho.address.domain.GreaterArea;
+import za.co.jericho.address.domain.Suburb;
+import za.co.jericho.address.search.AddressSearchCriteria;
+import za.co.jericho.address.search.AreaSearchCriteria;
+import za.co.jericho.address.search.GreaterAreaSearchCriteria;
+import za.co.jericho.address.search.SuburbSearchCriteria;
 import za.co.jericho.annotations.AuditTrail;
 import za.co.jericho.annotations.SecurityPermission;
 import za.co.jericho.annotations.UserActivityMonitor;
+import za.co.jericho.common.service.AbstractServiceBean;
 import za.co.jericho.exception.DeleteNotSupportedException;
 import za.co.jericho.exception.ServiceBeanException;
 import za.co.jericho.interceptors.AuditTrailInterceptor;
@@ -20,6 +29,8 @@ import za.co.jericho.util.conversion.StringConvertor;
 import za.co.jericho.util.conversion.StringDataConvertor;
 import za.co.jericho.util.validation.EntityStateValidator;
 import za.co.jericho.util.validation.EntityValidator;
+import za.co.jericho.util.validation.StringDataValidator;
+import za.co.jericho.util.validation.StringValidator;
 
 @Stateless
 @Remote(ManageAddressService.class)
@@ -196,6 +207,7 @@ implements ManageAddressService {
     @SecurityPermission(serviceName = ServiceName.SEARCH_AREAS)
     @Override
     public Collection<Area> findAllAreas() {
+        LogManager.getRootLogger().info("ManageAddressServiceBean: findAllAreas");
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager()
             .getCriteriaBuilder().createQuery();
         cq.select(cq.from(Area.class));
@@ -246,26 +258,38 @@ implements ManageAddressService {
     @Override
     public Collection<Suburb> searchSuburbs(SuburbSearchCriteria suburbSearchCriteria) {
         Collection<Suburb> suburbs = new ArrayList<>();
+        StringValidator stringValidator = new StringDataValidator();
         if (suburbSearchCriteria != null) {
             /* Service logic */
             StringConvertor stringConvertor = new StringDataConvertor();
             StringBuilder searchUsersStringBuilder = new StringBuilder();
-            searchUsersStringBuilder.append("SELECT p FROM Suburb p ");
-            searchUsersStringBuilder.append("WHERE p.name like :name ");
-            if (suburbSearchCriteria.getBoxCode() != null) {
-                searchUsersStringBuilder.append("AND p.boxCode like :boxCode ");
-            }
-            /* Finish this */
-            searchUsersStringBuilder.append("AND p.streetCode like :streetCode ");
             String name = stringConvertor.convertForDatabaseSearch(suburbSearchCriteria.getName(), 
                 suburbSearchCriteria.getSearchType()); 
             String boxCode = suburbSearchCriteria.getBoxCode();            
-            String streetCode = suburbSearchCriteria.getStreetCode();            
-            suburbs = getEntityManager().createQuery(searchUsersStringBuilder.toString())
-                .setParameter("name", name)
-                .setParameter("boxCode", boxCode)
-                .setParameter("streetCode", streetCode)
-                .getResultList();
+            String streetCode = suburbSearchCriteria.getStreetCode();
+            searchUsersStringBuilder.append("SELECT p FROM Suburb p ");
+            searchUsersStringBuilder.append("WHERE p.name like :name ");
+            if (!stringValidator.isNullOrEmpty(suburbSearchCriteria.getBoxCode())) {
+                searchUsersStringBuilder.append("AND p.boxCode like :boxCode ");
+            }
+            if (!stringValidator.isNullOrEmpty(suburbSearchCriteria.getStreetCode())) {
+                searchUsersStringBuilder.append("AND p.streetCode like :streetCode ");
+            }
+            Query query = getEntityManager().createQuery(searchUsersStringBuilder.toString());
+            query.setParameter("name", name);
+            if (!stringValidator.isNullOrEmpty(suburbSearchCriteria.getBoxCode())) {
+                query.setParameter("boxCode", boxCode);
+            }
+            if (!stringValidator.isNullOrEmpty(suburbSearchCriteria.getStreetCode())) {
+                query.setParameter("streetCode", streetCode);
+            }
+            suburbs = query.getResultList();
+            
+//            suburbs = getEntityManager().createQuery(searchUsersStringBuilder.toString())
+//                .setParameter("name", name)
+//                .setParameter("boxCode", boxCode)
+//                .setParameter("streetCode", streetCode)
+//                .getResultList();
         }
         else {
             throw new ServiceBeanException("Suburb search criteria not provided");

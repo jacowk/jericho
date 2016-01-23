@@ -66,14 +66,14 @@
                         <p:outputLabel value="#{testBundle.CreateUserLabel_role}" for="role" />
                         <p:selectOneMenu id="role" value="#{userBean.selectedRoleId}"
                                          required="true">
-                            <f:selectItem itemLabel="Select Role" itemValue="#{null}" />
+                            <f:selectItem itemLabel="Select Role" itemValue="#{null}" noSelectionOption="true" />
                             <f:selectItems value="#{userBean.roles}"
                                            var="role" itemValue="#{role.id}" 
                                            itemLabel="#{role.name}"/>
                         </p:selectOneMenu>
                         &nbsp;
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{userBean.create}" value="#{testBundle.Save}" update="display,:UserListForm:datalist,:growl" oncomplete="handleSubmit(args,'UserCreateDialog');"/>
+                    <p:commandButton actionListener="#{userBean.create}" value="#{testBundle.Save}" update="display,:UserListForm:datalist,:globalMessages" oncomplete="handleSubmit(args,'UserCreateDialog');"/>
                     <p:commandButton value="#{testBundle.Cancel}" onclick="UserCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

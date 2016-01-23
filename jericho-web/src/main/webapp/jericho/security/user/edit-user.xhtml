@@ -62,7 +62,7 @@
                     </p:panelGrid>
                     <p:commandButton actionListener="#{userBean.update}" 
                                      value="#{testBundle.Save}" 
-                                     update="display,:UserListForm:datalist,:growl" 
+                                     update="display,:UserListForm:datalist,:globalMessages" 
                                      oncomplete="handleSubmit(args, 'UserEditDialog');"/>
                     <p:commandButton value="#{testBundle.Cancel}" 
                                      onclick="UserEditDialog.hide()"/>

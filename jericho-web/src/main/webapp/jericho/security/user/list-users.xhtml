@@ -9,7 +9,7 @@
     <h:body>
         <ui:composition template="/jericho/template/template.xhtml">
             <ui:define name="contents">
-                <p:messages />
+                <p:messages id="globalMessages" />
                 <b:panel look="primary">
                     <f:facet name="heading">Search Users</f:facet>
                     <f:view>
@@ -102,13 +102,13 @@
                                                  icon="ui-icon-trash"  
                                                  value="#{testBundle.Delete}" 
                                                  actionListener="#{userBean.destroy}" 
-                                                 update=":growl,datalist" 
+                                                 update=":globalMessages,datalist" 
                                                  disabled="#{empty userBean.selected}"/>
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
                 </h:form>
-                <ui:include src="create-user.xhtml"/>
+                <ui:include src="add-user.xhtml"/>
                 <ui:include src="edit-user.xhtml"/>
                 <ui:include src="view-user.xhtml"/>
                 

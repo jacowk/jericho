@@ -20,6 +20,12 @@
                         
                         <p:outputLabel for="streetCode" value="Street Code" />
                         <p:inputText id="streetCode" value="#{suburbBean.suburb.streetCode}" title="Street Code" />
+                        
+                        <p:outputLabel for="area" value="Area" />
+                        <p:selectOneMenu id="area" value="#{suburbBean.suburb.area}" style="width: 150px">
+                            <f:selectItem itemLabel="Select Area" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{surburbBean.areas}" />
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{suburbBean.updateSuburb}" value="Update" update="display,:SuburbListForm:datalist,:globalMessages" oncomplete="handleSubmit(args, 'SuburbUpdateDialog');"/>
                     <p:commandButton value="Cancel" onclick="SuburbUpdateDialog.hide()"/>

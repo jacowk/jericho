@@ -26,4 +26,15 @@ public class StringDataValidator implements StringValidator {
         }
     }
     
+    @Override
+    public boolean isNumeric(String data) {
+        try {
+            Long.parseLong(data);
+        }
+        catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    
 }

@@ -20,6 +20,17 @@
                         
                         <p:outputLabel for="streetCode" value="Street Code" />
                         <p:inputText id="streetCode" value="#{suburbBean.suburb.streetCode}" title="Street Code" />
+                        
+                        <p:outputLabel for="area" value="Area" />
+                        <p:selectOneMenu id="area" value="#{suburbBean.selectedAreaId}" style="width: 150px">
+                            <f:selectItem itemLabel="Select Area" 
+                                          itemValue="#{null}" 
+                                          noSelectionOption="true" />
+                            <f:selectItems value="#{surburbBean.areaList}"
+                                           var="area"
+                                           itemValue="#{area.id}"
+                                           itemLabel="#{area.name}" />
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{suburbBean.addSuburb}" value="Save" update="display,:SuburbListForm:datalist,:globalMessages" oncomplete="handleSubmit(args,'SuburbAddDialog');"/>
                     <p:commandButton value="Cancel" onclick="SuburbAddDialog.hide()"/>

@@ -1,6 +1,7 @@
 package za.co.jericho.address.suburb;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -10,6 +11,7 @@ import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.apache.log4j.LogManager;
+import za.co.jericho.address.domain.Area;
 import za.co.jericho.address.domain.Suburb;
 import za.co.jericho.address.search.SuburbSearchCriteria;
 import za.co.jericho.address.service.ManageAddressService;
@@ -30,6 +32,9 @@ public class SuburbBean implements Serializable {
     private Suburb suburb;
     private SuburbSearchCriteria suburbSearchCriteria = new SuburbSearchCriteria();
     private Collection<Suburb> suburbs = null;
+    private Collection<Area> areas = new ArrayList<Area>();
+    private Area selectedArea;
+    private Long selectedAreaId;
     @EJB
     private ManageAddressService manageAddressService;
     
@@ -39,7 +44,10 @@ public class SuburbBean implements Serializable {
     
     @PostConstruct
     public void init() {
-        
+        LogManager.getRootLogger().info("SuburbBean: init: Loading all areas");
+        /* Find all areas for association with a Suburb */
+        areas = manageAddressService.findAllAreas();
+        LogManager.getRootLogger().info("SuburbBean: init: areas size: " + areas.size());
     }
 
     /* Getters and Setters */
@@ -65,6 +73,30 @@ public class SuburbBean implements Serializable {
 
     public void setSuburbs(Collection<Suburb> suburbs) {
         this.suburbs = suburbs;
+    }
+
+    public Collection<Area> getAreas() {
+        return areas;
+    }
+
+    public void setAreas(Collection<Area> areas) {
+        this.areas = areas;
+    }
+
+    public Area getSelectedArea() {
+        return selectedArea;
+    }
+
+    public void setSelectedArea(Area selectedArea) {
+        this.selectedArea = selectedArea;
+    }
+
+    public Long getSelectedAreaId() {
+        return selectedAreaId;
+    }
+
+    public void setSelectedAreaId(Long selectedAreaId) {
+        this.selectedAreaId = selectedAreaId;
     }
 
     public ManageAddressService getManageAddressService() {
@@ -179,6 +211,11 @@ public class SuburbBean implements Serializable {
         catch (Exception e) {
             JerichoWebUtil.addGeneralExceptionMessage(e);
         }
+    }
+    
+    public Collection<Area> getAreaList() {
+        LogManager.getRootLogger().info("SuburbBean: getAreas()");
+        return manageAddressService.findAllAreas();
     }
     
 }

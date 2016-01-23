@@ -40,14 +40,14 @@ public class GreaterArea extends AbstractEntity {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         if (getId() != null) {
-            stringBuilder.append("|ID: ");
+            stringBuilder.append("ID: ");
             stringBuilder.append(getId());
         }
         if (getName() != null) {
-            stringBuilder.append("|Name: ");
+            stringBuilder.append("\nName: ");
             stringBuilder.append(getName());
         }
-        stringBuilder.append("|Deleted: ");
+        stringBuilder.append("\nDeleted: ");
         stringBuilder.append(Boolean.toString(super.isDeleted()));
         return stringBuilder.toString();
     }
