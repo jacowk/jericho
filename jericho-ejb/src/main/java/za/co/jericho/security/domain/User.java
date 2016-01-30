@@ -102,6 +102,12 @@ public class User extends AbstractEntity {
         }
     }
     
+    public void clearRoles() {
+        if (this.roles != null) {
+            this.roles.clear();
+        }
+    }
+    
     @Override
     public void validate() {
         StringValidator stringValidator = new StringDataValidator();

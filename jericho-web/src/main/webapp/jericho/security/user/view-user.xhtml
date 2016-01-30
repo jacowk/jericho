@@ -8,47 +8,47 @@
 
     <ui:composition>
 
-        <p:dialog id="UserViewDlg" widgetVar="UserViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{testBundle.ViewUserTitle}">
+        <p:dialog id="UserViewDlg" widgetVar="UserViewDialog" modal="true" resizable="false" appendTo="@(body)" header="View User">
             <h:form id="UserViewForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{userBean.selected != null}">
-                        <h:outputText value="ID"/>
-                        <h:outputText value="#{userBean.selected.id}" title="#{testBundle.ViewUserTitle_id}"/>
+                    <p:panelGrid columns="2" rendered="#{userBean.user != null}">
+                        <h:outputText value="ID: "/>
+                        <h:outputText value="#{userBean.user.id}" title="ID"/>
                         
-                        <h:outputText value="Firstname"/>
-                        <h:outputText value="#{userBean.selected.firstname}" title="#{testBundle.ViewUserTitle_firstname}"/>
+                        <h:outputText value="Firstname: "/>
+                        <h:outputText value="#{userBean.user.firstname}" title="Firstname"/>
                         
-                        <h:outputText value="Surname"/>
-                        <h:outputText value="#{userBean.selected.surname}" title="#{testBundle.ViewUserTitle_surname}"/>
+                        <h:outputText value="Surname: "/>
+                        <h:outputText value="#{userBean.user.surname}" title="Surname"/>
                         
-                        <h:outputText value="Email"/>
-                        <h:outputText value="#{userBean.selected.email}" title="#{testBundle.ViewUserTitle_email}"/>
+                        <h:outputText value="Email: "/>
+                        <h:outputText value="#{userBean.user.email}" title="Email"/>
                         
-                        <h:outputText value="Username"/>
-                        <h:outputText value="#{userBean.selected.username}" title="#{testBundle.ViewUserTitle_username}"/>
+                        <h:outputText value="Username: "/>
+                        <h:outputText value="#{userBean.user.username}" title="Username"/>
                         
-                        <h:outputText value="Roles"/>
-                        <ui:repeat value="#{userBean.selected.roles}" var="role">
-                            <h:outputText value="#{role.name}"/>
+                        <h:outputText value="Roles: "/>
+                        <ui:repeat var="role" value="#{userBean.user.roles}" varStatus="status">
+                            <h:outputText value="#{role.name}"/></br>
                         </ui:repeat>
                         
-                        <h:outputText value="Created By"/>
-                        <h:outputText value="#{userBean.selected.createdBy.username}" title="#{testBundle.ViewUserTitle_createdBy}"/>
+                        <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
+                        <h:outputText value="#{userBean.user.createdBy.username}" title="#{jerichoWebBundle.CreatedBy}"/>
                         
-                        <h:outputText value="Create Date"/>
-                        <h:outputText value="#{userBean.selected.createDate}" title="#{testBundle.ViewUserTitle_createDate}">
+                        <h:outputText value="#{jerichoWebBundle.CreateDate}"/>
+                        <h:outputText value="#{userBean.user.createDate}" title="#{jerichoWebBundle.CreateDate}">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
                         </h:outputText>
                         
-                        <h:outputText value="Last Modified By"/>
-                        <h:outputText value="#{userBean.selected.lastModifiedBy.username}" title="#{testBundle.ViewUserTitle_lastModifiedBy}"/>
+                        <h:outputText value="#{jerichoWebBundle.LastModifiedBy}"/>
+                        <h:outputText value="#{userBean.user.lastModifiedBy.username}" title="#{jerichoWebBundle.LastModifiedBy}"/>
                         
-                        <h:outputText value="Last Modify Date"/>
-                        <h:outputText value="#{userBean.selected.lastModifyDate}" title="#{testBundle.ViewUserTitle_lastModifyDate}">
+                        <h:outputText value="#{jerichoWebBundle.LastModifyDate}"/>
+                        <h:outputText value="#{userBean.user.lastModifyDate}" title="#{jerichoWebBundle.LastModifyDate}">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
                         </h:outputText>
                     </p:panelGrid>
-                    <p:commandButton value="#{testBundle.Close}" onclick="UserViewDialog.hide()"/>
+                    <p:commandButton value="Close" onclick="UserViewDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

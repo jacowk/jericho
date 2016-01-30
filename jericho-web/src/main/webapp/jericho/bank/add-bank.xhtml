@@ -8,14 +8,22 @@
 
     <ui:composition>
 
-        <p:dialog id="BankAddDlg" widgetVar="BankAddDialog" modal="true" resizable="false" appendTo="@(body)" header="Add Bank">
+        <p:dialog id="BankAddDlg" 
+                  widgetVar="BankAddDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="Add Bank">
             <h:form id="BankAddForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{bankBean.bank != null}">
                         <p:outputLabel for="name" value="Name" />
                         <p:inputText id="name" value="#{bankBean.bank.name}" title="Name" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{bankBean.addBank}" value="Save" update="display,:BankListForm:datalist,:globalMessages" oncomplete="handleSubmit(args,'BankAddDialog');"/>
+                    <p:commandButton actionListener="#{bankBean.addBank}" 
+                                     value="Save" 
+                                     update="display,:BankListForm:datalist,:globalMessages" 
+                                     oncomplete="handleSubmit(args,'BankAddDialog');"/>
                     <p:commandButton value="Cancel" onclick="BankAddDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

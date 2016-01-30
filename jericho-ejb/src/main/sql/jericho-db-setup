@@ -1,4 +1,9 @@
+select * from users;
+select * from user_role;
+select * from role;
 select * from area;
+
+show tables;
 
 select * from role;
 select * from permission_role pr where role_id = 6;
@@ -201,5 +206,3 @@ insert into area(name, created_by, create_date) values("RANDBURG", 1, curdate())
 
 insert into suburb(name, box_code, street_code, area_id, created_by, create_date) values('HONEYDEW RIDGE', '', '2170', 1, 1, curdate());
 insert into suburb(name, box_code, street_code, area_id, created_by, create_date) values('HONEYDEW RIDGE EXT 11', '', '2170', 1, 1, curdate());
-
-select * from area;

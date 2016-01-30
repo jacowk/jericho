@@ -8,30 +8,31 @@
 
     <ui:composition>
 
-        <p:dialog id="UserCreateDlg" 
-                  widgetVar="UserCreateDialog" modal="true" 
+        <p:dialog id="UserAddDlg" 
+                  widgetVar="UserAddDialog" 
+                  modal="true" 
                   resizable="false" 
                   appendTo="@(body)" 
-                  header="#{testBundle.CreateUserTitle}">
-            <h:form id="UserCreateForm">
+                  header="Add User">
+            <h:form id="UserAddForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="3" rendered="#{userBean.selected != null}">
-                        <p:outputLabel value="#{testBundle.CreateUserLabel_firstname}" for="firstname" />
+                    <p:panelGrid columns="3" rendered="#{userBean.user != null}">
+                        <p:outputLabel value="Firstname" for="firstname" />
                         <p:inputText id="firstname" 
-                                     value="#{userBean.selected.firstname}" 
-                                     title="#{testBundle.CreateUserTitle_firstname}"
+                                     value="#{userBean.user.firstname}" 
+                                     title="Firstname"
                                      required="true" />
                         &nbsp;
                         
-                        <p:outputLabel value="#{testBundle.CreateUserLabel_surname}" for="surname" />
-                        <p:inputText id="surname" value="#{userBean.selected.surname}" 
-                                     title="#{testBundle.CreateUserTitle_surname}"
+                        <p:outputLabel value="Surname" for="surname" />
+                        <p:inputText id="surname" value="#{userBean.user.surname}" 
+                                     title="Surname"
                                      required="true"/>
                         &nbsp;
                         
-                        <p:outputLabel value="#{testBundle.CreateUserLabel_email}" for="email" />
-                        <p:inputText id="email" value="#{userBean.selected.email}" 
-                                     title="#{testBundle.CreateUserTitle_email}"
+                        <p:outputLabel value="Email" for="email" />
+                        <p:inputText id="email" value="#{userBean.user.email}" 
+                                     title="Email"
                                      required="true">
                             <p:ajax event="keydown" update="emailExists" 
                                     listener="#{userBean.ajaxCheckEmailExists()}" />
@@ -40,9 +41,9 @@
                                       value="#{userBean.emailExistsMessage}" 
                                       style="color:red" />
                         
-                        <p:outputLabel value="#{testBundle.CreateUserLabel_username}" for="username" />
-                        <p:inputText id="username" value="#{userBean.selected.username}" 
-                                     title="#{testBundle.CreateUserTitle_username}"
+                        <p:outputLabel value="Username" for="username" />
+                        <p:inputText id="username" value="#{userBean.user.username}" 
+                                     title="Username"
                                      required="true">
                             <p:ajax event="keydown" update="userExists" 
                                     listener="#{userBean.ajaxCheckUserExists()}" />
@@ -51,19 +52,19 @@
                                       value="#{userBean.userExistsMessage}" 
                                       style="color:red" />
                         
-                        <p:outputLabel value="#{testBundle.CreateUserLabel_password}" for="password" />
-                        <h:inputSecret id="password" value="#{userBean.selected.password}" 
-                                     title="#{testBundle.CreateUserTitle_password}"
+                        <p:outputLabel value="Password" for="password" />
+                        <h:inputSecret id="password" value="#{userBean.user.password}" 
+                                     title="Password"
                                      required="true"/>
                         &nbsp;
                         
-                        <p:outputLabel value="#{testBundle.CreateUserLabel_confirmPassword}" for="confirmPassword" />
+                        <p:outputLabel value="Confirm Password" for="confirmPassword" />
                         <h:inputSecret id="confirmPassword" value="#{userBean.confirmPassword}" 
-                                     title="#{testBundle.CreateUserTitle_confirmPassword}"
+                                     title="Confirm Password"
                                      required="true"/>
                         &nbsp;
                         
-                        <p:outputLabel value="#{testBundle.CreateUserLabel_role}" for="role" />
+                        <p:outputLabel value="Role" for="role" />
                         <p:selectOneMenu id="role" value="#{userBean.selectedRoleId}"
                                          required="true">
                             <f:selectItem itemLabel="Select Role" itemValue="#{null}" noSelectionOption="true" />
@@ -73,8 +74,11 @@
                         </p:selectOneMenu>
                         &nbsp;
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{userBean.create}" value="#{testBundle.Save}" update="display,:UserListForm:datalist,:globalMessages" oncomplete="handleSubmit(args,'UserCreateDialog');"/>
-                    <p:commandButton value="#{testBundle.Cancel}" onclick="UserCreateDialog.hide()"/>
+                    <p:commandButton actionListener="#{userBean.addUser()}" 
+                                     value="Save" 
+                                     update="display,:UserListForm:datalist,:globalMessages" 
+                                     oncomplete="handleSubmit(args,'UserAddDialog');"/>
+                    <p:commandButton value="Cancel" onclick="UserAddDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

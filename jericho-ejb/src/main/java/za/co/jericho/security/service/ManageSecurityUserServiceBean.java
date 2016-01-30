@@ -34,6 +34,7 @@ import za.co.jericho.util.validation.EntityValidator;
 public class ManageSecurityUserServiceBean extends AbstractServiceBean 
 implements ManageSecurityUserService {
 
+    /* TODO add permissions and audit trailing annotations */
     @Override
     public User addUser(User user) {
         /* Validations */
