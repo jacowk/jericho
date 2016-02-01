@@ -28,9 +28,9 @@
                         <h:outputText value="#{userBean.user.username}" title="Username"/>
                         
                         <h:outputText value="Roles: "/>
-                        <ui:repeat var="role" value="#{userBean.user.roles}" varStatus="status">
-                            <h:outputText value="#{role.name}"/></br>
-                        </ui:repeat>
+                        <p:dataList value="#{userBean.user.roles}" var="role" type="definition">
+                            <h:outputText value="#{role.name}" />
+                        </p:dataList>
                         
                         <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
                         <h:outputText value="#{userBean.user.createdBy.username}" title="#{jerichoWebBundle.CreatedBy}"/>

@@ -14,6 +14,11 @@ public enum ServiceName {
     MARK_ACCOUNT_DELETED("markAccountDeleted"),
     SEARCH_ACCOUNTS("searchAccounts"),
     
+    ADD_ACCOUNT_TYPE("addAccountType"),
+    UPDATE_ACCOUNT_TYPE("updateAccountType"),
+    MARK_ACCOUNT_TYPE_DELETED("markAccountTypeDeleted"),
+    SEARCH_ACCOUNT_TYPES("searchAccountTypes"),
+    
     ADD_ADDRESS("addAddress"),
     UPDATE_ADDRESS("updateAddress"),
     MARK_ADDRESS_DELETED("markAddressDeleted"),

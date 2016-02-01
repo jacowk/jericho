@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import za.co.jericho.account.lookup.AccountType;
 import za.co.jericho.common.domain.AbstractEntity;
@@ -28,8 +29,9 @@ public class Account extends AbstractEntity {
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name="property_flip_id")
     private PropertyFlip propertyFlip;
-    @Column(name = "account_type")
-    private AccountType accountType;//TODO
+    @OneToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_type_id")
+    private AccountType accountType;
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name="transaction_id")
     private Collection<Transaction> transactions;
