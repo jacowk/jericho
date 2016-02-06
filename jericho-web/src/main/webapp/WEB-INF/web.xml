@@ -9,6 +9,17 @@
         <param-value>server</param-value>
     </context-param>
     <context-param>
+        <description>The maximum number of logical views (GET requests) to store per session (http://tinyurl.com/yw6f2e)</description>
+        <param-name>com.sun.faces.numberOfLogicalViews</param-name>
+        <param-value>100</param-value><!-- Default 15 -->
+    </context-param>
+    <context-param>
+        <description>The maximum number of JSF views (POST requests) stored in the session for per logical view (http://tinyurl.com/yw6f2e)</description>
+        <param-name>com.sun.faces.numberOfViewsInSession</param-name>
+        <param-value>100</param-value><!-- Default 15 -->
+    </context-param>
+    
+    <context-param>
         <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
         <param-value>true</param-value>
     </context-param>
@@ -105,6 +116,10 @@
     <error-page>
         <error-code>404</error-code>
         <location>/defaultError.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/expired.xhtml</location>
     </error-page>
     <security-role>
         <description/>

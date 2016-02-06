@@ -2,7 +2,7 @@ package za.co.jericho.common.lookup;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import za.co.jericho.common.domain.AbstractEntity;
+import za.co.jericho.common.domain.AbstractAuditTrailEntity;
 import za.co.jericho.exception.EntityValidationException;
 import za.co.jericho.util.validation.StringDataValidator;
 import za.co.jericho.util.validation.StringValidator;
@@ -10,12 +10,12 @@ import za.co.jericho.util.validation.StringValidator;
 /**
  *
  * @author Jaco Koekemoer
- * Date: 2016-02-01
+ * Date: 2016-02-04
  */
 @MappedSuperclass
-public abstract class AbstractLookupEntity extends AbstractEntity {
-
-    @Column(name = "description", nullable = false, unique = true)
+public abstract class AbstractLookupAuditTrailEntity extends AbstractAuditTrailEntity {
+    
+    @Column(name = "description", nullable = false)
     private String description;
 
     public String getDescription() {
@@ -49,5 +49,5 @@ public abstract class AbstractLookupEntity extends AbstractEntity {
         stringBuilder.append(Boolean.toString(super.isDeleted()));
         return stringBuilder.toString();
     }
-
+    
 }
