@@ -1,4 +1,4 @@
-package za.co.jericho.filters.login;
+package za.co.jericho.filters;
 
 import java.io.IOException;
 import java.security.Principal;

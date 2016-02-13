@@ -69,11 +69,6 @@ public class MenuBean implements Serializable{
         return "/jericho/property/list-properties.xhtml";
     }
     
-    /* Account Type Menu */
-    public String accountTypes() {
-        return "/jericho/account/list-account-types.xhtml";
-    }
-    
     /* Area Menu */
     public String areas() {
         return "/jericho/address/list-areas.xhtml";

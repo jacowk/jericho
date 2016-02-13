@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:body>
+        <ui:composition>
+            <p:messages id="propertyFlipMessages" />
+            <h:form id="PropertyFlipViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid id="viewPropertyFlipPanelGrid" 
+                                 columns="2" 
+                                 rendered="#{propertyFlipBean.propertyFlip != null}">
+                        <h:outputText value="ID: "/>
+                        <h:outputText value="#{propertyFlipBean.propertyFlip.id}" title="ID"/>
+                        
+                        <h:outputText value="Reference Number: "/>
+                        <h:outputText value="#{propertyFlipBean.propertyFlip.referenceNumber}" title="Reference Number"/>
+                        
+                        <h:outputText value="Title Deed Number: "/>
+                        <h:outputText value="#{propertyFlipBean.propertyFlip.titleDeedNumber}" title="Title Deed Number"/>
+                        
+                        <h:outputText value="Case Number: "/>
+                        <h:outputText value="#{propertyFlipBean.propertyFlip.caseNumber}" title="Case Number"/>
+                        
+                        <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
+                        <h:outputText value="#{propertyFlipBean.propertyFlip.createdBy.username}" title="#{jerichoWebBundle.CreatedBy}"/>
+                        
+                        <h:outputText value="#{jerichoWebBundle.CreateDate}"/>
+                        <h:outputText value="#{propertyFlipBean.propertyFlip.createDate}" title="#{jerichoWebBundle.CreateDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{jerichoWebBundle.LastModifiedBy}"/>
+                        <h:outputText value="#{propertyFlipBean.propertyFlip.lastModifiedBy.username}" title="#{jerichoWebBundle.LastModifiedBy}"/>
+                        
+                        <h:outputText value="#{jerichoWebBundle.LastModifyDate}"/>
+                        <h:outputText value="#{propertyFlipBean.propertyFlip.lastModifyDate}" title="#{jerichoWebBundle.LastModifyDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton id="addButton" 
+                                     icon="ui-icon-plus"   
+                                     value="#{jerichoWebBundle.Add}" 
+                                     actionListener="#{propertyFlipBean.prepareAdd}" 
+                                     update=":PropertyFlipAddForm" 
+                                     oncomplete="PF('PropertyAddDialog').show()"/>
+                    <p:commandButton id="updateButton"   
+                                     icon="ui-icon-pencil" 
+                                     value="#{jerichoWebBundle.Update}" 
+                                     update=":PropertyFlipEditForm" 
+                                     oncomplete="PF('PropertyFlipEditDialog').show()" 
+                                     disabled="#{empty propertyFlipBean.propertyFlip}"/>
+                </h:panelGroup>
+            </h:form>
+            <ui:include src="add-property-flip.xhtml"/>
+            <ui:include src="update-property-flip.xhtml"/>
+        </ui:composition>
+    </h:body>
+</html>

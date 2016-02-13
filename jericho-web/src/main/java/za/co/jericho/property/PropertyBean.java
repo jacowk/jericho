@@ -36,7 +36,7 @@ public class PropertyBean implements Serializable {
     
     private PropertySearchCriteria propertySearchCriteria = new PropertySearchCriteria();
     private Collection<Property> properties = null;
-    private Property selected;
+    private Property property;
     private Long selectedGreaterAreaId;
     private GreaterArea selectedGreaterArea;
     @EJB
@@ -51,8 +51,8 @@ public class PropertyBean implements Serializable {
     @PostConstruct
     public void initialize() {
         /* This code is to ensure that the greater area is preselected on screen in the combobox */
-        if (selected != null && selected.getAddress() != null && selected.getAddress().getGreaterArea() != null) {
-            GreaterArea greaterArea = (GreaterArea) selected.getAddress().getGreaterArea();
+        if (property != null && property.getAddress() != null && property.getAddress().getGreaterArea() != null) {
+            GreaterArea greaterArea = (GreaterArea) property.getAddress().getGreaterArea();
             setSelectedGreaterAreaId(greaterArea.getId());
             setSelectedGreaterArea(greaterArea);
         }
@@ -74,12 +74,12 @@ public class PropertyBean implements Serializable {
         this.properties = properties;
     }
 
-    public Property getSelected() {
-        return selected;
+    public Property getProperty() {
+        return property;
     }
 
-    public void setSelected(Property selected) {
-        this.selected = selected;
+    public void setProperty(Property selected) {
+        this.property = selected;
     }
 
     public Long getSelectedGreaterAreaId() {
@@ -108,9 +108,9 @@ public class PropertyBean implements Serializable {
         LogManager.getRootLogger().info(new StringBuilder()
             .append("PropertyBeanBean: prepareCreate")
             .toString());
-        selected = new Property();
+        property = new Property();
         initializeEmbeddableKey();
-        return selected;
+        return property;
     }
     
     public void create() {
@@ -136,7 +136,7 @@ public class PropertyBean implements Serializable {
             .toString());
         persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/JerichoBundle").getString("UserDeleted"));
         if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
+            property = null; // Remove selection
             properties = null;    // Invalidate list of items to trigger re-query.
         }
     }
@@ -145,7 +145,7 @@ public class PropertyBean implements Serializable {
         LogManager.getRootLogger().info(new StringBuilder()
             .append("PropertyBeanBean: persist")
             .toString());
-        if (selected != null) {
+        if (property != null) {
             setEmbeddableKeys();
             try {
                 if (persistAction == JsfUtil.PersistAction.CREATE) {
@@ -226,18 +226,18 @@ public class PropertyBean implements Serializable {
             .toString());
         SessionServices sessionServices = new SessionServices();
         User currentUser = sessionServices.getUserFromSession();
-        selected.setCreatedBy(currentUser);
-        selected.setCreateDate(new Date());
+        property.setCreatedBy(currentUser);
+        property.setCreateDate(new Date());
 //        GreaterArea selectedGreaterArea = null;
         if (selectedGreaterAreaId != null && selectedGreaterAreaId > 0) {
             selectedGreaterArea = manageAddressService.findGreaterArea(selectedGreaterAreaId);
         }
-        if (selected.getAddress() != null) {
-            selected.getAddress().setCreatedBy(currentUser);
-            selected.getAddress().setCreateDate(new Date());
-            selected.getAddress().setGreaterArea(selectedGreaterArea);
+        if (property.getAddress() != null) {
+            property.getAddress().setCreatedBy(currentUser);
+            property.getAddress().setCreateDate(new Date());
+            property.getAddress().setGreaterArea(selectedGreaterArea);
         }
-        selected = managePropertyService.addProperty(selected);
+        property = managePropertyService.addProperty(property);
         return "";
     }
     
@@ -247,18 +247,18 @@ public class PropertyBean implements Serializable {
             .toString());
         SessionServices sessionServices = new SessionServices();
         User currentUser = sessionServices.getUserFromSession();
-        selected.setLastModifiedBy(currentUser);
-        selected.setLastModifyDate(new Date());
+        property.setLastModifiedBy(currentUser);
+        property.setLastModifyDate(new Date());
 //        GreaterArea selectedGreaterArea = null;
         if (selectedGreaterAreaId != null && selectedGreaterAreaId > 0) {
             selectedGreaterArea = manageAddressService.findGreaterArea(selectedGreaterAreaId);
         }
-        if (selected.getAddress() != null) {
-            selected.getAddress().setLastModifiedBy(currentUser);
-            selected.getAddress().setLastModifyDate(new Date());
-            selected.getAddress().setGreaterArea(selectedGreaterArea);
+        if (property.getAddress() != null) {
+            property.getAddress().setLastModifiedBy(currentUser);
+            property.getAddress().setLastModifyDate(new Date());
+            property.getAddress().setGreaterArea(selectedGreaterArea);
         }
-        selected = managePropertyService.updateProperty(selected);
+        property = managePropertyService.updateProperty(property);
         return "";
     }
 
@@ -304,6 +304,14 @@ public class PropertyBean implements Serializable {
             }
         }
 
+    }
+    
+    public String managePropertyFlip()
+    {
+        LogManager.getRootLogger().info(new StringBuilder()
+            .append("PropertyBean: managePropertyFlip")
+            .toString());
+        return "../propertyflip/manage-property-flip.xhtml?faces-redirect=true";
     }
     
 }

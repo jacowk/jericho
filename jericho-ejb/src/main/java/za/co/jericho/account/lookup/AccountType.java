@@ -1,5 +1,6 @@
 package za.co.jericho.account.lookup;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import za.co.jericho.common.lookup.AbstractLookupEntity;
