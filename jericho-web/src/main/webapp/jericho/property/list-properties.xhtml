@@ -77,9 +77,9 @@
                             <p:commandButton id="addButton" 
                                              icon="ui-icon-plus"   
                                              value="#{jerichoWebBundle.Add}" 
-                                             actionListener="#{propertyBean.prepareCreate}" 
-                                             update=":PropertyCreateForm" 
-                                             oncomplete="PF('PropertyCreateDialog').show()"/>
+                                             actionListener="#{propertyBean.prepareAdd}" 
+                                             update=":PropertyAddForm" 
+                                             oncomplete="PF('PropertyAddDialog').show()"/>
                             <p:commandButton id="viewButton"   
                                              icon="ui-icon-search" 
                                              value="#{jerichoWebBundle.View}" 
@@ -101,7 +101,7 @@
                             <p:commandButton id="managePropertyFlipButton" 
                                              icon="ui-icon-gear"  
                                              value="Manage Property Flip" 
-                                             actionListener="#{propertyBean.managePropertyFlip}"
+                                             action="/jericho/propertyflip/manage-property-flip.xhtml?faces-redirect=true"
                                              disabled="#{empty propertyBean.property}"
                                              ajax="false"/>
                         </f:facet>

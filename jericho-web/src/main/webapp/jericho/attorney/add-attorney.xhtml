@@ -8,7 +8,12 @@
 
     <ui:composition>
 
-        <p:dialog id="AttorneyAddDlg" widgetVar="AttorneyAddDialog" modal="true" resizable="false" appendTo="@(body)" header="Add Attorney">
+        <p:dialog id="AttorneyAddDlg" 
+                  widgetVar="AttorneyAddDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="Add Attorney">
             <h:form id="AttorneyAddForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{attorneyBean.attorney != null}">

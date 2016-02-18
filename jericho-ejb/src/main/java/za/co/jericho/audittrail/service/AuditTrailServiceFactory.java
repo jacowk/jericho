@@ -61,6 +61,14 @@ public class AuditTrailServiceFactory implements ServiceFactory {
             serviceName == ServiceName.UPDATE_ACCOUNT_TYPE) {
             return new AccountTypeAuditTrailService();
         }
+        else if (serviceName == ServiceName.ADD_PROPERTY || 
+            serviceName == ServiceName.UPDATE_PROPERTY) {
+            return new PropertyAuditTrailService();
+        }
+        else if (serviceName == ServiceName.ADD_PROPERTY_FLIP || 
+            serviceName == ServiceName.UPDATE_PROPERTY_FLIP) {
+            return new PropertyFlipAuditTrailService();
+        }
         throw new AuditTrailException("Audit trail service not found");
     }
     

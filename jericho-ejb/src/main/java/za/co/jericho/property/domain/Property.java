@@ -1,7 +1,5 @@
 package za.co.jericho.property.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import za.co.jericho.address.domain.Address;
@@ -40,8 +37,9 @@ public class Property extends AbstractEntity {
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address = new Address();
-    @OneToMany(mappedBy = "property", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private List<PropertyFlip> propertyFlip = new ArrayList<>();
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "property_flip_id")
+    private PropertyFlip propertyFlip = new PropertyFlip();
 
     public Integer getErfNumber() {
         return this.erfNumber;
@@ -75,11 +73,11 @@ public class Property extends AbstractEntity {
         this.address = address;
     }
 
-    public List<PropertyFlip> getPropertyFlip() {
+    public PropertyFlip getPropertyFlip() {
         return propertyFlip;
     }
 
-    public void setPropertyFlip(List<PropertyFlip> propertyFlip) {
+    public void setPropertyFlip(PropertyFlip propertyFlip) {
         this.propertyFlip = propertyFlip;
     }
 
@@ -99,30 +97,30 @@ public class Property extends AbstractEntity {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         if (getId() != null) {
-            stringBuilder.append("|ID: ");
+            stringBuilder.append("ID: ");
             stringBuilder.append(getId());
         }
         if (getErfNumber() != null) {
-            stringBuilder.append("|Erf Number: ");
+            stringBuilder.append("\nErf Number: ");
             stringBuilder.append(getErfNumber());
         }
         if (getPortionNumber() != null) {
-            stringBuilder.append("|Portion Number: ");
+            stringBuilder.append("\nPortion Number: ");
             stringBuilder.append(getPortionNumber());
         }
         if (getPropertySize() != null) {
-            stringBuilder.append("|PropertySize: ");
+            stringBuilder.append("\nPropertySize: ");
             stringBuilder.append(getPropertySize());
         }
         if (getAddress() != null) {
-            stringBuilder.append("|Address: ");
+            stringBuilder.append("\nAddress: ");
             stringBuilder.append(getAddress().getId());
         }
         if (getPropertyFlip() != null) {
-            stringBuilder.append("|PropertyFlip: ");
+            stringBuilder.append("\nPropertyFlip: ");
 //            stringBuilder.append(getPropertyFlip().getId());
         }
-        stringBuilder.append("|Deleted: ");
+        stringBuilder.append("\nDeleted: ");
         stringBuilder.append(Boolean.toString(super.isDeleted()));
         return stringBuilder.toString();
     }

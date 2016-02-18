@@ -206,3 +206,7 @@ insert into area(name, created_by, create_date) values("RANDBURG", 1, curdate())
 
 insert into suburb(name, box_code, street_code, area_id, created_by, create_date) values('HONEYDEW RIDGE', '', '2170', 1, 1, curdate());
 insert into suburb(name, box_code, street_code, area_id, created_by, create_date) values('HONEYDEW RIDGE EXT 11', '', '2170', 1, 1, curdate());
+
+insert into account_type(description, created_by, create_date) values('Profit and Loss', 1, curdate());
+
+select * from account_type;

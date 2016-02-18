@@ -8,27 +8,43 @@
 
     <ui:composition>
 
-        <p:dialog id="PropertyCreateDlg" widgetVar="PropertyCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{jerichoBundle.CreatePropertyTitle}">
-            <h:form id="PropertyCreateForm">
+        <p:dialog id="PropertyAddDlg" 
+                  widgetVar="PropertyAddDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="Add Property">
+            <h:form id="PropertyAddForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{propertyBean.property != null}">
                         <p:outputLabel value="Address Line 1" for="addressLine1" />
-                        <p:inputText id="addressLine1" value="#{propertyBean.property.address.addressLine1}" title="Address Line 1" />
+                        <p:inputText id="addressLine1" 
+                                     value="#{propertyBean.property.address.addressLine1}" 
+                                     title="Address Line 1" />
                         
                         <p:outputLabel value="Address Line 2" for="addressLine2" />
-                        <p:inputText id="addressLine2" value="#{propertyBean.property.address.addressLine2}" title="Address Line 2" />
+                        <p:inputText id="addressLine2" 
+                                     value="#{propertyBean.property.address.addressLine2}" 
+                                     title="Address Line 2" />
                         
                         <p:outputLabel value="Address Line 3" for="addressLine3" />
-                        <p:inputText id="addressLine3" value="#{propertyBean.property.address.addressLine3}" title="Address Line 3" />
+                        <p:inputText id="addressLine3" 
+                                     value="#{propertyBean.property.address.addressLine3}" 
+                                     title="Address Line 3" />
                         
                         <p:outputLabel value="Address Line 4" for="addressLine4" />
-                        <p:inputText id="addressLine4" value="#{propertyBean.property.address.addressLine4}" title="Address Line 4" />
+                        <p:inputText id="addressLine4" 
+                                     value="#{propertyBean.property.address.addressLine4}" 
+                                     title="Address Line 4" />
                         
                         <p:outputLabel value="Address Line 5" for="addressLine5" />
-                        <p:inputText id="addressLine5" value="#{propertyBean.property.address.addressLine5}" title="Address Line 5" />
+                        <p:inputText id="addressLine5" 
+                                     value="#{propertyBean.property.address.addressLine5}" 
+                                     title="Address Line 5" />
                         
                         <p:outputLabel value="Greater Area" for="greaterArea" />
-                        <p:selectOneMenu id="greaterArea" value="#{propertyBean.selectedGreaterAreaId}"
+                        <p:selectOneMenu id="greaterArea" 
+                                         value="#{propertyBean.selectedGreaterAreaId}"
                                          required="true">
                             <f:selectItem itemLabel="Select Greater Area" itemValue="#{null}" />
                             <f:selectItems value="#{propertyBean.greaterAreas}"
@@ -36,20 +52,41 @@
                                            itemLabel="#{greaterArea.name}"/>
                         </p:selectOneMenu>
                         
-                        <p:outputLabel value="Erf" for="erf" />
-                        <p:inputText id="erf" value="#{propertyBean.property.erfNumber}" title="Erf" />
+                        <p:outputLabel value="Erf Number" for="erfNumber" />
+                        <p:inputText id="erfNumber" 
+                                     value="#{propertyBean.property.erfNumber}" 
+                                     title="Erf Number" />
                         
-                        <p:outputLabel value="Portion" for="portion" />
-                        <p:inputText id="portion" value="#{propertyBean.property.portionNumber}" title="Portion" />
+                        <p:outputLabel value="Portion Number" for="portionNumber" />
+                        <p:inputText id="portionNumber" 
+                                     value="#{propertyBean.property.portionNumber}" 
+                                     title="Portion" />
                         
                         <p:outputLabel value="Property Size" for="propertySize" />
-                        <p:inputText id="propertySize" value="#{propertyBean.property.propertySize}" title="Property Size" />
+                        <p:inputText id="propertySize" 
+                                     value="#{propertyBean.property.propertySize}" 
+                                     title="Property Size" />
+                        
+                        <p:outputLabel value="Reference No" for="referenceNo" />
+                        <p:inputText id="referenceNo" 
+                                     value="#{propertyBean.property.propertyFlip.referenceNumber}" 
+                                     title="Reference Number" />
+                        
+                        <p:outputLabel value="Title Deed Number" for="titleDeedNo" />
+                        <p:inputText id="titleDeedNo" 
+                                     value="#{propertyBean.property.propertyFlip.titleDeedNumber}" 
+                                     title="Title Deed Number" />
+                        
+                        <p:outputLabel value="Case Number" for="caseNumber" />
+                        <p:inputText id="caseNumber" 
+                                     value="#{propertyBean.property.propertyFlip.caseNumber}" 
+                                     title="Case Number" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{propertyBean.create}" 
+                    <p:commandButton actionListener="#{propertyBean.addProperty()}" 
                                      value="Save" 
                                      update="display,:PropertyListForm:datalist,:globalMessages" 
-                                     oncomplete="handleSubmit(args,'PropertyCreateDialog');"/>
-                    <p:commandButton value="Cancel" onclick="PropertyCreateDialog.hide()"/>
+                                     oncomplete="handleSubmit(args,'PropertyAddDialog');"/>
+                    <p:commandButton value="Cancel" onclick="PropertyAddDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

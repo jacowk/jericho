@@ -26,7 +26,10 @@
                         <p:outputLabel for="caseNumber" value="Case Number" />
                         <p:inputText id="caseNumber" value="#{propertyFlipBean.propertyFlip.caseNumber}" title="Case Number"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{propertyFlipBean.updatePropertyFlip}" value="Update" update="display,:PropertyFlipListForm:datalist,:globalMessages" oncomplete="handleSubmit(args, 'PropertyFlipUpdateDialog');"/>
+                    <p:commandButton actionListener="#{propertyFlipBean.updatePropertyFlip}" 
+                                     value="Update" 
+                                     update="display,:PropertyFlipViewForm:viewPropertyFlipPanelGrid,:propertyFlipMessages" 
+                                     oncomplete="handleSubmit(args, 'PropertyFlipUpdateDialog');"/>
                     <p:commandButton value="Cancel" onclick="PropertyFlipUpdateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

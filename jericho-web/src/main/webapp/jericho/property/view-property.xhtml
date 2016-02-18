@@ -16,45 +16,71 @@
                         <h:outputText value="#{propertyBean.property.id}" title="ID"/>
                         
                         <h:outputText value="Address Line 1"/>
-                        <h:outputText value="#{propertyBean.property.address.addressLine1}" title="Address Line 1"/>
+                        <h:outputText value="#{propertyBean.property.address.addressLine1}" 
+                                      title="Address Line 1"/>
                         
                         <h:outputText value="Address Line 2"/>
-                        <h:outputText value="#{propertyBean.property.address.addressLine2}" title="Address Line 2"/>
+                        <h:outputText value="#{propertyBean.property.address.addressLine2}" 
+                                      title="Address Line 2"/>
                         
                         <h:outputText value="Address Line 3"/>
-                        <h:outputText value="#{propertyBean.property.address.addressLine3}" title="Address Line 3"/>
+                        <h:outputText value="#{propertyBean.property.address.addressLine3}" 
+                                      title="Address Line 3"/>
                         
                         <h:outputText value="Address Line 4"/>
-                        <h:outputText value="#{propertyBean.property.address.addressLine4}" title="Address Line 4"/>
+                        <h:outputText value="#{propertyBean.property.address.addressLine4}" 
+                                      title="Address Line 4"/>
                         
                         <h:outputText value="Address Line 5"/>
-                        <h:outputText value="#{propertyBean.property.address.addressLine5}" title="Address Line 5"/>
+                        <h:outputText value="#{propertyBean.property.address.addressLine5}" 
+                                      title="Address Line 5"/>
                         
                         <h:outputText value="Greater Area"/>
-                        <h:outputText value="#{propertyBean.selectedGreaterArea.name}" title="Greater Area"/>
+                        <h:outputText value="#{propertyBean.selectedGreaterArea.name}" 
+                                      title="Greater Area"/>
                         
-                        <h:outputText value="Erf"/>
-                        <h:outputText value="#{propertyBean.property.erfNumber}" title="Erf"/>
+                        <h:outputText value="Erf Number"/>
+                        <h:outputText value="#{propertyBean.property.erfNumber}" 
+                                      title="Erf Number"/>
                         
-                        <h:outputText value="Portion"/>
-                        <h:outputText value="#{propertyBean.property.portionNumber}" title="Portion"/>
+                        <h:outputText value="Portion Number"/>
+                        <h:outputText value="#{propertyBean.property.portionNumber}" 
+                                      title="Portion Number"/>
                         
                         <h:outputText value="Property Size"/>
-                        <h:outputText value="#{propertyBean.property.propertySize}" title="Property Size"/>
+                        <h:outputText value="#{propertyBean.property.propertySize}" 
+                                      title="Property Size"/>
+                        
+                        <h:outputText value="Reference No" />
+                        <h:outputText value="#{propertyBean.property.propertyFlip.referenceNumber}" 
+                                      title="Reference Number" />
+                        
+                        <h:outputText value="Title Deed Number" />
+                        <h:outputText value="#{propertyBean.property.propertyFlip.titleDeedNumber}" 
+                                      title="Title Deed Number" />
+                        
+                        <h:outputText value="Case Number" />
+                        <h:outputText value="#{propertyBean.property.propertyFlip.caseNumber}" 
+                                      title="Case Number" />
+                        
                         
                         <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
-                        <h:outputText value="#{propertyBean.property.createdBy.username}" title="#{jerichoWebBundle.CreatedBy}"/>
+                        <h:outputText value="#{propertyBean.property.createdBy.username}" 
+                                      title="#{jerichoWebBundle.CreatedBy}"/>
                         
                         <h:outputText value="#{jerichoWebBundle.CreateDate}"/>
-                        <h:outputText value="#{propertyBean.property.createDate}" title="#{jerichoWebBundle.CreateDate}">
+                        <h:outputText value="#{propertyBean.property.createDate}" 
+                                      title="#{jerichoWebBundle.CreateDate}">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
                         </h:outputText>
                         
                         <h:outputText value="#{jerichoWebBundle.LastModifiedBy}"/>
-                        <h:outputText value="#{propertyBean.property.lastModifiedBy.username}" title="#{jerichoWebBundle.LastModifiedBy}"/>
+                        <h:outputText value="#{propertyBean.property.lastModifiedBy.username}" 
+                                      title="#{jerichoWebBundle.LastModifiedBy}"/>
                         
                         <h:outputText value="#{jerichoWebBundle.LastModifyDate}"/>
-                        <h:outputText value="#{propertyBean.property.lastModifyDate}" title="#{jerichoWebBundle.LastModifyDate}">
+                        <h:outputText value="#{propertyBean.property.lastModifyDate}" 
+                                      title="#{jerichoWebBundle.LastModifyDate}">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
                         </h:outputText>
                     </p:panelGrid>

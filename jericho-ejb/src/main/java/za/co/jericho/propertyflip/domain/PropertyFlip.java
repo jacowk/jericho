@@ -50,8 +50,7 @@ public class PropertyFlip extends AbstractEntity { //Change to Strategy
     private String titleDeedNumber;
     @Column(name = "case_number")
     private String caseNumber;
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinColumn(name="property_id")
+    @OneToOne(mappedBy="propertyFlip")
     private Property property;
     @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "milestone_id")

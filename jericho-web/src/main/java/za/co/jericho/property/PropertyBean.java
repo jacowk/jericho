@@ -9,34 +9,30 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import org.apache.log4j.LogManager;
 import za.co.jericho.address.domain.GreaterArea;
 import za.co.jericho.address.search.GreaterAreaSearchCriteria;
 import za.co.jericho.address.service.ManageAddressService;
-import za.co.jericho.exception.DeleteNotSupportedException;
 import za.co.jericho.property.domain.Property;
 import za.co.jericho.property.search.PropertySearchCriteria;
 import za.co.jericho.property.service.ManagePropertyService;
 import za.co.jericho.security.domain.User;
 import za.co.jericho.session.SessionServices;
+import za.co.jericho.util.JerichoWebUtil;
 import za.co.jericho.util.JsfUtil;
 
 /**
  *
  * @author Jaco Koekemoer
- * Date: 2015-07-21
+ * Date: 2016-02-18
  */
 @ManagedBean(name = "propertyBean")
 @SessionScoped
 public class PropertyBean implements Serializable {
     
+    private Property property;
     private PropertySearchCriteria propertySearchCriteria = new PropertySearchCriteria();
     private Collection<Property> properties = null;
-    private Property property;
     private Long selectedGreaterAreaId;
     private GreaterArea selectedGreaterArea;
     @EJB
@@ -44,18 +40,27 @@ public class PropertyBean implements Serializable {
     @EJB
     private ManageAddressService manageAddressService;
     
-    public PropertyBean(){
+    public PropertyBean() {
         
     }
     
     @PostConstruct
-    public void initialize() {
+    public void init() {
         /* This code is to ensure that the greater area is preselected on screen in the combobox */
         if (property != null && property.getAddress() != null && property.getAddress().getGreaterArea() != null) {
             GreaterArea greaterArea = (GreaterArea) property.getAddress().getGreaterArea();
             setSelectedGreaterAreaId(greaterArea.getId());
             setSelectedGreaterArea(greaterArea);
         }
+    }
+
+    /* Getters and Setters */
+    public Property getProperty() {
+        return property;
+    }
+
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
     public PropertySearchCriteria getPropertySearchCriteria() {
@@ -74,14 +79,6 @@ public class PropertyBean implements Serializable {
         this.properties = properties;
     }
 
-    public Property getProperty() {
-        return property;
-    }
-
-    public void setProperty(Property selected) {
-        this.property = selected;
-    }
-
     public Long getSelectedGreaterAreaId() {
         return selectedGreaterAreaId;
     }
@@ -97,102 +94,143 @@ public class PropertyBean implements Serializable {
     public void setSelectedGreaterArea(GreaterArea selectedGreaterArea) {
         this.selectedGreaterArea = selectedGreaterArea;
     }
-    
-    protected void setEmbeddableKeys() {
+
+    public ManagePropertyService getManagePropertyService() {
+        return managePropertyService;
     }
 
-    protected void initializeEmbeddableKey() {
+    public void setManagePropertyService(ManagePropertyService managePropertyService) {
+        this.managePropertyService = managePropertyService;
     }
     
-    public Property prepareCreate() {
+    /* Service calls */
+    public Property prepareAdd() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyBeanBean: prepareCreate")
+            .append("PropertyBean: prepareAdd")
             .toString());
         property = new Property();
-        initializeEmbeddableKey();
         return property;
     }
     
-    public void create() {
-        LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyBeanBean: create")
-            .toString());
-        persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("/JerichoBundle").getString("PropertyCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            properties = null;    // Invalidate list of items to trigger re-query.
+    public void addProperty() {
+        try {
+            if (property != null) {
+                SessionServices sessionServices = new SessionServices();
+                User currentUser = sessionServices.getUserFromSession();
+                property.setCreatedBy(currentUser);
+                property.setCreateDate(new Date());
+                if (selectedGreaterAreaId != null && selectedGreaterAreaId > 0) {
+                    selectedGreaterArea = manageAddressService.findGreaterArea(selectedGreaterAreaId);
+                }
+                if (property.getAddress() != null) {
+                    property.getAddress().setCreatedBy(currentUser);
+                    property.getAddress().setCreateDate(new Date());
+                    property.getAddress().setGreaterArea(selectedGreaterArea);
+                }
+                if (property.getPropertyFlip() != null) {
+                    property.getPropertyFlip().setCreatedBy(currentUser);
+                    property.getPropertyFlip().setCreateDate(new Date());
+                }
+                property = managePropertyService.addProperty(property);
+                if (!JsfUtil.isValidationFailed()) {
+                    properties = null;
+                }
+                JerichoWebUtil.addSuccessMessage(ResourceBundle
+                    .getBundle("/JerichoWebBundle")
+                     .getString("PropertyAdded"));
+            }
+            else
+            {
+                JerichoWebUtil.addErrorMessage("Error occured. The Property was not created.");
+            }
+        }
+        catch (EJBException ex) {
+            JerichoWebUtil.addEJBExceptionMessage(ex);
+        }
+        catch (Exception e) {
+            JerichoWebUtil.addGeneralExceptionMessage(e);
         }
     }
     
-    public void update() {
+    public void updateProperty() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyBeanBean: update")
-            .toString());
-        persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/JerichoBundle").getString("UserUpdated"));
-    }
-
-    public void destroy() {
-        LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyBeanBean: destroy")
-            .toString());
-        persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/JerichoBundle").getString("UserDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            property = null; // Remove selection
-            properties = null;    // Invalidate list of items to trigger re-query.
+            .append("PropertyBean: updateProperty").toString());
+        try {
+            if (property != null) {
+                SessionServices sessionServices = new SessionServices();
+                User currentUser = sessionServices.getUserFromSession();
+                property.setLastModifiedBy(currentUser);
+                property.setLastModifyDate(new Date());
+                if (selectedGreaterAreaId != null && selectedGreaterAreaId > 0) {
+                    selectedGreaterArea = manageAddressService.findGreaterArea(selectedGreaterAreaId);
+                }
+                if (property.getAddress() != null) {
+                    property.getAddress().setLastModifiedBy(currentUser);
+                    property.getAddress().setLastModifyDate(new Date());
+                    property.getAddress().setGreaterArea(selectedGreaterArea);
+                }
+                if (property.getPropertyFlip() != null) {
+                    property.getPropertyFlip().setLastModifiedBy(currentUser);
+                    property.getPropertyFlip().setLastModifyDate(new Date());
+                }
+                property = managePropertyService.updateProperty(property);
+                JerichoWebUtil.addSuccessMessage(ResourceBundle
+                    .getBundle("/JerichoWebBundle")
+                    .getString("PropertyUpdated"));
+            }
+        }
+        catch (EJBException ex) {
+            JerichoWebUtil.addEJBExceptionMessage(ex);
+        }
+        catch (Exception e) {
+            JerichoWebUtil.addGeneralExceptionMessage(e);
         }
     }
     
-    private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
+    public void deleteProperty() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyBeanBean: persist")
-            .toString());
-        if (property != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction == JsfUtil.PersistAction.CREATE) {
-                    saveProperty();
-                }
-                else if (persistAction == JsfUtil.PersistAction.UPDATE) {
-                    updateProperty();
-                }
-                else {
-                    throw new DeleteNotSupportedException("Deleting a property is not supported");
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            }
-            catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/JerichoBundle").getString("PersistenceErrorOccured"));
+            .append("PropertyBean: deleteProperty").toString());
+        try {
+            if (property != null) {
+                SessionServices sessionServices = new SessionServices();
+                User currentUser = sessionServices.getUserFromSession();
+                property.setLastModifiedBy(currentUser);
+                property.setLastModifyDate(new Date());
+                property = managePropertyService.markPropertyDeleted(property);
+                JerichoWebUtil.addSuccessMessage(ResourceBundle
+                    .getBundle("/JerichoWebBundle")
+                    .getString("PropertyDeleted"));
+                if (!JsfUtil.isValidationFailed()) {
+                    property = null; // Remove selection
+                    property = null;
                 }
             }
-            catch (Exception ex) {
-                LogManager.getRootLogger().error(new StringBuilder()
-                    .append(ex)
-                    .toString());
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/JerichoBundle").getString("PersistenceErrorOccured"));
-            }
+        }
+        catch (EJBException ex) {
+            JerichoWebUtil.addEJBExceptionMessage(ex);
+        }
+        catch (Exception e) {
+            JerichoWebUtil.addGeneralExceptionMessage(e);
         }
     }
     
-    public Property getProperty(java.lang.Long id) {
+    public void searchProperties() {
         LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyBeanBean: getProperty")
-            .toString());
-        return managePropertyService.findProperty(id);
-    }
-    
-    public Collection<Property> getItemsAvailableSelectMany() {
-        return managePropertyService.findAllProperties();
-    }
-
-    public Collection<Property> getItemsAvailableSelectOne() {
-        return managePropertyService.findAllProperties();
+            .append("PropertyBean: searchPropertys").toString());
+        try {
+            if (propertySearchCriteria != null) {
+                SessionServices sessionServices = new SessionServices();
+                User currentUser = sessionServices.getUserFromSession();
+                propertySearchCriteria.setServiceUser(currentUser);
+                properties = managePropertyService.searchProperties(propertySearchCriteria);
+            }
+        }
+        catch (EJBException ex) {
+            JerichoWebUtil.addEJBExceptionMessage(ex);
+        }
+        catch (Exception e) {
+            JerichoWebUtil.addGeneralExceptionMessage(e);
+        }
     }
     
     public Collection<GreaterArea> getGreaterAreas() {
@@ -207,111 +245,6 @@ public class PropertyBean implements Serializable {
         greaterAreaSearchCriteria.setServiceUser(currentUser);
         /* Find all the greater areas */
         return manageAddressService.searchGreaterAreas(greaterAreaSearchCriteria);
-    }
-    
-    public String searchProperties() {
-        LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyBean: searchProperties")
-            .toString());
-        SessionServices sessionServices = new SessionServices();
-        User currentUser = sessionServices.getUserFromSession();
-        propertySearchCriteria.setServiceUser(currentUser);
-        properties = managePropertyService.searchProperties(propertySearchCriteria);
-        return null;
-    }
-    
-    public String saveProperty() throws Exception {
-        LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyBeanBean: saveProperty")
-            .toString());
-        SessionServices sessionServices = new SessionServices();
-        User currentUser = sessionServices.getUserFromSession();
-        property.setCreatedBy(currentUser);
-        property.setCreateDate(new Date());
-//        GreaterArea selectedGreaterArea = null;
-        if (selectedGreaterAreaId != null && selectedGreaterAreaId > 0) {
-            selectedGreaterArea = manageAddressService.findGreaterArea(selectedGreaterAreaId);
-        }
-        if (property.getAddress() != null) {
-            property.getAddress().setCreatedBy(currentUser);
-            property.getAddress().setCreateDate(new Date());
-            property.getAddress().setGreaterArea(selectedGreaterArea);
-        }
-        property = managePropertyService.addProperty(property);
-        return "";
-    }
-    
-    public String updateProperty() throws Exception {
-        LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyBeanBean: updateProperty")
-            .toString());
-        SessionServices sessionServices = new SessionServices();
-        User currentUser = sessionServices.getUserFromSession();
-        property.setLastModifiedBy(currentUser);
-        property.setLastModifyDate(new Date());
-//        GreaterArea selectedGreaterArea = null;
-        if (selectedGreaterAreaId != null && selectedGreaterAreaId > 0) {
-            selectedGreaterArea = manageAddressService.findGreaterArea(selectedGreaterAreaId);
-        }
-        if (property.getAddress() != null) {
-            property.getAddress().setLastModifiedBy(currentUser);
-            property.getAddress().setLastModifyDate(new Date());
-            property.getAddress().setGreaterArea(selectedGreaterArea);
-        }
-        property = managePropertyService.updateProperty(property);
-        return "";
-    }
-
-    @FacesConverter(forClass = Property.class)
-    public static class PropertyBeanConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            PropertyBean bean = (PropertyBean) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "propertyBean");
-            return bean.getProperty(getKey(value));
-        }
-
-        java.lang.Long getKey(String value) {
-            java.lang.Long key;
-            key = Long.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Long value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof Property) {
-                Property o = (Property) object;
-                return getStringKey(o.getId());
-            }
-            else {
-                LogManager.getRootLogger().info(new StringBuilder()
-                    .append("Object not of type Property")
-                    .toString());
-                return null;
-            }
-        }
-
-    }
-    
-    public String managePropertyFlip()
-    {
-        LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyBean: managePropertyFlip")
-            .toString());
-        return "../propertyflip/manage-property-flip.xhtml?faces-redirect=true";
     }
     
 }

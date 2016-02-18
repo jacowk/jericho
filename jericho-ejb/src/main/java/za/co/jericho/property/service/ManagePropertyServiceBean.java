@@ -5,6 +5,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import za.co.jericho.annotations.AuditTrail;
+import za.co.jericho.annotations.SecurityPermission;
+import za.co.jericho.annotations.UserActivityMonitor;
 import za.co.jericho.audit.AuditActivityFactory;
 import za.co.jericho.audit.lookup.AuditActivityType;
 import za.co.jericho.audit.lookup.EntityName;
@@ -30,12 +33,10 @@ implements ManagePropertyService {
     @EJB
     private ManageSecurityUserService manageSecurityUserService;
 
+    @SecurityPermission(serviceName = ServiceName.ADD_PROPERTY)
+    @AuditTrail(serviceName = ServiceName.ADD_PROPERTY)
     @Override
     public Property addProperty(Property property) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(property.getCreatedBy(), ServiceName.ADD_PROPERTY.getValue());
-        
         /* Validations */
         /* State validation */
         property.validate();
@@ -47,23 +48,13 @@ implements ManagePropertyService {
             /* At this stage the property object will not have an id assigned,
             until after the return, the transaction has committed. */
         }
-        /* Audit Activity Logging */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.PROPERTY, //EntityName entityName
-            ServiceName.ADD_PROPERTY.getValue(), //String serviceName
-            AuditActivityType.ADD, //AuditActivityType activityType
-            property.toString(), //String description
-            property.getCreatedBy())); //User currentUser
         return property;
     }
 
+    @SecurityPermission(serviceName = ServiceName.UPDATE_PROPERTY)
+    @AuditTrail(serviceName = ServiceName.UPDATE_PROPERTY)
     @Override
     public Property updateProperty(Property property) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(property.getLastModifiedBy(), ServiceName.UPDATE_PROPERTY.getValue());
-        
         /* Validations */
         /* State validation */
         property.validate();
@@ -73,31 +64,22 @@ implements ManagePropertyService {
         if (entityValidator.isValidateEntityBeforeUpdate(property)) {
             getEntityManager().merge(property);
         }
-        /* Audit Activity Logging */
-        /* Long entityId, String entityName, String serviceBeanName, String serviceName, String activityType, String description, User currentUser */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.PROPERTY, //EntityName entityName
-            ServiceName.UPDATE_PROPERTY.getValue(), //String serviceName
-            AuditActivityType.UPDATE, //AuditActivityType auditActivityType
-            property.toString(), //String description
-            property.getLastModifiedBy())); //User currentUser
         return property;
     }
 
+    @SecurityPermission(serviceName = ServiceName.MARK_PROPERTY_DELETED)
+    @UserActivityMonitor(serviceName = ServiceName.MARK_PROPERTY_DELETED)
     @Override
     public Property markPropertyDeleted(Property property) {
         throw new DeleteNotSupportedException("Deleting a property is not supported");
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_PROPERTIES)
+    @UserActivityMonitor(serviceName = ServiceName.SEARCH_PROPERTIES)
     @Override
     public List<Property> searchProperties(PropertySearchCriteria propertySearchCriteria) {
         List<Property> properties = new ArrayList<>();
         if (propertySearchCriteria != null) {
-            /* Check permissions */
-            PermissionChecker permissionChecker = new UserPermissionChecker();
-            permissionChecker.check(propertySearchCriteria.getServiceUser(), ServiceName.SEARCH_PROPERTIES.getValue());
-            
             /* Service logic */
             StringConvertor stringConvertor = new StringDataConvertor();
             StringBuilder searchUsersStringBuilder = new StringBuilder();
@@ -137,15 +119,6 @@ implements ManagePropertyService {
                 properties = getEntityManager().createQuery(searchUsersStringBuilder.toString())
                     .getResultList();
             }
-            
-            /* Audit Activity Logging */
-            AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-            manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-                (EntityName.PROPERTY, //String entityName
-            ServiceName.SEARCH_PROPERTIES.getValue(), //String serviceName
-                AuditActivityType.SEARCH, //String activityType
-                propertySearchCriteria.toString(), //String description
-                propertySearchCriteria.getServiceUser())); //User currentUser
         }
         else {
             throw new ServiceBeanException("Property search criteria not provided");
@@ -153,11 +126,13 @@ implements ManagePropertyService {
         return properties;
     }
     
+    @SecurityPermission(serviceName = ServiceName.SEARCH_PROPERTIES)
     @Override
     public Property findProperty(Object id) {
         return getEntityManager().find(Property.class, id);
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_PROPERTIES)
     @Override
     public List<Property> findAllProperties() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
