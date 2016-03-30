@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContactUpdateDlg" 
+                  widgetVar="ContactUpdateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="Update Contact">
+            <h:form id="ContactUpdateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{contactBean.contact != null}">
+                        <p:outputLabel for="firstname" value="Firstname" />
+                        <p:inputText id="firstname" 
+                                     value="#{contactBean.contact.firstname}" 
+                                     title="Firstname" />
+                        
+                        <p:outputLabel for="surname" value="Surname" />
+                        <p:inputText id="surname" 
+                                     value="#{contactBean.contact.surname}" 
+                                     title="Surname" />
+                        
+                        <p:outputLabel for="homeTelNumber" value="Home Tel Number" />
+                        <p:inputText id="homeTelNumber" 
+                                     value="#{contactBean.contact.homeTelNumber}" 
+                                     title="Home Tel Number" />
+                        
+                        <p:outputLabel for="workTelNumber" value="Work Tel Number" />
+                        <p:inputText id="workTelNumber" 
+                                     value="#{contactBean.contact.workTelNumber}" 
+                                     title="Work Tel Number" />
+                        
+                        <p:outputLabel for="cellNumber" value="Cell Number" />
+                        <p:inputText id="cellNumber" 
+                                     value="#{contactBean.contact.cellNumber}" 
+                                     title="Cell Number" />
+                        
+                        <p:outputLabel for="faxNumber" value="Fax Number" />
+                        <p:inputText id="faxNumber" 
+                                     value="#{contactBean.contact.faxNumber}" 
+                                     title="Fax Number" />
+                        
+                        <p:outputLabel for="workEmail" value="Work Email" />
+                        <p:inputText id="workEmail" 
+                                     value="#{contactBean.contact.workEmail}" 
+                                     title="Work Email" />
+                        
+                        <p:outputLabel for="personalEmail" value="Personal Email" />
+                        <p:inputText id="personalEmail" 
+                                     value="#{contactBean.contact.personalEmail}" 
+                                     title="Personal Email" />
+                        
+                        <p:outputLabel for="idNumber" value="ID Number" />
+                        <p:inputText id="idNumber" 
+                                     value="#{contactBean.contact.idNumber}" 
+                                     title="ID Number" />
+                        
+                        <p:outputLabel for="passportNumber" value="Passport Number" />
+                        <p:inputText id="passportNumber" 
+                                     value="#{contactBean.contact.passportNumber}" 
+                                     title="Passport Number" />
+                        
+                        <p:outputLabel for="maritalStatus" value="Marital Status" />
+                        <p:inputText id="maritalStatus" 
+                                     value="#{contactBean.contact.maritalStatus}" 
+                                     title="Marital Status" />
+                        
+                        <p:outputLabel for="taxNumber" value="Tax Number" />
+                        <p:inputText id="taxNumber" 
+                                     value="#{contactBean.contact.taxNumber}" 
+                                     title="Tax Number" />
+                        
+                        <p:outputLabel for="saCitizen" value="SA Citizen" />
+                        <p:selectOneRadio id="saCitizen" value="#{contactBean.contact.saCitizen}">
+                            <f:selectItem itemLabel="Yes" itemValue="true" />
+                            <f:selectItem itemLabel="No" itemValue="false" />
+                        </p:selectOneRadio>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{contactBean.updateContact}" value="Update" update="display,:ContactListForm:datalist,:globalMessages" oncomplete="handleSubmit(args, 'ContactUpdateDialog');"/>
+                    <p:commandButton value="Cancel" onclick="ContactUpdateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

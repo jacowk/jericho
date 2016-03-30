@@ -12,10 +12,8 @@
             <h:form id="PropertyEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{propertyBean.property != null}">
-                        <p:outputLabel value="ID: " for="id" />
-                        <p:inputText id="id" 
-                                     value="#{propertyBean.property.id}" 
-                                     title="#{jerichoBundle.EditPropertyTitle_id}" />
+                        <h:outputText value="ID: " />
+                        <h:outputText value="#{propertyBean.property.id}" />
                         
                         <p:outputLabel value="Address Line 1" for="addressLine1" />
                         <p:inputText id="addressLine1" 
@@ -66,23 +64,8 @@
                         <p:inputText id="propertySize" 
                                      value="#{propertyBean.property.propertySize}" 
                                      title="Property Size" />
-                        
-                        <p:outputLabel value="Reference No" for="referenceNo" />
-                        <p:inputText id="referenceNo" 
-                                     value="#{propertyBean.property.propertyFlip.referenceNumber}" 
-                                     title="Reference Number" />
-                        
-                        <p:outputLabel value="Title Deed Number" for="titleDeedNo" />
-                        <p:inputText id="titleDeedNo" 
-                                     value="#{propertyBean.property.propertyFlip.titleDeedNumber}" 
-                                     title="Title Deed Number" />
-                        
-                        <p:outputLabel value="Case Number" for="caseNumber" />
-                        <p:inputText id="caseNumber" 
-                                     value="#{propertyBean.property.propertyFlip.caseNumber}" 
-                                     title="Case Number" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{propertyBean.update}" 
+                    <p:commandButton actionListener="#{propertyBean.updateProperty}" 
                                      value="Save" 
                                      update="display,:PropertyListForm:datalist,:globalMessages" 
                                      oncomplete="handleSubmit(args, 'PropertyEditDialog');"/>

@@ -104,6 +104,11 @@ public class MenuBean implements Serializable{
     public String estateagents() {
         return "/jericho/estateagent/list-estate-agents.xhtml";
     }
+    
+    /* Contacts Menu */
+    public String contacts() {
+        return "/jericho/contact/list-contacts.xhtml";
+    }
 
     /* Logout */
     public String logout() {

@@ -1,15 +1,23 @@
 package za.co.jericho.propertyflip;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import org.apache.log4j.LogManager;
+import za.co.jericho.property.PropertyBean;
+import za.co.jericho.property.domain.Property;
 import za.co.jericho.propertyflip.domain.PropertyFlip;
 import za.co.jericho.propertyflip.search.PropertyFlipSearchCriteria;
 import za.co.jericho.propertyflip.service.ManagePropertyFlipService;
@@ -27,11 +35,15 @@ import za.co.jericho.util.JsfUtil;
 @SessionScoped
 public class PropertyFlipBean implements Serializable {
     
+    private Property property;
     private PropertyFlip propertyFlip;
     private PropertyFlipSearchCriteria propertyFlipSearchCriteria = new PropertyFlipSearchCriteria();
     private Collection<PropertyFlip> propertyFlips = null;
     @EJB
     private ManagePropertyFlipService managePropertyFlipService;
+    @ManagedProperty(value = "#{propertyBean}")
+    private PropertyBean propertyBean;
+    private boolean createPropertyFlip; /* If false, then update */
     
     public PropertyFlipBean() {
         
@@ -39,10 +51,32 @@ public class PropertyFlipBean implements Serializable {
     
     @PostConstruct
     public void init() {
-        
+//        Get the session
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        property = propertyBean.getProperty();
+        if (property != null) {
+            if (property.getPropertyFlip() == null) {
+                propertyFlip = new PropertyFlip();
+                createPropertyFlip = true;
+            }
+            else {
+                propertyFlip = property.getPropertyFlip();
+                createPropertyFlip = false;
+            }
+        }
     }
 
+    
     /* Getters and Setters */
+    public Property getProperty() {
+        return property;
+    }
+
+    public void setProperty(Property property) {
+        this.property = property;
+    }
+
     public PropertyFlip getPropertyFlip() {
         return propertyFlip;
     }
@@ -74,16 +108,24 @@ public class PropertyFlipBean implements Serializable {
     public void setManagePropertyFlipService(ManagePropertyFlipService managePropertyFlipService) {
         this.managePropertyFlipService = managePropertyFlipService;
     }
-    
-    /* Service calls */
-    public PropertyFlip prepareAdd() {
-        LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyFlipBean: prepareAdd")
-            .toString());
-        propertyFlip = new PropertyFlip();
-        return propertyFlip;
+
+    public PropertyBean getPropertyBean() {
+        return propertyBean;
+    }
+
+    public void setPropertyBean(PropertyBean propertyBean) {
+        this.propertyBean = propertyBean;
+    }
+
+    public boolean isCreatePropertyFlip() {
+        return createPropertyFlip;
+    }
+
+    public void setCreatePropertyFlip(boolean createPropertyFlip) {
+        this.createPropertyFlip = createPropertyFlip;
     }
     
+    /* Service calls */
     public void addPropertyFlip() {
         try {
             if (propertyFlip != null) {
@@ -95,6 +137,7 @@ public class PropertyFlipBean implements Serializable {
                 if (!JsfUtil.isValidationFailed()) {
                     propertyFlips = null;
                 }
+                createPropertyFlip = false;
                 JerichoWebUtil.addSuccessMessage(ResourceBundle
                     .getBundle("/JerichoWebBundle")
                      .getString("PropertyFlipAdded"));
@@ -110,6 +153,7 @@ public class PropertyFlipBean implements Serializable {
         catch (Exception e) {
             JerichoWebUtil.addGeneralExceptionMessage(e);
         }
+        navigateManagePropertyFlip();
     }
     
     public void updatePropertyFlip() {
@@ -133,52 +177,31 @@ public class PropertyFlipBean implements Serializable {
         catch (Exception e) {
             JerichoWebUtil.addGeneralExceptionMessage(e);
         }
+        navigateManagePropertyFlip();
     }
     
-    public void deletePropertyFlip() {
-        LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyFlipBean: deletePropertyFlip").toString());
+    /* Page Navigation */
+    public void navigateManagePropertyFlip() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
-            if (propertyFlip != null) {
-                SessionServices sessionServices = new SessionServices();
-                User currentUser = sessionServices.getUserFromSession();
-                propertyFlip.setLastModifiedBy(currentUser);
-                propertyFlip.setLastModifyDate(new Date());
-                propertyFlip = managePropertyFlipService.markPropertyFlipDeleted(propertyFlip);
-                JerichoWebUtil.addSuccessMessage(ResourceBundle
-                    .getBundle("/JerichoWebBundle")
-                    .getString("PropertyFlipDeleted"));
-                if (!JsfUtil.isValidationFailed()) {
-                    propertyFlip = null; // Remove selection
-                    propertyFlip = null;
-                }
-            }
+            context.redirect(context.getRequestContextPath() + "/jericho/propertyflip/manage-property-flip.xhtml");
+//        return "/jericho/propertyflip/manage-property-flip.xhtml";
         }
-        catch (EJBException ex) {
-            JerichoWebUtil.addEJBExceptionMessage(ex);
-        }
-        catch (Exception e) {
-            JerichoWebUtil.addGeneralExceptionMessage(e);
+        catch (IOException ex) {
+            Logger.getLogger(PropertyFlipBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void searchPropertyFlips() {
-        LogManager.getRootLogger().info(new StringBuilder()
-            .append("PropertyFlipBean: searchPropertyFlips").toString());
+    public void navigateUpdatePropertyFlip() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
-            if (propertyFlipSearchCriteria != null) {
-                SessionServices sessionServices = new SessionServices();
-                User currentUser = sessionServices.getUserFromSession();
-                propertyFlipSearchCriteria.setServiceUser(currentUser);
-                propertyFlips = managePropertyFlipService.searchPropertyFlips(propertyFlipSearchCriteria);
-            }
+            context.redirect(context.getRequestContextPath() + "/jericho/propertyflip/update-property-flip.xhtml");
+//        return "/jericho/propertyflip/manage-property-flip.xhtml";
         }
-        catch (EJBException ex) {
-            JerichoWebUtil.addEJBExceptionMessage(ex);
+        catch (IOException ex) {
+            Logger.getLogger(PropertyFlipBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch (Exception e) {
-            JerichoWebUtil.addGeneralExceptionMessage(e);
-        }
+//        return "/jericho/propertyflip/update-property-flip.xhtml";
     }
     
 }

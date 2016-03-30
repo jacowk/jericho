@@ -10,36 +10,95 @@
     <ui:composition template="/jericho/template/template.xhtml">
         <ui:define name="contents">
             <p:messages id="globalMessages" />
-            <p:tabView orientation="left">
-                <p:tab title="General">
-                    <ui:include src="view-property-flip.xhtml" />
-                </p:tab>
-                <p:tab title="Milestones">
-                    <ui:insert name="milestones">
-                        <ui:include src="../milestone/view-milestone.xhtml" />
-                    </ui:insert>
-                </p:tab>
-                <p:tab title="Notes">
-                    <ui:insert name="notes">
-                        <ui:include src="../note/list-notes.xhtml" />
-                    </ui:insert>
-                </p:tab>
-                <p:tab title="Documents">
-                    <ui:insert name="documents">
-                        <ui:include src="../document/list-documents.xhtml" />
-                    </ui:insert>
-                </p:tab>
-                <p:tab title="Diary">
-                    <ui:insert name="diary">
-                        <ui:include src="../diary/list-diary-items.xhtml" />
-                    </ui:insert>
-                </p:tab>
-                <p:tab title="Account">
-                    <ui:insert name="accounts">
-                        <ui:include src="../account/list-accounts.xhtml" />
-                    </ui:insert>
-                </p:tab>
-            </p:tabView>
+            <b:panel look="primary">
+                <f:facet name="heading">Property Details</f:facet>
+                <f:view>
+                    <p:panelGrid columns="2" rendered="#{propertyFlipBean.property != null}">
+                        <h:outputText value="ID"/>
+                        <h:outputText value="#{propertyFlipBean.property.id}" title="ID"/>
+                        
+                        <h:outputText value="Address Line 1"/>
+                        <h:outputText value="#{propertyFlipBean.property.address.addressLine1}" 
+                                      title="Address Line 1"/>
+                        
+                        <h:outputText value="Address Line 2"/>
+                        <h:outputText value="#{propertyFlipBean.property.address.addressLine2}" 
+                                      title="Address Line 2"/>
+                        
+                        <h:outputText value="Address Line 3"/>
+                        <h:outputText value="#{propertyFlipBean.property.address.addressLine3}" 
+                                      title="Address Line 3"/>
+                        
+                        <h:outputText value="Address Line 4"/>
+                        <h:outputText value="#{propertyFlipBean.property.address.addressLine4}" 
+                                      title="Address Line 4"/>
+                        
+                        <h:outputText value="Address Line 5"/>
+                        <h:outputText value="#{propertyFlipBean.property.address.addressLine5}" 
+                                      title="Address Line 5"/>
+                        
+                        <h:outputText value="Suburb"/>
+                        <h:outputText value="#{propertyFlipBean.property.address.suburb.name}" 
+                                      title="Suburb"/>
+                        
+                        <h:outputText value="Greater Area"/>
+                        <h:outputText value="#{propertyFlipBean.property.address.greaterArea.name}" 
+                                      title="Greater Area"/>
+                        
+                        <h:outputText value="Erf Number"/>
+                        <h:outputText value="#{propertyFlipBean.property.erfNumber}" 
+                                      title="Erf Number"/>
+                        
+                        <h:outputText value="Portion Number"/>
+                        <h:outputText value="#{propertyFlipBean.property.portionNumber}" 
+                                      title="Portion Number"/>
+                        
+                        <h:outputText value="Property Size"/>
+                        <h:outputText value="#{propertyFlipBean.property.propertySize}" 
+                                      title="Property Size"/>
+                    </p:panelGrid>
+                </f:view>
+            </b:panel>
+            <b:panel look="primary">
+                <f:facet name="heading">Manage Property Flip</f:facet>
+                <f:view>
+                    <p:tabView orientation="left">
+                        <p:tab title="General">
+                            <ui:include src="view-property-flip.xhtml" />
+                        </p:tab>
+                        <p:tab title="Third Parties">
+                            <ui:insert name="thirdparties">
+                                <ui:include src="view-third-parties.xhtml" />
+                            </ui:insert>
+                        </p:tab>
+                        <p:tab title="Milestones">
+                            <ui:insert name="milestones">
+                                <ui:include src="../milestone/view-milestone.xhtml" />
+                            </ui:insert>
+                        </p:tab>
+                        <p:tab title="Notes">
+                            <ui:insert name="notes">
+                                <ui:include src="../note/list-notes.xhtml" />
+                            </ui:insert>
+                        </p:tab>
+                        <p:tab title="Documents">
+                            <ui:insert name="documents">
+                                <ui:include src="../document/list-documents.xhtml" />
+                            </ui:insert>
+                        </p:tab>
+                        <p:tab title="Diary">
+                            <ui:insert name="diary">
+                                <ui:include src="../diary/list-diary-items.xhtml" />
+                            </ui:insert>
+                        </p:tab>
+                        <p:tab title="Account">
+                            <ui:insert name="accounts">
+                                <ui:include src="../account/list-accounts.xhtml" />
+                            </ui:insert>
+                        </p:tab>
+                    </p:tabView>
+                </f:view>
+            </b:panel>
         </ui:define>
     </ui:composition>
 </html>

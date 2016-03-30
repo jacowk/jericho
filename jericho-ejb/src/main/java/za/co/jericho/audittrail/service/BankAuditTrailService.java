@@ -1,11 +1,7 @@
 package za.co.jericho.audittrail.service;
 
 import za.co.jericho.bank.domain.BankAuditTrail;
-import za.co.jericho.bank.domain.Bank;/**
- *
- * @author Jaco Koekemoer
- * Date: 2015-12-04
- */
+import za.co.jericho.bank.domain.Bank;
 import za.co.jericho.common.domain.AbstractAuditTrailEntity;
 import za.co.jericho.security.ServiceName;
 import za.co.jericho.util.conversion.StringConvertor;

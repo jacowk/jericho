@@ -2,7 +2,6 @@ package za.co.jericho.interceptors;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.security.Principal;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
@@ -11,7 +10,6 @@ import javax.interceptor.InvocationContext;
 import org.apache.log4j.LogManager;
 import za.co.jericho.annotations.AuditTrail;
 import za.co.jericho.audittrail.service.ManageAuditTrailService;
-import za.co.jericho.security.domain.User;
 import za.co.jericho.security.service.ManageSecurityUserService;
 
 /**

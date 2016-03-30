@@ -40,7 +40,8 @@
                                  paginator="true" paginatorPosition="bottom"
                                  rowKey="#{item.id}"
                                  rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50">
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
 
                         <p:ajax event="rowSelect"   update="addButton viewButton updateButton deleteButton managePropertyFlipButton"/>
                         <p:ajax event="rowUnselect" update="addButton viewButton updateButton deleteButton managePropertyFlipButton"/>

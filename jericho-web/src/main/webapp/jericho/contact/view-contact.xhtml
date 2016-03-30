@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContactViewDlg" 
+                  widgetVar="ContactViewDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="View Contact">
+            <h:form id="ContactViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{contactBean.contact != null}">
+                        <h:outputText value="ID: "/>
+                        <h:outputText value="#{contactBean.contact.id}"/>
+                        
+                        <h:outputText value="Firstname: " />
+                        <h:outputText value="#{contactBean.contact.firstname}"/>
+                        
+                        <h:outputText value="Surname: " />
+                        <h:outputText value="#{contactBean.contact.surname}"/>
+                        
+                        <h:outputText value="Home Tel Number: " />
+                        <h:outputText value="#{contactBean.contact.homeTelNumber}"/>
+                        
+                        <h:outputText value="Work Tel Number: " />
+                        <h:outputText value="#{contactBean.contact.workTelNumber}"/>
+                        
+                        <h:outputText value="Cell Number: " />
+                        <h:outputText value="#{contactBean.contact.cellNumber}"/>
+                        
+                        <h:outputText value="Fax Number: " />
+                        <h:outputText value="#{contactBean.contact.faxNumber}"/>
+                        
+                        <h:outputText value="Work Email: " />
+                        <h:outputText value="#{contactBean.contact.workEmail}"/>
+                        
+                        <h:outputText value="Personal Email: " />
+                        <h:outputText value="#{contactBean.contact.personalEmail}"/>
+                        
+                        <h:outputText value="ID Number: " />
+                        <h:outputText value="#{contactBean.contact.idNumber}"/>
+                                                
+                        <h:outputText value="Passport Number: " />
+                        <h:outputText value="#{contactBean.contact.passportNumber}"/>
+                        
+                        <h:outputText value="Marital Status: " />
+                        <h:outputText value="#{contactBean.contact.maritalStatus}"/>
+                        
+                        <h:outputText value="Tax Number: " />
+                        <h:outputText value="#{contactBean.contact.taxNumber}"/>
+                        
+                        <h:outputText value="SA Citizen: " />
+                        <h:outputText value="#{contactBean.saCitizenValue}"/>
+                        
+                        <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
+                        <h:outputText value="#{contactBean.contact.createdBy.username}" 
+                                      title="#{jerichoWebBundle.CreatedBy}"/>
+                        
+                        <h:outputText value="#{jerichoWebBundle.CreateDate}"/>
+                        <h:outputText value="#{contactBean.contact.createDate}" 
+                                      title="#{jerichoWebBundle.CreateDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{jerichoWebBundle.LastModifiedBy}"/>
+                        <h:outputText value="#{contactBean.contact.lastModifiedBy.username}" 
+                                      title="#{jerichoWebBundle.LastModifiedBy}"/>
+                        
+                        <h:outputText value="#{jerichoWebBundle.LastModifyDate}"/>
+                        <h:outputText value="#{contactBean.contact.lastModifyDate}" 
+                                      title="#{jerichoWebBundle.LastModifyDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="Close" onclick="ContactViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

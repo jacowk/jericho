@@ -66,21 +66,6 @@
                         <p:inputText id="propertySize" 
                                      value="#{propertyBean.property.propertySize}" 
                                      title="Property Size" />
-                        
-                        <p:outputLabel value="Reference No" for="referenceNo" />
-                        <p:inputText id="referenceNo" 
-                                     value="#{propertyBean.property.propertyFlip.referenceNumber}" 
-                                     title="Reference Number" />
-                        
-                        <p:outputLabel value="Title Deed Number" for="titleDeedNo" />
-                        <p:inputText id="titleDeedNo" 
-                                     value="#{propertyBean.property.propertyFlip.titleDeedNumber}" 
-                                     title="Title Deed Number" />
-                        
-                        <p:outputLabel value="Case Number" for="caseNumber" />
-                        <p:inputText id="caseNumber" 
-                                     value="#{propertyBean.property.propertyFlip.caseNumber}" 
-                                     title="Case Number" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{propertyBean.addProperty()}" 
                                      value="Save" 

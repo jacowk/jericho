@@ -1,5 +1,6 @@
 package za.co.jericho.audittrail.service;
 
+import org.apache.log4j.LogManager;
 import za.co.jericho.exception.AuditTrailException;
 import za.co.jericho.security.ServiceName;
 
@@ -68,6 +69,10 @@ public class AuditTrailServiceFactory implements ServiceFactory {
         else if (serviceName == ServiceName.ADD_PROPERTY_FLIP || 
             serviceName == ServiceName.UPDATE_PROPERTY_FLIP) {
             return new PropertyFlipAuditTrailService();
+        }
+        else if (serviceName == ServiceName.ADD_CONTACT || 
+            serviceName == ServiceName.UPDATE_CONTACT) {
+            return new ContactAuditTrailService();
         }
         throw new AuditTrailException("Audit trail service not found");
     }

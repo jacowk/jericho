@@ -16,19 +16,26 @@
                   header="Add Property Flip">
             <h:form id="PropertyFlipAddForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{propertyFlipBean.propertyFlip != null}">
+                    <p:panelGrid columns="2" 
+                                 rendered="#{propertyFlipBean.propertyFlip != null}">
                         <p:outputLabel for="referenceNumber" value="Reference Number" />
-                        <h:outputText id="referenceNumber" value="#{propertyFlipBean.propertyFlip.referenceNumber}" title="Reference Number"/>
+                        <h:outputText id="referenceNumber" 
+                                      value="#{propertyFlipBean.propertyFlip.referenceNumber}" 
+                                      title="Reference Number"/>
                         
                         <p:outputLabel for="titleDeedNumber" value="Title Deed Number" />
-                        <h:outputText id="titleDeedNumber" value="#{propertyFlipBean.propertyFlip.titleDeedNumber}" title="Title Deed Number"/>
+                        <h:outputText id="titleDeedNumber" 
+                                      value="#{propertyFlipBean.propertyFlip.titleDeedNumber}" 
+                                      title="Title Deed Number"/>
                         
                         <p:outputLabel for="caseNumber" value="Case Number" />
-                        <h:outputText id="caseNumber" value="#{propertyFlipBean.propertyFlip.caseNumber}" title="Case Number"/>
+                        <h:outputText id="caseNumber" 
+                                      value="#{propertyFlipBean.propertyFlip.caseNumber}" 
+                                      title="Case Number"/>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{propertyFlipBean.addPropertyFlip}" 
                                      value="Save" 
-                                     update="display,:PropertyFlipViewForm:viewPropertyFlipPanelGrid,:propertyFlipMessages" 
+                                     
                                      oncomplete="handleSubmit(args,'PropertyFlipAddDialog');"/>
                     <p:commandButton value="Cancel" onclick="PropertyFlipAddDialog.hide()"/>
                 </h:panelGroup>

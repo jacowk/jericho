@@ -13,10 +13,6 @@
     <packaging>ear</packaging>
 
     <name>jericho-ear</name>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
   
     <build>
         <plugins>
@@ -39,76 +35,75 @@
                 </configuration>
             </plugin>
             
+            <!-- Output to console -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo>Displaying value of 'test.property' property</echo>
+                                <echo>[test.property] ${test.property}</echo>
+                                
+                                <echo>Displaying value of 'local.glassfish.home' property</echo>
+                                <echo>[local.glassfish.home] ${local.glassfish.home}</echo>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Glassfish Deployment -->
             <plugin>
                 <groupId>org.glassfish.maven.plugin</groupId>
                 <artifactId>maven-glassfish-plugin</artifactId>
                 <version>2.1</version>
+                <!--<executions>
+                    <execution>
+                        <id>gf-undeploy</id>
+                        <goals>
+                            <goal>undeploy</goal>
+                        </goals>
+                        <phase>clean</phase>
+                    </execution>
+                    <execution>
+                        <id>gf-deploy</id>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>-->
                 <configuration>
-                <glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
-                    <user>admin</user>
+                    <user>${local.glassfish.user}</user>
+                    <glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
+                    <domainDirectory>${local.glassfish.domain.directory}</domainDirectory>
                     <passwordFile>${local.glassfish.passfile}</passwordFile>
                     <domain>
-                        <name>domain1</name>
-                        <httpPort>8080</httpPort>
-                        <adminPort>4848</adminPort>
+                        <name>${local.glassfish.domain}</name>
+                        <host>${local.glassfish.host}</host>
+                        <httpPort>${local.glassfish.port}</httpPort>
+                        <adminPort>${local.glassfish.adminPort}</adminPort>
                     </domain>
                     <components>
                         <component>
                             <name>${project.artifactId}</name>
-                            <artifact>target/${project.build.finalName}.war</artifact>
+                            <artifact>${project.build.directory}/${project.build.finalName}.ear</artifact>
                         </component>
                     </components>
-                    <debug>true</debug>
                     <terse>false</terse>
                     <echo>true</echo>
+                    <debug>false</debug>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-    
-    <!--<profiles>
-        <profile>
-            <id>deploy-glassfish</id>
-            <activation>
-                <property>
-                    <name>deploy.glassfish</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.glassfish</groupId>
-                            <artifactId>maven-embedded-glassfish-plugin</artifactId>
-                            <version>3.0.1</version>
-                            <configuration>
-                            <glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
-                                <user>admin</user>
-                                <passwordFile>${local.glassfish.passfile}</passwordFile>
-                                <domain>
-                                    <name>domain1</name>
-                                    <httpPort>8080</httpPort>
-                                    <adminPort>4848</adminPort>
-                                </domain>
-                                <components>
-                                    <component>
-                                        <name>${project.artifactId}</name>
-                                        <artifact>target/jericho-ear.ear</artifact>
-                                    </component>
-                                </components>
-                                <debug>true</debug>
-                                <terse>false</terse>
-                                <echo>true</echo>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-    </profiles>-->
-
-    
     <dependencies>
         <dependency>
             <groupId>za.co.jericho</groupId>

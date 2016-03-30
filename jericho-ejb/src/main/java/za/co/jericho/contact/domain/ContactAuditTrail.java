@@ -3,7 +3,7 @@ package za.co.jericho.contact.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import za.co.jericho.common.domain.AbstractEntity;
+import za.co.jericho.common.domain.AbstractAuditTrailEntity;
 import za.co.jericho.exception.EntityValidationException;
 import za.co.jericho.util.validation.StringDataValidator;
 import za.co.jericho.util.validation.StringValidator;
@@ -11,12 +11,12 @@ import za.co.jericho.util.validation.StringValidator;
 /**
  *
  * @author Jaco Koekemoer
- * Date: 2015-07-20
+ * Date: 2016-03-28
  */
 @Entity
-@Table(name="contact", schema = "jericho")
-public class Contact extends AbstractEntity {
-
+@Table(name="contact_audit_trail", schema = "jericho")
+public class ContactAuditTrail extends AbstractAuditTrailEntity {
+    
     @Column(name = "title", length = 10)
     private String title;
     @Column(name = "firstname")
@@ -44,22 +44,7 @@ public class Contact extends AbstractEntity {
     @Column(name = "tax_number")
     private String taxNumber;
     @Column(name = "sa_citizen")
-    private boolean saCitizen = true;
-//    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
-//    @JoinColumn(name="contact_id")
-//    private EstateAgent estateAgent;
-//    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
-//    @JoinColumn(name="contact_id")
-//    private Attorney attorney;
-//    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
-//    @JoinColumn(name="contact_id")
-//    private Contractor contractor;
-//    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
-//    @JoinColumn(name="contact_id")
-//    private Purchaser purchaser;
-//    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
-//    @JoinColumn(name="contact_id")
-//    private Seller seller;
+    private boolean saCitizen;
 
     public String getTitle() {
         return this.title;
@@ -184,70 +169,4 @@ public class Contact extends AbstractEntity {
         }
     }
     
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (getId() != null) {
-            stringBuilder.append("ID: ");
-            stringBuilder.append(getId());
-        }
-        if (getTitle() != null) {
-            stringBuilder.append("\nTitle: ");
-            stringBuilder.append(getTitle());
-        }
-        if (getFirstname() != null) {
-            stringBuilder.append("\nFirstname: ");
-            stringBuilder.append(getFirstname());
-        }
-        if (getSurname() != null) {
-            stringBuilder.append("\nSurname: ");
-            stringBuilder.append(getSurname());
-        }
-        if (getHomeTelNumber() != null) {
-            stringBuilder.append("\nHome Tel No: ");
-            stringBuilder.append(getHomeTelNumber());
-        }
-        if (getWorkTelNumber() != null) {
-            stringBuilder.append("\nWork Tel No: ");
-            stringBuilder.append(getWorkTelNumber());
-        }
-        if (getCellNumber() != null) {
-            stringBuilder.append("\nCell No: ");
-            stringBuilder.append(getCellNumber());
-        }
-        if (getFaxNumber() != null) {
-            stringBuilder.append("\nFax No: ");
-            stringBuilder.append(getFaxNumber());
-        }
-        if (getWorkEmail() != null) {
-            stringBuilder.append("\nWork Email: ");
-            stringBuilder.append(getWorkEmail());
-        }
-        if (getPersonalEmail() != null) {
-            stringBuilder.append("\nPersonal Email: ");
-            stringBuilder.append(getPersonalEmail());
-        }
-        if (getIdNumber() != null) {
-            stringBuilder.append("\nID Number: ");
-            stringBuilder.append(getIdNumber());
-        }
-        if (getPassportNumber() != null) {
-            stringBuilder.append("\nPassport Number: ");
-            stringBuilder.append(getPassportNumber());
-        }
-        if (getMaritalStatus() != null) {
-            stringBuilder.append("\nMarital Status: ");
-            stringBuilder.append(getMaritalStatus());
-        }
-        if (getTaxNumber() != null) {
-            stringBuilder.append("\nTax Number: ");
-            stringBuilder.append(getTaxNumber());
-        }
-        stringBuilder.append("\nSA Citizen: ");
-        stringBuilder.append(getSaCitizen());
-        stringBuilder.append("\nDeleted: ");
-        stringBuilder.append(Boolean.toString(super.isDeleted()));
-        return stringBuilder.toString();
-    }
-
 }

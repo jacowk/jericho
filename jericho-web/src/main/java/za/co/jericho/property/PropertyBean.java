@@ -46,11 +46,13 @@ public class PropertyBean implements Serializable {
     
     @PostConstruct
     public void init() {
-        /* This code is to ensure that the greater area is preselected on screen in the combobox */
-        if (property != null && property.getAddress() != null && property.getAddress().getGreaterArea() != null) {
-            GreaterArea greaterArea = (GreaterArea) property.getAddress().getGreaterArea();
-            setSelectedGreaterAreaId(greaterArea.getId());
-            setSelectedGreaterArea(greaterArea);
+        if (property != null) {
+            if (property.getAddress() != null && property.getAddress().getGreaterArea() != null) {
+                /* This code is to ensure that the greater area is preselected on screen in the combobox */
+                GreaterArea greaterArea = (GreaterArea) property.getAddress().getGreaterArea();
+                setSelectedGreaterAreaId(greaterArea.getId());
+                setSelectedGreaterArea(greaterArea);
+            }
         }
     }
 
@@ -197,6 +199,16 @@ public class PropertyBean implements Serializable {
                 property.setLastModifiedBy(currentUser);
                 property.setLastModifyDate(new Date());
                 property = managePropertyService.markPropertyDeleted(property);
+                if (property.getAddress() != null) {
+                    property.getAddress().setLastModifiedBy(currentUser);
+                    property.getAddress().setLastModifyDate(new Date());
+                    property.getAddress().setDeleted(true);
+                }
+                if (property.getPropertyFlip() != null) {
+                    property.getPropertyFlip().setLastModifiedBy(currentUser);
+                    property.getPropertyFlip().setLastModifyDate(new Date());
+                    property.getPropertyFlip().setDeleted(true);
+                }
                 JerichoWebUtil.addSuccessMessage(ResourceBundle
                     .getBundle("/JerichoWebBundle")
                     .getString("PropertyDeleted"));
