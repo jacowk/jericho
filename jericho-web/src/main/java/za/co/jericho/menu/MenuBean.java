@@ -15,6 +15,7 @@ import za.co.jericho.audit.lookup.EntityName;
 import za.co.jericho.audit.service.ManageAuditActivityService;
 import za.co.jericho.security.domain.User;
 import za.co.jericho.session.SessionServices;
+import za.co.jericho.util.PathConstants;
 
 /**
  * I decided to use a MenuBean for navigation, because of the following drawbacks
@@ -43,76 +44,79 @@ public class MenuBean implements Serializable{
     
     /* Home Menu */
     public String home() {
-        return "/jericho/index.xhtml";
+        return PathConstants.HOME.getValue();
     }
     
     /* Security Menu */
     public String users() {
-        return "/jericho/security/user/list-users.xhtml";
+        return PathConstants.LIST_USERS.getValue();
     }
     
     public String roles() {
-        return "/jericho/security/role/list-roles.xhtml";
+        return PathConstants.LIST_ROLES.getValue();
     }
     
     public String permissions() {
-        return "/jericho/security/permission/list-permissions.xhtml";
+        return PathConstants.LIST_PERMISSIONS.getValue();
     }
     
     public String auditActivities() {
-        return "/jericho/auditactivity/list-audit-activity.xhtml";
+        return PathConstants.LIST_AUDIT_ACTIVITY.getValue();
     } 
     
     /* Property Menu */
     /* Properties Menu */
     public String properties() {
-        return "/jericho/property/list-properties.xhtml";
+        return PathConstants.LIST_PROPERTIES.getValue();
     }
     
     /* Area Menu */
     public String areas() {
-        return "/jericho/address/list-areas.xhtml";
+        return PathConstants.LIST_AREAS.getValue();
     }
     
     /* Greater Area Menu */
     public String greaterAreas() {
-        return "/jericho/address/list-greater-areas.xhtml";
+        return PathConstants.LIST_GREATER_AREAS.getValue();
     }
     
     /* Suburb Menu */
     public String suburbs() {
-        return "/jericho/address/list-suburbs.xhtml";
+        return PathConstants.LIST_SUBBURBS.getValue();
     }
     
     /* Third Parties Menu */
     /* Attorney Menu */
     public String attorneys() {
-        return "/jericho/attorney/list-attorneys.xhtml";
+        return PathConstants.LIST_ATTORNEYS.getValue();
     }
     
     /* Bank Menu */
     public String banks() {
-        return "/jericho/bank/list-banks.xhtml";
+        return PathConstants.LIST_BANKS.getValue();
     }
     
     /* Contractor Menu */
     public String contractors() {
-        return "/jericho/contractor/list-contractors.xhtml";
+        return PathConstants.LIST_CONTRACTORS.getValue();
     }
     
     /* Estate Agent Menu */
     public String estateagents() {
-        return "/jericho/estateagent/list-estate-agents.xhtml";
+        return PathConstants.LIST_ESTATE_AGENTS.getValue();
     }
     
     /* Contacts Menu */
     public String contacts() {
-        return "/jericho/contact/list-contacts.xhtml";
+        return PathConstants.LIST_CONTACTS.getValue();
     }
 
     /* Logout */
     public String logout() {
-        String destination = "/login.xhtml?faces-redirect=true";
+        StringBuilder destinationBuilder = new StringBuilder();
+        destinationBuilder.append(PathConstants.LOGIN.getValue());
+        destinationBuilder.append(PathConstants.FACES_REDIRECT.getValue());
+        String destination = destinationBuilder.toString();
         
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -126,7 +130,10 @@ public class MenuBean implements Serializable{
             LogManager.getRootLogger().error(new StringBuilder()
                 .append(ex)
                 .toString());
-            destination = "/loginerror.xhtml?faces-redirect=true";
+            StringBuilder destinationErrorBuilder = new StringBuilder();
+            destinationBuilder.append(PathConstants.LOGIN_ERROR.getValue());
+            destinationBuilder.append(PathConstants.FACES_REDIRECT.getValue());
+            destination = destinationErrorBuilder.toString();
         }
         return destination;
     }

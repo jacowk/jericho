@@ -1,5 +1,6 @@
 package za.co.jericho.propertyflip.domain;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +27,8 @@ import za.co.jericho.estateagent.domain.EstateAgent;
 import za.co.jericho.exception.EntityValidationException;
 import za.co.jericho.notes.domain.Note;
 import za.co.jericho.property.domain.Property;
+import za.co.jericho.util.conversion.BigDecimalDataFormatter;
+import za.co.jericho.util.conversion.BigDecimalFormatter;
 import za.co.jericho.util.validation.StringDataValidator;
 import za.co.jericho.util.validation.StringValidator;
 
@@ -49,6 +52,10 @@ public class PropertyFlip extends AbstractEntity { //Change to Strategy
     private String titleDeedNumber;
     @Column(name = "case_number")
     private String caseNumber;
+    @Column(name = "selling_price")
+    private BigDecimal sellingPrice;
+    @Column(name = "purchase_price")
+    private BigDecimal purchasePrice;
     @OneToOne(mappedBy="propertyFlip")
     private Property property;
     @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
@@ -117,6 +124,22 @@ public class PropertyFlip extends AbstractEntity { //Change to Strategy
 
     public void setCaseNumber(String caseNumber) {
         this.caseNumber = caseNumber;
+    }
+
+    public BigDecimal getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(BigDecimal sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public BigDecimal getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    public void setPurchasePrice(BigDecimal purchasePrice) {
+        this.purchasePrice = purchasePrice;
     }
 
     public Property getProperty() {
@@ -227,26 +250,38 @@ public class PropertyFlip extends AbstractEntity { //Change to Strategy
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         if (getId() != null) {
-            stringBuilder.append("|ID: ");
+            stringBuilder.append("ID: ");
             stringBuilder.append(getId());
         }
         if (getReferenceNumber() != null) {
-            stringBuilder.append("|ReferenceNumber: ");
+            stringBuilder.append("\nReferenceNumber: ");
             stringBuilder.append(getReferenceNumber());
         }
         if (getTitleDeedNumber() != null) {
-            stringBuilder.append("|TitleDeedNumber: ");
+            stringBuilder.append("\nTitleDeedNumber: ");
             stringBuilder.append(getTitleDeedNumber());
         }
         if (getCaseNumber() != null) {
-            stringBuilder.append("|CaseNumber: ");
+            stringBuilder.append("\nCaseNumber: ");
             stringBuilder.append(getCaseNumber());
         }
+        if (getSellingPrice() != null) {
+            BigDecimalFormatter formatter = new BigDecimalDataFormatter();
+            stringBuilder.append("\nSelling Price: ");
+            stringBuilder.append(formatter.convertBigDecimalAsCurrency(
+                getSellingPrice()));
+        }
+        if (getPurchasePrice() != null) {
+            BigDecimalFormatter formatter = new BigDecimalDataFormatter();
+            stringBuilder.append("\nPurchase Price: ");
+            stringBuilder.append(formatter.convertBigDecimalAsCurrency(
+                getPurchasePrice()));
+        }
         if (getMilestone() != null) {
-            stringBuilder.append("|Milestone: ");
+            stringBuilder.append("\nMilestone: ");
             stringBuilder.append(getMilestone().getId());
         }
-        stringBuilder.append("|Deleted: ");
+        stringBuilder.append("\nDeleted: ");
         stringBuilder.append(Boolean.toString(super.isDeleted()));
         return stringBuilder.toString();
     }

@@ -1,6 +1,7 @@
-package za.co.jericho.audittrail.service;
+package za.co.jericho.property.service;
 
 import org.apache.log4j.LogManager;
+import za.co.jericho.audittrail.service.AbstractAuditTrailService;
 import za.co.jericho.property.domain.PropertyAuditTrail;
 import za.co.jericho.common.domain.AbstractAuditTrailEntity;
 import za.co.jericho.property.domain.Property;

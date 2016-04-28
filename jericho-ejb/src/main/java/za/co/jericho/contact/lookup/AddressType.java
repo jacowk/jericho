@@ -1,6 +1,6 @@
 package za.co.jericho.contact.lookup;
 
-import za.co.jericho.common.lookup.*;
+import za.co.jericho.common.lookup.AbstractLookupEntity;
 
 /**
  *

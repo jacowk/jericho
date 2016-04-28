@@ -29,6 +29,14 @@
                         <h:outputText value="#{propertyFlipBean.propertyFlip.caseNumber}" 
                                       title="Case Number"/>
                         
+                        <h:outputText value="Purchase Price: "/>
+                        <h:outputText value="#{propertyFlipBean.propertyFlip.purchasePrice}" 
+                                      title="Purchase Price"/>
+                        
+                        <h:outputText value="Selling Price: "/>
+                        <h:outputText value="#{propertyFlipBean.propertyFlip.sellingPrice}" 
+                                      title="Selling Price"/>
+                        
                         <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
                         <h:outputText value="#{propertyFlipBean.propertyFlip.createdBy.username}" 
                                       title="#{jerichoWebBundle.CreatedBy}"/>
@@ -60,6 +68,7 @@
                                      action="#{propertyFlipBean.navigateUpdatePropertyFlip}"
                                      rendered="#{propertyFlipBean.createPropertyFlip == false}" />
                 </h:panelGroup>
+                <br/>
                 <b:panel look="primary">
                     <f:facet name="heading">Seller</f:facet>
                     <p:dataTable id="datalist" 
@@ -138,6 +147,10 @@
                             <h:outputText value="Delete"/><!-- This should be a command link -->
                         </p:column>
                     </p:dataTable>
+                    <p:commandButton id="addSellerButton"   
+                                     icon="ui-icon-plus"  
+                                     value="Add Seller"
+                                     action="#{sellerBean.navigateAddSeller}" />
                 </b:panel>
             </h:form>
         </ui:composition>

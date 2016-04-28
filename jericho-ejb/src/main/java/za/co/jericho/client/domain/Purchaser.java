@@ -1,9 +1,6 @@
 package za.co.jericho.client.domain;
 
-import java.math.BigDecimal;
-import java.util.Collection;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -12,6 +9,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import za.co.jericho.common.domain.AbstractEntity;
 import za.co.jericho.contact.domain.Contact;
+import za.co.jericho.exception.EntityValidationException;
 import za.co.jericho.propertyflip.domain.PropertyFlip;
 
 /**
@@ -23,22 +21,12 @@ import za.co.jericho.propertyflip.domain.PropertyFlip;
 @Table(name="purchaser", schema = "jericho")
 public class Purchaser extends AbstractEntity {
 
-    @Column(name = "purchase_price")
-    private BigDecimal purchasePrice;
     @OneToOne(mappedBy="purchaser")
     @JoinColumn(name="property_flip_id")
     private PropertyFlip propertyFlip;
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinColumn(name="purchaser_id")
-    private Collection<Contact> contacts;
-
-    public BigDecimal getPurchasePrice() {
-        return purchasePrice;
-    }
-
-    public void setPurchasePrice(BigDecimal purchasePrice) {
-        this.purchasePrice = purchasePrice;
-    }
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name="contact_id")
+    private Contact contact;
 
     public PropertyFlip getPropertyFlip() {
         return propertyFlip;
@@ -48,25 +36,38 @@ public class Purchaser extends AbstractEntity {
         this.propertyFlip = propertyFlip;
     }
 
-    public Collection<Contact> getContacts() {
-        return contacts;
+    public Contact getContact() {
+        return contact;
     }
 
-    public void setContacts(Collection<Contact> contacts) {
-        this.contacts = contacts;
+    public void setContacts(Contact contact) {
+        this.contact = contact;
     }
 
     @Override
     public void validate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (getPropertyFlip() == null) {
+            throw new EntityValidationException("A property flip must be provided for the seller");
+        }
+        if (getContact() == null) {
+            throw new EntityValidationException("A contact must be provided for the seller");
+        }
     }
     
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         if (getId() != null) {
-            stringBuilder.append("|ID: ");
+            stringBuilder.append("ID: ");
             stringBuilder.append(getId());
+        }
+        if (getPropertyFlip() != null) {
+            stringBuilder.append("Property Flip ID: ");
+            stringBuilder.append(getPropertyFlip().getId());
+        }
+        if (getContact() != null) {
+            stringBuilder.append("Contact ID: ");
+            stringBuilder.append(getContact().getId());
         }
         return stringBuilder.toString();
     }

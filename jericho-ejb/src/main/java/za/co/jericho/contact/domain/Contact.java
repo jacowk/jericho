@@ -2,8 +2,11 @@ package za.co.jericho.contact.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import za.co.jericho.common.domain.AbstractEntity;
+import za.co.jericho.contact.lookup.MaritalStatus;
 import za.co.jericho.exception.EntityValidationException;
 import za.co.jericho.util.validation.StringDataValidator;
 import za.co.jericho.util.validation.StringValidator;
@@ -39,8 +42,9 @@ public class Contact extends AbstractEntity {
     private Long idNumber;
     @Column(name = "passport_number")
     private String passportNumber;
-    @Column(name = "marital_status")
-    private Short maritalStatus; //TODO Sort this lookup out
+    @OneToOne
+    @JoinColumn(name="marital_status_id")
+    private MaritalStatus maritalStatus;
     @Column(name = "tax_number")
     private String taxNumber;
     @Column(name = "sa_citizen")
@@ -149,11 +153,11 @@ public class Contact extends AbstractEntity {
         this.passportNumber = passportNumber;
     }
 
-    public Short getMaritalStatus() {
+    public MaritalStatus getMaritalStatus() {
         return this.maritalStatus;
     }
 
-    public void setMaritalStatus(Short maritalStatus) {
+    public void setMaritalStatus(MaritalStatus maritalStatus) {
         this.maritalStatus = maritalStatus;
     }
 

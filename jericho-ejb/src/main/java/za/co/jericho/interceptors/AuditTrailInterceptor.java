@@ -30,6 +30,8 @@ public class AuditTrailInterceptor {
     public Object intercept(InvocationContext context) throws Exception {
         LogManager.getRootLogger().info(new StringBuilder()
             .append("AuditTrailInterceptor - Logging BEFORE calling method ")
+            .append(context.getTarget().getClass().getName())
+            .append(": ")
             .append(context.getMethod().getName())
             .toString());
         
@@ -58,6 +60,8 @@ public class AuditTrailInterceptor {
         
         LogManager.getRootLogger().info(new StringBuilder()
             .append("AuditTrailInterceptor - Logging AFTER calling method ")
+            .append(context.getTarget().getClass().getName())
+            .append(": ")
             .append(context.getMethod().getName())
             .toString());
         return result;

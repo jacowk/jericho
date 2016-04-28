@@ -1,7 +1,8 @@
-package za.co.jericho.audittrail.service;
+package za.co.jericho.address.service;
 
 import za.co.jericho.address.domain.Area;
 import za.co.jericho.address.domain.AreaAuditTrail;
+import za.co.jericho.audittrail.service.AbstractAuditTrailService;
 import za.co.jericho.common.domain.AbstractAuditTrailEntity;
 import za.co.jericho.security.ServiceName;
 import za.co.jericho.util.conversion.StringConvertor;

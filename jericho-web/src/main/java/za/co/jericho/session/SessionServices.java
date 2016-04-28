@@ -1,8 +1,10 @@
 package za.co.jericho.session;
 
+import java.util.Objects;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.LogManager;
 import za.co.jericho.common.domain.AbstractEntity;
 import za.co.jericho.security.domain.User;
 
@@ -13,16 +15,35 @@ import za.co.jericho.security.domain.User;
 public class SessionServices {
     
     public void setUserOnSession(HttpServletRequest httpServletRequest, User user) {
-        httpServletRequest.getSession().setAttribute(SessionVariables.CURRENT_USER.getValue(), user);
+        LogManager.getRootLogger().info("SessionServices: setUserOnSession(httpServletRequest, user)");
+        HttpSession session = httpServletRequest.getSession();
+        setUserOnSession(session, user);
     }
     
     public void setUserOnSession(User user) {
+        LogManager.getRootLogger().info("SessionServices: setUserOnSession(user)");
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
-        session.setAttribute(SessionVariables.CURRENT_USER.getValue(), user);
+        setUserOnSession(session, user);
+    }
+    
+    private void setUserOnSession(HttpSession session, User user) {
+        LogManager.getRootLogger().info("SessionServices: setUserOnSession(session, user)");
+        if (session.getAttribute(SessionVariables.CURRENT_USER.getValue()) == null) {
+            session.setAttribute(SessionVariables.CURRENT_USER.getValue(), user);
+        }
+        else {
+            User userOnSession = (User) session.getAttribute(
+                SessionVariables.CURRENT_USER.getValue());
+            if (!Objects.equals(userOnSession.getId(), user.getId())) {
+                session.removeAttribute(SessionVariables.CURRENT_USER.getValue());
+                session.setAttribute(SessionVariables.CURRENT_USER.getValue(), user);
+            }
+        }
     }
     
     public User getUserFromSession() {
+        LogManager.getRootLogger().info("SessionServices: getUserFromSession");
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
         User user = (User) session.getAttribute(SessionVariables.CURRENT_USER.getValue());

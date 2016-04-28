@@ -9,11 +9,9 @@ import javax.interceptor.Interceptors;
 import za.co.jericho.annotations.AuditTrail;
 import za.co.jericho.annotations.SecurityPermission;
 import za.co.jericho.annotations.UserActivityMonitor;
-import za.co.jericho.audit.AuditActivityFactory;
-import za.co.jericho.audit.lookup.AuditActivityType;
-import za.co.jericho.audit.lookup.EntityName;
 import za.co.jericho.common.service.AbstractServiceBean;
 import za.co.jericho.contact.domain.Contact;
+import za.co.jericho.contact.lookup.MaritalStatus;
 import za.co.jericho.contact.search.ContactSearchCriteria;
 import za.co.jericho.exception.DeleteNotSupportedException;
 import za.co.jericho.exception.ServiceBeanException;
@@ -21,8 +19,6 @@ import za.co.jericho.interceptors.AuditTrailInterceptor;
 import za.co.jericho.interceptors.SecurityPermissionInterceptor;
 import za.co.jericho.interceptors.UserActivityMonitorInterceptor;
 import za.co.jericho.security.ServiceName;
-import za.co.jericho.security.service.permissioncheck.PermissionChecker;
-import za.co.jericho.security.service.permissioncheck.UserPermissionChecker;
 import za.co.jericho.util.conversion.StringConvertor;
 import za.co.jericho.util.conversion.StringDataConvertor;
 import za.co.jericho.util.validation.EntityStateValidator;
@@ -118,6 +114,56 @@ implements ManageContactService {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager()
             .getCriteriaBuilder().createQuery();
         cq.select(cq.from(Contact.class));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public MaritalStatus addMaritalStatus(MaritalStatus maritalStatus) {
+        /* Validations */
+        /* State validation */
+        maritalStatus.validate();
+        
+        /* Service logic */
+        EntityValidator entityValidator = new EntityStateValidator();
+        if (entityValidator.isValidateEntityBeforeCreate(maritalStatus)) {
+            getEntityManager().persist(maritalStatus);
+            /* At this stage the property object will not have an id assigned,
+            until after the return, the transaction has committed. */
+        }
+        return maritalStatus;
+    }
+
+    @Override
+    public MaritalStatus updateMaritalStatus(MaritalStatus maritalStatus) {
+        /* Validations */
+        /* State validation */
+        maritalStatus.validate();
+        
+        /* Service logic */
+        EntityValidator entityValidator = new EntityStateValidator();
+        if (entityValidator.isValidateEntityBeforeUpdate(maritalStatus)) {
+            getEntityManager().merge(maritalStatus);
+        }
+        return maritalStatus;
+    }
+
+    @Override
+    public MaritalStatus markMaritalStatusDeleted(MaritalStatus maritalStatus) {
+        throw new DeleteNotSupportedException("Deleting a marital status is not supported");
+    }
+
+    @SecurityPermission(serviceName = ServiceName.SEARCH_CONTACTS)
+    @Override
+    public MaritalStatus findMaritalStatus(Object id) {
+        return getEntityManager().find(MaritalStatus.class, id);
+    }
+
+    @SecurityPermission(serviceName = ServiceName.SEARCH_CONTACTS)
+    @Override
+    public Collection<MaritalStatus> findAllMaritalStatusses() {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager()
+            .getCriteriaBuilder().createQuery();
+        cq.select(cq.from(MaritalStatus.class));
         return getEntityManager().createQuery(cq).getResultList();
     }
 

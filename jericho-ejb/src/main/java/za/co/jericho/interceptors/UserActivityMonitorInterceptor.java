@@ -41,8 +41,12 @@ public class UserActivityMonitorInterceptor {
     
     @AroundInvoke
     public Object intercept(InvocationContext context) throws Exception {
-        LogManager.getRootLogger().info("UserActivityMonitorInterceptor - Logging BEFORE calling "
-            + "method " + context.getMethod().getName());
+        LogManager.getRootLogger().info(new StringBuilder()
+            .append("UserActivityMonitorInterceptor - Logging BEFORE calling method ")
+            .append(context.getTarget().getClass().getName())
+            .append(": ")
+            .append(context.getMethod().getName())
+            .toString());
         
         Object result = context.proceed();
         /* First call the method, then do auditing */
@@ -70,8 +74,12 @@ public class UserActivityMonitorInterceptor {
             manageUserActivityService.addUserActivity(userActivity);
         }
         
-        LogManager.getRootLogger().info("UserActivityMonitorInterceptor - Logging AFTER calling "
-            + "method " + context.getMethod().getName());
+        LogManager.getRootLogger().info(new StringBuilder()
+            .append("UserActivityMonitorInterceptor - Logging AFTER calling method ")
+            .append(context.getTarget().getClass().getName())
+            .append(": ")
+            .append(context.getMethod().getName())
+            .toString());
         return result;
     }
     

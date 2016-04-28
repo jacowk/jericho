@@ -1,5 +1,6 @@
-package za.co.jericho.audittrail.service;
+package za.co.jericho.propertyflip.service;
 
+import za.co.jericho.audittrail.service.AbstractAuditTrailService;
 import za.co.jericho.common.domain.AbstractAuditTrailEntity;
 import za.co.jericho.propertyflip.domain.PropertyFlip;
 import za.co.jericho.propertyflip.domain.PropertyFlipAuditTrail;

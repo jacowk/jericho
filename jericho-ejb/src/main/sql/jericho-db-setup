@@ -8,11 +8,12 @@ select * from role;
 select * from area;
 select * from property_audit_trail;
 select * from contact;
+select * from attorney a;
 
 show tables;
 
 select * from role;
-select * from permission_role pr where role_id = 6;
+select * from permission_role pr where role_id = 1;
 describe permission_role;
 
 select * from permission p where p.name like '%Attorney%';
@@ -128,6 +129,11 @@ insert into permission(name, service_name, created_by, create_date) values('Upda
 insert into permission(name, service_name, created_by, create_date) values('Mark Contact Deleted', 'markContactDeleted', 1, curdate());
 insert into permission(name, service_name, created_by, create_date) values('Search Contacts', 'searchContacts', 1, curdate());
 
+insert into permission(name, service_name, created_by, create_date) values('Add Seller', 'addSeller', 1, curdate()); --57
+insert into permission(name, service_name, created_by, create_date) values('Update Seller', 'updateSeller', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Seller Deleted', 'markSellerDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Sellers', 'searchSellers', 1, curdate());
+
 insert into role(name, created_by, create_date) values('Administrator', 1, curdate());
 insert into role(name, created_by, create_date) values('Manager', 1, curdate());
 insert into role(name, created_by, create_date) values('Supervisor', 1, curdate());
@@ -190,6 +196,10 @@ insert into permission_role(role_id, permission_id) values(1, 53);
 insert into permission_role(role_id, permission_id) values(1, 54);
 insert into permission_role(role_id, permission_id) values(1, 55);
 insert into permission_role(role_id, permission_id) values(1, 56);
+insert into permission_role(role_id, permission_id) values(1, 57);
+insert into permission_role(role_id, permission_id) values(1, 58);
+insert into permission_role(role_id, permission_id) values(1, 59);
+insert into permission_role(role_id, permission_id) values(1, 60);
 
 insert into user_role(user_id, role_id) values(1, 1);
 insert into user_role(user_id, role_id) values(2, 1);
@@ -211,3 +221,9 @@ insert into suburb(name, box_code, street_code, area_id, created_by, create_date
 insert into suburb(name, box_code, street_code, area_id, created_by, create_date) values('HONEYDEW RIDGE EXT 11', '', '2170', 1, 1, curdate());
 
 insert into account_type(description, created_by, create_date) values('Profit and Loss', 1, curdate());
+
+insert into lookup_marital_status(description, created_by, create_date) values('Single', 1, curdate());
+insert into lookup_marital_status(description, created_by, create_date) values('Married', 1, curdate());
+insert into lookup_marital_status(description, created_by, create_date) values('Divorced', 1, curdate());
+insert into lookup_marital_status(description, created_by, create_date) values('Widowed', 1, curdate());
+insert into lookup_marital_status(description, created_by, create_date) values('Other', 1, curdate());

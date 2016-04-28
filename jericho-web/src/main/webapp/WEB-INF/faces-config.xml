@@ -24,5 +24,6 @@
             <converter-id>permissionConverter</converter-id>
             <converter-class>za.co.jericho.security.converter.PermissionConverter</converter-class>
         </converter>
+        <!--<view-handler>za.co.jericho.viewhandler.CustomViewHandler</view-handler>-->
     </application>
 </faces-config>

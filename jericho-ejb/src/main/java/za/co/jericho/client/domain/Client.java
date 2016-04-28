@@ -1,6 +1,6 @@
 package za.co.jericho.client.domain;
 
-import za.co.jericho.client.lookup.MaritalStatus;
+import za.co.jericho.contact.lookup.MaritalStatus;
 import za.co.jericho.contact.domain.Contact;
 
 /**

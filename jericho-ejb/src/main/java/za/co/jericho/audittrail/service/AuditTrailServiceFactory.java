@@ -1,6 +1,20 @@
 package za.co.jericho.audittrail.service;
 
-import org.apache.log4j.LogManager;
+import za.co.jericho.address.service.SuburbAuditTrailService;
+import za.co.jericho.security.service.RoleAuditTrailService;
+import za.co.jericho.propertyflip.service.PropertyFlipAuditTrailService;
+import za.co.jericho.property.service.PropertyAuditTrailService;
+import za.co.jericho.security.service.PermissionAuditTrailService;
+import za.co.jericho.address.service.GreaterAreaAuditTrailService;
+import za.co.jericho.estateagent.service.EstateAgentAuditTrailService;
+import za.co.jericho.contractor.service.ContractorAuditTrailService;
+import za.co.jericho.contact.service.ContactAuditTrailService;
+import za.co.jericho.bank.service.BankAuditTrailService;
+import za.co.jericho.attorney.service.AttorneyAuditTrailService;
+import za.co.jericho.address.service.AreaAuditTrailService;
+import za.co.jericho.account.service.AccountTypeAuditTrailService;
+import za.co.jericho.client.service.PurchaserAuditTrailService;
+import za.co.jericho.client.service.SellerAuditTrailService;
 import za.co.jericho.exception.AuditTrailException;
 import za.co.jericho.security.ServiceName;
 
@@ -73,6 +87,14 @@ public class AuditTrailServiceFactory implements ServiceFactory {
         else if (serviceName == ServiceName.ADD_CONTACT || 
             serviceName == ServiceName.UPDATE_CONTACT) {
             return new ContactAuditTrailService();
+        }
+        else if (serviceName == ServiceName.ADD_SELLER || 
+            serviceName == ServiceName.UPDATE_SELLER) {
+            return new SellerAuditTrailService();
+        }
+        else if (serviceName == ServiceName.ADD_PURCHASER || 
+            serviceName == ServiceName.UPDATE_PURCHASER) {
+            return new PurchaserAuditTrailService();
         }
         throw new AuditTrailException("Audit trail service not found");
     }

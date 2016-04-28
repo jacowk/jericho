@@ -1,5 +1,6 @@
-package za.co.jericho.audittrail.service;
+package za.co.jericho.contact.service;
 
+import za.co.jericho.audittrail.service.AbstractAuditTrailService;
 import za.co.jericho.contact.domain.Contact;
 import za.co.jericho.contact.domain.ContactAuditTrail;
 import za.co.jericho.common.domain.AbstractAuditTrailEntity;
@@ -36,7 +37,7 @@ public class ContactAuditTrailService extends AbstractAuditTrailService {
         contactAuditTrail.setPersonalEmail(contact.getPersonalEmail());
         contactAuditTrail.setIdNumber(contact.getIdNumber());
         contactAuditTrail.setPassportNumber(contact.getPassportNumber());
-        contactAuditTrail.setMaritalStatus(contact.getMaritalStatus());
+        contactAuditTrail.setMaritalStatus(contact.getMaritalStatus().getId());
         contactAuditTrail.setTaxNumber(contact.getTaxNumber());
         contactAuditTrail.setSaCitizen(contact.getSaCitizen());
         StringConvertor stringConvertor = new StringDataConvertor();

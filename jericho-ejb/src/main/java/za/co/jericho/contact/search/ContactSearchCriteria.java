@@ -1,8 +1,6 @@
 package za.co.jericho.contact.search;
 
 import za.co.jericho.common.search.AbstractSearchCriteria;
-import za.co.jericho.util.conversion.ObjectToStringConvertor;
-import za.co.jericho.util.conversion.ObjectToStringDataConvertor;
 
 public class ContactSearchCriteria extends AbstractSearchCriteria {
 

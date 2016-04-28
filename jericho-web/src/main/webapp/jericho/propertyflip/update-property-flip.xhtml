@@ -30,6 +30,16 @@
                                 <p:inputText id="caseNumber" 
                                              value="#{propertyFlipBean.propertyFlip.caseNumber}" 
                                              title="Case Number"/>
+                                
+                                <p:outputLabel for="purchasePrice" value="Purchase Price: "/>
+                                <p:inputText id="purchasePrice"
+                                             value="#{propertyFlipBean.propertyFlip.purchasePrice}" 
+                                             title="Purchase Price"/>
+
+                                <p:outputLabel for="sellingPrice" value="Selling Price: "/>
+                                <p:inputText id="sellingPrice"
+                                             value="#{propertyFlipBean.propertyFlip.sellingPrice}" 
+                                             title="Selling Price"/>
                             </p:panelGrid>
                             <p:commandButton value="Add" 
                                              icon="ui-icon-pencil" 

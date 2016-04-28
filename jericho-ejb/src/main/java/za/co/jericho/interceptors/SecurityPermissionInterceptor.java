@@ -35,6 +35,8 @@ public class SecurityPermissionInterceptor {
     public Object intercept(InvocationContext context) throws Exception {
         LogManager.getRootLogger().info(new StringBuilder()
             .append("SecurityPermissionInterceptor - Logging BEFORE calling method ")
+            .append(context.getTarget().getClass().getName())
+            .append(": ")
             .append(context.getMethod().getName())
             .toString());
         /* Get the current logged in user */
@@ -62,6 +64,8 @@ public class SecurityPermissionInterceptor {
         
         LogManager.getRootLogger().info(new StringBuilder()
             .append("SecurityPermissionInterceptor - Logging AFTER calling method ")
+            .append(context.getTarget().getClass().getName())
+            .append(": ")
             .append(context.getMethod().getName())
             .toString());
         return result;

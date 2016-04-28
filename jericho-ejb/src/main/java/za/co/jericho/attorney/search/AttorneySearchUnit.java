@@ -34,7 +34,7 @@ public class AttorneySearchUnit extends AbstractPersistenceUnit {
     @Override
     public void run() {
         LogManager.getRootLogger().info("AttorneySearchUnit: run");
-        List<Attorney> attorneys = new ArrayList<>();
+        attorneys.clear();
         if (attorneySearchCriteria != null) {
             /* Service logic */
             StringConvertor stringConvertor = new StringDataConvertor();
@@ -46,6 +46,9 @@ public class AttorneySearchUnit extends AbstractPersistenceUnit {
 //            searchAttorneysStringBuilder.append("AND a.deleted <> TRUE");
             String name = stringConvertor.convertForDatabaseSearch
                 (attorneySearchCriteria.getName(), attorneySearchCriteria.getSearchType());
+            LogManager.getRootLogger().info(new StringBuilder("name: ")
+                    .append(name)
+                    .toString());
             attorneys = getEntityManager().createQuery(searchAttorneysStringBuilder.toString())
                 .setParameter("name", name)
                 .getResultList();

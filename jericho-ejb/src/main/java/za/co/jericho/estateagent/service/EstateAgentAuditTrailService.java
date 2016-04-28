@@ -1,5 +1,6 @@
-package za.co.jericho.audittrail.service;
+package za.co.jericho.estateagent.service;
 
+import za.co.jericho.audittrail.service.AbstractAuditTrailService;
 import za.co.jericho.common.domain.AbstractAuditTrailEntity;
 import za.co.jericho.estateagent.domain.EstateAgent;
 import za.co.jericho.estateagent.domain.EstateAgentAuditTrail;

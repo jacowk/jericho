@@ -1,5 +1,6 @@
-package za.co.jericho.audittrail.service;
+package za.co.jericho.bank.service;
 
+import za.co.jericho.audittrail.service.AbstractAuditTrailService;
 import za.co.jericho.bank.domain.BankAuditTrail;
 import za.co.jericho.bank.domain.Bank;
 import za.co.jericho.common.domain.AbstractAuditTrailEntity;

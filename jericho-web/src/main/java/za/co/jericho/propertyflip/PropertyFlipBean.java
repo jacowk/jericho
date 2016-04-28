@@ -25,6 +25,7 @@ import za.co.jericho.security.domain.User;
 import za.co.jericho.session.SessionServices;
 import za.co.jericho.util.JerichoWebUtil;
 import za.co.jericho.util.JsfUtil;
+import za.co.jericho.util.PathConstants;
 
 /**
  *
@@ -184,8 +185,8 @@ public class PropertyFlipBean implements Serializable {
     public void navigateManagePropertyFlip() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
-            context.redirect(context.getRequestContextPath() + "/jericho/propertyflip/manage-property-flip.xhtml");
-//        return "/jericho/propertyflip/manage-property-flip.xhtml";
+            context.redirect(context.getRequestContextPath() + 
+                PathConstants.MANAGE_PROPERTY_FLIP_PATH.getValue());
         }
         catch (IOException ex) {
             Logger.getLogger(PropertyFlipBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -195,13 +196,12 @@ public class PropertyFlipBean implements Serializable {
     public void navigateUpdatePropertyFlip() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         try {
-            context.redirect(context.getRequestContextPath() + "/jericho/propertyflip/update-property-flip.xhtml");
-//        return "/jericho/propertyflip/manage-property-flip.xhtml";
+            context.redirect(context.getRequestContextPath() + 
+                PathConstants.UPDATE_PROPERTY_FLIP_PATH.getValue());
         }
         catch (IOException ex) {
             Logger.getLogger(PropertyFlipBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        return "/jericho/propertyflip/update-property-flip.xhtml";
     }
     
 }

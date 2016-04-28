@@ -1,7 +1,8 @@
-package za.co.jericho.audittrail.service;
+package za.co.jericho.account.service;
 
 import za.co.jericho.account.lookup.AccountType;
 import za.co.jericho.account.lookup.AccountTypeAuditTrail;
+import za.co.jericho.audittrail.service.AbstractAuditTrailService;
 import za.co.jericho.common.domain.AbstractAuditTrailEntity;
 import za.co.jericho.security.ServiceName;
 import za.co.jericho.util.conversion.StringConvertor;

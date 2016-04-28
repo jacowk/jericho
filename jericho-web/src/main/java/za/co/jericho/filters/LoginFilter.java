@@ -60,7 +60,7 @@ public class LoginFilter implements Filter {
     private void storeUserOnSession(HttpServletRequest httpServletRequest, String username) {
         currentUser = manageSecurityUserService.convertPrincipalToUser(username);
         SessionServices sessionServices = new SessionServices();
-        sessionServices.setUserOnSession(httpServletRequest, currentUser);    
+        sessionServices.setUserOnSession(httpServletRequest, currentUser);
     }
     
     /**

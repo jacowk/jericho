@@ -32,7 +32,7 @@ public class SuburbBean implements Serializable {
     private Suburb suburb;
     private SuburbSearchCriteria suburbSearchCriteria = new SuburbSearchCriteria();
     private Collection<Suburb> suburbs = null;
-    private Collection<Area> areas = new ArrayList<Area>();
+    private Collection<Area> areas = new ArrayList<>();
     private Area selectedArea;
     private Long selectedAreaId;
     @EJB

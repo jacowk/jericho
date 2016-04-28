@@ -40,7 +40,7 @@ public class ContactAuditTrail extends AbstractAuditTrailEntity {
     @Column(name = "passport_number")
     private String passportNumber;
     @Column(name = "marital_status")
-    private Short maritalStatus; //TODO Sort this lookup out
+    private long maritalStatus;
     @Column(name = "tax_number")
     private String taxNumber;
     @Column(name = "sa_citizen")
@@ -134,11 +134,11 @@ public class ContactAuditTrail extends AbstractAuditTrailEntity {
         this.passportNumber = passportNumber;
     }
 
-    public Short getMaritalStatus() {
+    public long getMaritalStatus() {
         return this.maritalStatus;
     }
 
-    public void setMaritalStatus(Short maritalStatus) {
+    public void setMaritalStatus(long maritalStatus) {
         this.maritalStatus = maritalStatus;
     }
 
