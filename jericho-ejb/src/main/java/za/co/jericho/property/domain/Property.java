@@ -37,8 +37,7 @@ public class Property extends AbstractEntity {
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address = new Address();
-    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "property_flip_id")
+    @OneToOne(mappedBy="property")
     private PropertyFlip propertyFlip = new PropertyFlip();
 
     public Integer getErfNumber() {

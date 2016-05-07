@@ -1,21 +1,18 @@
 package za.co.jericho.seller;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.LogManager;
 import za.co.jericho.client.domain.Seller;
 import za.co.jericho.contact.lookup.MaritalStatus;
@@ -62,17 +59,41 @@ public class SellerBean implements Serializable {
     
     @PostConstruct
     public void init() {
+        LogManager.getRootLogger().info("SellerBean: init");
         propertyFlip = propertyFlipBean.getPropertyFlip();
+        LogManager.getRootLogger().info("propertyFlip == null: " + (propertyFlip == null));
         if (seller == null) {
             seller = new Seller();
         }
         if (contact == null) {
             contact = new Contact();
+            prepareDataForTesting(); //TODO Temporary step
         }
         if (maritalStatusses == null || maritalStatusses.isEmpty()) {
             maritalStatusses = manageContactService.findAllMaritalStatusses();
         }
         updateSACitizenValue();
+        testSessionInvalidation();
+    }
+    
+    private void testSessionInvalidation() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        LogManager.getRootLogger().info("RequestedSessionId: " + request.getRequestedSessionId());
+        LogManager.getRootLogger().info("isRequestedSessionIdValid: " + request.isRequestedSessionIdValid());
+    }
+    
+    private void prepareDataForTesting() {
+        contact.setFirstname("John");
+        contact.setSurname("Doe");
+        contact.setHomeTelNumber("011 999 8888");
+        contact.setWorkTelNumber("011 888 7777");
+        contact.setCellNumber("082 666 5555");
+        contact.setWorkTelNumber("011 777 6666");
+        contact.setWorkEmail("work@test.co.za");
+        contact.setPersonalEmail("personal@test.co.za");
+        contact.setIdNumber(7607205162089L);
+        contact.setTaxNumber("3232");
     }
 
     /* Getters and Setters */
@@ -155,7 +176,7 @@ public class SellerBean implements Serializable {
     public void setSaCitizenValue(boolean saCitizenValue) {
         this.saCitizenValue = saCitizenValue;
     }
-    
+
     public PropertyFlipBean getPropertyFlipBean() {
         return propertyFlipBean;
     }
@@ -165,8 +186,20 @@ public class SellerBean implements Serializable {
     }
     
     /* Service calls */
+    public Seller prepareAdd() {
+        LogManager.getRootLogger().info(new StringBuilder()
+            .append("SellerBean: prepareAdd")
+            .toString());
+        seller = new Seller();
+        contact = new Contact();
+        seller.setContact(contact);
+        return seller;
+    }
+    
     public String addSeller() {
         LogManager.getRootLogger().info("SellerBean: addSeller");
+        propertyFlip = propertyFlipBean.getPropertyFlip();
+        LogManager.getRootLogger().info("propertyFlip == null: " + (propertyFlip == null));
         try {
             if (seller != null) {
                 if (contact != null) {
@@ -176,6 +209,7 @@ public class SellerBean implements Serializable {
                     contact.setMaritalStatus(selectedMaritalStatus);
                     seller.setContact(contact);
                 }
+                seller.setPropertyFlip(propertyFlip);
                 SessionServices sessionServices = new SessionServices();
                 User currentUser = sessionServices.getUserFromSession();
                 seller.setCreatedBy(currentUser);
@@ -280,20 +314,6 @@ public class SellerBean implements Serializable {
     private void updateSACitizenValue() {
         if (seller != null && seller.getContact() != null) {
             this.saCitizenValue = seller.getContact().getSaCitizen();
-        }
-    }
-    
-    /**
-     * Redirect page to the page for adding a seller
-     */
-    public void navigateAddSeller() {
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        try {
-            context.redirect(context.getRequestContextPath() + 
-                PathConstants.ADD_SELLER_PATH.getValue());
-        }
-        catch (IOException ex) {
-            Logger.getLogger(PropertyFlipBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

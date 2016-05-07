@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
+import org.apache.log4j.LogManager;
 import za.co.jericho.annotations.AuditTrail;
 import za.co.jericho.annotations.SecurityPermission;
 import za.co.jericho.annotations.UserActivityMonitor;
@@ -41,6 +42,7 @@ implements ManageClientService{
     @AuditTrail(serviceName = ServiceName.ADD_SELLER)
     @Override
     public Seller addSeller(Seller seller) {
+        LogManager.getRootLogger().info("ManageClientService: addSeller");
         /* Validations */
         /* State validation */
         seller.validate();
@@ -59,6 +61,7 @@ implements ManageClientService{
     @AuditTrail(serviceName = ServiceName.UPDATE_SELLER)
     @Override
     public Seller updateSeller(Seller seller) {
+        LogManager.getRootLogger().info("ManageClientService: updateSeller");
         /* Validations */
         /* State validation */
         seller.validate();
@@ -75,6 +78,7 @@ implements ManageClientService{
     @UserActivityMonitor(serviceName = ServiceName.MARK_SELLER_DELETED)
     @Override
     public Seller markSellerDeleted(Seller seller) {
+        LogManager.getRootLogger().info("ManageClientService: markSellerDeleted");
         throw new DeleteNotSupportedException("Deleting a seller is not supported");
     }
 
@@ -82,26 +86,31 @@ implements ManageClientService{
     @UserActivityMonitor(serviceName = ServiceName.SEARCH_SELLERS)
     @Override
     public Collection<Seller> searchSellers(SellerSearchCriteria sellerSearchCriteria) {
+        LogManager.getRootLogger().info("ManageClientService: searchSellers");
         Collection<Seller> sellers = new ArrayList<>();
         if (sellerSearchCriteria != null) {
             /* Service logic */
             StringConvertor stringConvertor = new StringDataConvertor();
-            StringBuilder searchContactsStringBuilder = new StringBuilder();
+            StringBuilder searchSellersStringBuilder = new StringBuilder();
             StringValidator stringValidator = new StringDataValidator();
             
-//            searchContactsStringBuilder.append("SELECT s FROM Seller s ");
-//            searchContactsStringBuilder.append("WHERE c.name like :name ");
-//            searchContactsStringBuilder.append("AND c.workDescription like :workDescription ");
-//            
-//            String name = stringConvertor.convertForDatabaseSearch
-//                (sellerSearchCriteria.getName(), sellerSearchCriteria.getSearchType());
-//            String workDescription = stringConvertor.convertForDatabaseSearch
-//                (sellerSearchCriteria.getWorkDescription(), sellerSearchCriteria.getSearchType());
-//            
-//            sellers = getEntityManager().createQuery(searchContactsStringBuilder.toString())
-//                .setParameter("name", name)
-//                .setParameter("workDescription", workDescription)
-//                .getResultList();
+            searchSellersStringBuilder.append("SELECT s FROM Seller s ");
+            searchSellersStringBuilder.append("WHERE s.contact.firstname like :firstname ");
+            searchSellersStringBuilder.append("AND s.contact.surname like :surname ");
+            searchSellersStringBuilder.append("AND s.propertyFlip.referenceNumber like :referenceNumber ");
+            
+            String firstname = stringConvertor.convertForDatabaseSearch
+                (sellerSearchCriteria.getFirstname(), sellerSearchCriteria.getSearchType());
+            String surname = stringConvertor.convertForDatabaseSearch
+                (sellerSearchCriteria.getSurname(), sellerSearchCriteria.getSearchType());
+            String referenceNumber = stringConvertor.convertForDatabaseSearch
+                (sellerSearchCriteria.getReferenceNo(), sellerSearchCriteria.getSearchType());
+            
+            sellers = getEntityManager().createQuery(searchSellersStringBuilder.toString())
+                .setParameter("firstname", firstname)
+                .setParameter("surname", surname)
+                .setParameter("referenceNumber", referenceNumber)
+                .getResultList();
         }
         else {
             throw new ServiceBeanException("Seller search criteria not provided");

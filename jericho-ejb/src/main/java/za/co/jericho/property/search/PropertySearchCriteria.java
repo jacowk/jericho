@@ -43,14 +43,14 @@ public class PropertySearchCriteria extends AbstractSearchCriteria {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         if (getSelectedSearchBy() != null) {
-            stringBuilder.append("|selectedSearchBy: ");
+            stringBuilder.append("Search By: ");
             stringBuilder.append(getSelectedSearchBy());
         }
         if (getSearchValue() != null) {
-            stringBuilder.append("|searchValue: ");
+            stringBuilder.append("\nSearch Value: ");
             stringBuilder.append(getSearchValue());
         }
-        stringBuilder.append("|Deleted: ");
+        stringBuilder.append("\nDeleted: ");
         stringBuilder.append(Boolean.toString(super.isDeleted()));
         return stringBuilder.toString();
     }

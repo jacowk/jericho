@@ -7,12 +7,14 @@ package za.co.jericho.session;
 
 /**
  *
- * @author user
+ * @author Jaco Koekemoer
  */
 public enum SessionVariables {
     
     CURRENT_USER("currentUser"),
-    ENTITY("entity");
+    ENTITY("entity"),
+    PROPERTY("property"),
+    PROPERTY_FLIP("propertyFlip");
     
     private String value;
     

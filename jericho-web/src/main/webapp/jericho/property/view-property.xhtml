@@ -51,6 +51,29 @@
                         <h:outputText value="#{propertyBean.property.propertySize}" 
                                       title="Property Size"/>
                         
+                        
+                        <!-- Property Flip properties -->
+                        <h:outputText value="Reference Number" />
+                        <h:outputText value="#{propertyBean.propertyFlip.referenceNumber}" 
+                                      title="Reference Number"/>
+
+                        <h:outputText value="Title Deed Number" />
+                        <h:outputText value="#{propertyBean.propertyFlip.titleDeedNumber}" 
+                                      title="Title Deed Number"/>
+
+                        <h:outputText value="Case Number" />
+                        <h:outputText value="#{propertyBean.propertyFlip.caseNumber}" 
+                                      title="Case Number"/>
+
+                        <h:outputText value="Purchase Price: "/>
+                        <h:outputText value="#{propertyBean.propertyFlip.purchasePrice}" 
+                                      title="Purchase Price"/>
+
+                        <h:outputText value="Selling Price: "/>
+                        <h:outputText id="sellingPrice"
+                                     value="#{propertyBean.propertyFlip.sellingPrice}" 
+                                     title="Selling Price"/>
+                        
                         <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
                         <h:outputText value="#{propertyBean.property.createdBy.username}" 
                                       title="#{jerichoWebBundle.CreatedBy}"/>

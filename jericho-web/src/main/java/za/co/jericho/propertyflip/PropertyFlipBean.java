@@ -22,7 +22,9 @@ import za.co.jericho.propertyflip.domain.PropertyFlip;
 import za.co.jericho.propertyflip.search.PropertyFlipSearchCriteria;
 import za.co.jericho.propertyflip.service.ManagePropertyFlipService;
 import za.co.jericho.security.domain.User;
+import za.co.jericho.seller.SellerBean;
 import za.co.jericho.session.SessionServices;
+import za.co.jericho.session.SessionVariables;
 import za.co.jericho.util.JerichoWebUtil;
 import za.co.jericho.util.JsfUtil;
 import za.co.jericho.util.PathConstants;
@@ -52,14 +54,14 @@ public class PropertyFlipBean implements Serializable {
     
     @PostConstruct
     public void init() {
-//        Get the session
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        LogManager.getRootLogger().info("PropertyFlipBean: init");
         property = propertyBean.getProperty();
+        LogManager.getRootLogger().info("property == null: " + (property == null));
         if (property != null) {
             if (property.getPropertyFlip() == null) {
                 propertyFlip = new PropertyFlip();
                 createPropertyFlip = true;
+                prepareDataForTesting(); //TODO Temporary step
             }
             else {
                 propertyFlip = property.getPropertyFlip();
@@ -68,6 +70,11 @@ public class PropertyFlipBean implements Serializable {
         }
     }
 
+    private void prepareDataForTesting() {
+        propertyFlip.setReferenceNumber(1234L);
+        propertyFlip.setTitleDeedNumber("1234");
+        propertyFlip.setCaseNumber("1234");
+    }
     
     /* Getters and Setters */
     public Property getProperty() {
@@ -130,7 +137,7 @@ public class PropertyFlipBean implements Serializable {
     public void addPropertyFlip() {
         try {
             if (propertyFlip != null) {
-                SessionServices sessionServices = new SessionServices();
+                SessionServices sessionServices = SessionServices.getInstance();
                 User currentUser = sessionServices.getUserFromSession();
                 propertyFlip.setCreatedBy(currentUser);
                 propertyFlip.setCreateDate(new Date());
@@ -162,7 +169,7 @@ public class PropertyFlipBean implements Serializable {
             .append("PropertyFlipBean: updatePropertyFlip").toString());
         try {
             if (propertyFlip != null) {
-                SessionServices sessionServices = new SessionServices();
+                SessionServices sessionServices = SessionServices.getInstance();
                 User currentUser = sessionServices.getUserFromSession();
                 propertyFlip.setLastModifiedBy(currentUser);
                 propertyFlip.setLastModifyDate(new Date());
@@ -201,6 +208,21 @@ public class PropertyFlipBean implements Serializable {
         }
         catch (IOException ex) {
             Logger.getLogger(PropertyFlipBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Redirect page to the page for adding a seller
+     */
+    public void navigateAddSeller() {
+        /* Now navigate to add-seller page */
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            context.redirect(context.getRequestContextPath() + 
+                PathConstants.ADD_SELLER_PATH.getValue());
+        }
+        catch (IOException ex) {
+            Logger.getLogger(SellerBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

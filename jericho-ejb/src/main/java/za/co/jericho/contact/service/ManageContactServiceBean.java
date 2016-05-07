@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.ejb.Remote;
 
 import javax.ejb.Stateless;
+import javax.interceptor.ExcludeClassInterceptors;
 import javax.interceptor.Interceptors;
 import za.co.jericho.annotations.AuditTrail;
 import za.co.jericho.annotations.SecurityPermission;
@@ -152,13 +153,13 @@ implements ManageContactService {
         throw new DeleteNotSupportedException("Deleting a marital status is not supported");
     }
 
-    @SecurityPermission(serviceName = ServiceName.SEARCH_CONTACTS)
+    @ExcludeClassInterceptors
     @Override
     public MaritalStatus findMaritalStatus(Object id) {
         return getEntityManager().find(MaritalStatus.class, id);
     }
 
-    @SecurityPermission(serviceName = ServiceName.SEARCH_CONTACTS)
+    @ExcludeClassInterceptors
     @Override
     public Collection<MaritalStatus> findAllMaritalStatusses() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager()

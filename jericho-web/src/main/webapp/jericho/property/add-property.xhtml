@@ -66,6 +66,33 @@
                         <p:inputText id="propertySize" 
                                      value="#{propertyBean.property.propertySize}" 
                                      title="Property Size" />
+                        
+                        <!-- Property Flip properties -->
+                        <p:outputLabel for="referenceNumber" value="Reference Number" />
+                        <p:inputText id="referenceNumber" 
+                                     value="#{propertyBean.propertyFlip.referenceNumber}" 
+                                     title="Reference Number"/>
+
+                        <p:outputLabel for="titleDeedNumber" value="Title Deed Number" />
+                        <p:inputText id="titleDeedNumber" 
+                                     value="#{propertyBean.propertyFlip.titleDeedNumber}" 
+                                     title="Title Deed Number"/>
+
+                        <p:outputLabel for="caseNumber" value="Case Number" />
+                        <p:inputText id="caseNumber" 
+                                     value="#{propertyBean.propertyFlip.caseNumber}" 
+                                     title="Case Number"/>
+
+                        <p:outputLabel for="purchasePrice" value="Purchase Price: "/>
+                        <p:inputText id="purchasePrice"
+                                     value="#{propertyBean.propertyFlip.purchasePrice}" 
+                                     title="Purchase Price"/>
+
+                        <p:outputLabel for="sellingPrice" value="Selling Price: "/>
+                        <p:inputText id="sellingPrice"
+                                     value="#{propertyBean.propertyFlip.sellingPrice}" 
+                                     title="Selling Price"/>
+
                     </p:panelGrid>
                     <p:commandButton actionListener="#{propertyBean.addProperty()}" 
                                      value="Save" 

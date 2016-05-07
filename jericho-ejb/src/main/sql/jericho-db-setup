@@ -47,7 +47,6 @@ select * from permission_role pr where pr.permission_id = 45;
 
 select * from permission where name like 'Test%' and service_name is null;
 
-
 --8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 = admin
 insert into users(firstname, surname, email, username, password, created_by, create_date)
 values('Admin', 'Admin', 'jaco.wk@gmail.com', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1, curdate());
@@ -214,6 +213,11 @@ insert into address(address_line_1, address_line_2, address_line_3, greater_area
 
 insert into property(erf_no, portion_no, property_size, address_id, created_by, create_date) values (1111, 11, 11, 1, 1, curdate());
 insert into property(erf_no, portion_no, property_size, address_id, created_by, create_date) values (2222, 22, 22, 2, 1, curdate());
+
+insert into property_flip(case_number, purchase_price, reference_number, selling_price, title_deed_number, property_id, created_by, create_date) 
+values ('1234', 123.45, 1234, 123.45, '1234', 3, 1, curdate());
+insert into property_flip(case_number, purchase_price, reference_number, selling_price, title_deed_number, property_id, created_by, create_date) 
+values ('1235', 123.45, 1235, 123.45, '1235', 4, 1, curdate());
 
 insert into area(name, created_by, create_date) values("RANDBURG", 1, curdate());
 

@@ -56,7 +56,8 @@ public class PropertyFlip extends AbstractEntity { //Change to Strategy
     private BigDecimal sellingPrice;
     @Column(name = "purchase_price")
     private BigDecimal purchasePrice;
-    @OneToOne(mappedBy="propertyFlip")
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "property_id")
     private Property property;
     @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "milestone_id")

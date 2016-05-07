@@ -69,53 +69,53 @@ public class LoginFilter implements Filter {
      * @param username
      * @return 
      */
-//    public User convert(String username) {
-//        LogManager.getRootLogger().info(new StringBuilder()
-//            .append("PrincipalToUserConverter: convert: ")
-//            .append(username)
-//            .toString());
-//        /* Find user, and place user on session */
-//        UserSearchCriteria userSearchCriteria = new UserSearchCriteria();
-//        userSearchCriteria.setUsername(username);
-//        userSearchCriteria.setSearchForLogin(true); /* In order to prevent initial permission checks */
-//        Collection<User> users = new ArrayList<>();
-//        users = manageSecurityUserService.searchUsers(userSearchCriteria);
-//        if (users != null) {
-//            if (users.size() == 1) {
-//                currentUser = users.iterator().next();
-//                Collection<Role> roles = currentUser.getRoles();
-//                if (roles != null) {
-//                    for (Role role: roles) {
-//                        LogManager.getRootLogger().info(new StringBuilder()
-//                            .append("Role: ")
-//                            .append(role.getName())
-//                            .toString());
-//                    }
-//                }
-//                else {
-//                    LogManager.getRootLogger().info(new StringBuilder()
-//                        .append("No roles defined for user")
-//                        .toString());
-//                }
-//                    
-//                LogManager.getRootLogger().info(new StringBuilder()
-//                    .append("LoginFilter: storeUserOnSession: ")
-//                    .append("User found: ")
-//                    .append(currentUser.getId())
-//                    .toString());
-//            }
-//            else if (users.size() > 1) {
-//                throw new PrincipalToUserConversionException("Multiple users found for username " + username);
-//            }
-//            else {
-//                throw new PrincipalToUserConversionException("Username not found: " + username);
-//            }
-//        }
-//        else {
-//            throw new PrincipalToUserConversionException("User list retrieved at login is null for username " + username);
-//        }
-//        return currentUser;
-//    }
+    /*public User convert(String username) {
+        LogManager.getRootLogger().info(new StringBuilder()
+            .append("PrincipalToUserConverter: convert: ")
+            .append(username)
+            .toString());
+        // Find user, and place user on session
+        UserSearchCriteria userSearchCriteria = new UserSearchCriteria();
+        userSearchCriteria.setUsername(username);
+        userSearchCriteria.setSearchForLogin(true); // In order to prevent initial permission checks
+        Collection<User> users = new ArrayList<>();
+        users = manageSecurityUserService.searchUsers(userSearchCriteria);
+        if (users != null) {
+            if (users.size() == 1) {
+                currentUser = users.iterator().next();
+                Collection<Role> roles = currentUser.getRoles();
+                if (roles != null) {
+                    for (Role role: roles) {
+                        LogManager.getRootLogger().info(new StringBuilder()
+                            .append("Role: ")
+                            .append(role.getName())
+                            .toString());
+                    }
+                }
+                else {
+                    LogManager.getRootLogger().info(new StringBuilder()
+                        .append("No roles defined for user")
+                        .toString());
+                }
+                    
+                LogManager.getRootLogger().info(new StringBuilder()
+                    .append("LoginFilter: storeUserOnSession: ")
+                    .append("User found: ")
+                    .append(currentUser.getId())
+                    .toString());
+            }
+            else if (users.size() > 1) {
+                throw new PrincipalToUserConversionException("Multiple users found for username " + username);
+            }
+            else {
+                throw new PrincipalToUserConversionException("Username not found: " + username);
+            }
+        }
+        else {
+            throw new PrincipalToUserConversionException("User list retrieved at login is null for username " + username);
+        }
+        return currentUser;
+    }*/
     
     private void logAuditActivity() {
         AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();

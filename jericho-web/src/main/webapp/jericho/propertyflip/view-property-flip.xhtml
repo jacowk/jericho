@@ -82,7 +82,7 @@
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  rendered="#{propertyFlipBean.propertyFlip.seller != null and 
-                                             propertyFlipBean.propertyFlip.seller.contacts != null}">
+                                             propertyFlipBean.propertyFlip.seller.contact != null}">
                         
                         <p:column>
                             <f:facet name="header">
@@ -148,9 +148,9 @@
                         </p:column>
                     </p:dataTable>
                     <p:commandButton id="addSellerButton"   
-                                     icon="ui-icon-plus"  
+                                     icon="ui-icon-plus" 
                                      value="Add Seller"
-                                     action="#{sellerBean.navigateAddSeller}" />
+                                     action="#{propertyFlipBean.navigateAddSeller}" />
                 </b:panel>
             </h:form>
         </ui:composition>

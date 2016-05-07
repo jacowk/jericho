@@ -70,6 +70,16 @@ public class MenuBean implements Serializable{
         return PathConstants.LIST_PROPERTIES.getValue();
     }
     
+    /* Seller Menu */
+    public String sellers() {
+        return PathConstants.LIST_SELLERS.getValue();
+    }
+    
+    /* Purchaser Menu */
+    public String purchasers() {
+        return PathConstants.LIST_PURCHASERS.getValue();
+    }
+    
     /* Area Menu */
     public String areas() {
         return PathConstants.LIST_AREAS.getValue();

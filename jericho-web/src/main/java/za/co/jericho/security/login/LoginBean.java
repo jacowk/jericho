@@ -51,6 +51,7 @@ public class LoginBean implements Serializable{
 //        if (service.login(user)) {
 //            return "index";
 //        }
+        LogManager.getRootLogger().info("LoginBean: login");
         FacesContext context = FacesContext.getCurrentInstance();
         ExternalContext externalContext = context.getExternalContext();
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
@@ -62,21 +63,28 @@ public class LoginBean implements Serializable{
         catch(ServletException e)
         {
 //            JsfUtils.addErrorMessage(e, "authentication failed");
+            LogManager.getRootLogger().error(new StringBuilder()
+                .append(e)
+                .toString());
+            e.printStackTrace();
         }
     }
     
     public String logout() {
+        LogManager.getRootLogger().info("LoginBean: logout");
         String destination = "/index?faces-redirect=true";
         
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
+            request.getSession().invalidate();
             request.logout();
         }
         catch (ServletException ex) {
             LogManager.getRootLogger().error(new StringBuilder()
                 .append(ex)
                 .toString());
+            ex.printStackTrace();
             destination = "/loginerror?faces-redirect=true";
         }
         return destination;

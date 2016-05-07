@@ -16,6 +16,7 @@ import za.co.jericho.address.service.ManageAddressService;
 import za.co.jericho.property.domain.Property;
 import za.co.jericho.property.search.PropertySearchCriteria;
 import za.co.jericho.property.service.ManagePropertyService;
+import za.co.jericho.propertyflip.domain.PropertyFlip;
 import za.co.jericho.security.domain.User;
 import za.co.jericho.session.SessionServices;
 import za.co.jericho.util.JerichoWebUtil;
@@ -31,6 +32,7 @@ import za.co.jericho.util.JsfUtil;
 public class PropertyBean implements Serializable {
     
     private Property property;
+    private PropertyFlip propertyFlip;
     private PropertySearchCriteria propertySearchCriteria = new PropertySearchCriteria();
     private Collection<Property> properties = null;
     private Long selectedGreaterAreaId;
@@ -63,6 +65,14 @@ public class PropertyBean implements Serializable {
 
     public void setProperty(Property property) {
         this.property = property;
+    }
+
+    public PropertyFlip getPropertyFlip() {
+        return propertyFlip;
+    }
+
+    public void setPropertyFlip(PropertyFlip propertyFlip) {
+        this.propertyFlip = propertyFlip;
     }
 
     public PropertySearchCriteria getPropertySearchCriteria() {
@@ -111,6 +121,8 @@ public class PropertyBean implements Serializable {
             .append("PropertyBean: prepareAdd")
             .toString());
         property = new Property();
+        propertyFlip = new PropertyFlip();
+        property.setPropertyFlip(propertyFlip);
         return property;
     }
     
