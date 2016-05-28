@@ -9,16 +9,12 @@ select * from area;
 select * from property_audit_trail;
 select * from contact;
 select * from attorney a;
-
 show tables;
-
 select * from role;
 select * from permission_role pr where role_id = 1;
 describe permission_role;
-
 select * from permission p where p.name like '%Attorney%';
 select * from permission_role pr where pr.permission_id = 45;
-
 select * from contractor_audit_trail;
 select * from attorney where deleted = 'false';
 select * from attorney_audit_trail;
@@ -34,18 +30,15 @@ select * from bank;
 select * from user_activity;
 select * from bank_audit_trail;
 select * from contractor_audit_trail;
-
 select * from bank;
 select * from bank_audit_trail;
-
 select * from user_activity;
 select * from attorney_audit_trail;
 select * from estate_agent;
 select * from estate_agent_audit_trail;
-
 select * from permission_role pr where pr.permission_id = 45;
-
 select * from permission where name like 'Test%' and service_name is null;
+
 
 --8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 = admin
 insert into users(firstname, surname, email, username, password, created_by, create_date)

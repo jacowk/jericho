@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="SellerSelectDlg" 
+                      widgetVar="SellerSelectDialog" 
+                      modal="true" 
+                      resizable="false" 
+                      appendTo="@(body)" 
+                      header="Select Seller"
+                      style="width: 80%">
+            <h:form id="SellerSelectForm">
+                <p:dataTable var="contact" 
+                             value="#{selectSellerBean.contacts}">
+                    <p:column headerText="Id">
+                        <h:outputText value="#{contact.id}" />
+                    </p:column>
+                    <p:column headerText="Firstname">
+                        <h:outputText value="#{contact.firstname}" />
+                    </p:column>
+                    <p:column headerText="Surname">
+                        <h:outputText value="#{contact.surname}" />
+                    </p:column>
+                    <p:column headerText="Work Email">
+                        <h:outputText value="#{contact.workEmail}" />
+                    </p:column>
+                    <p:column headerText="Personal Email">
+                        <h:outputText value="#{contact.personalEmail}" />
+                    </p:column>
+                    <p:column headerText="Cell Number">
+                        <h:outputText value="#{contact.cellNumber}" />
+                    </p:column>
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton icon="ui-icon-search" 
+                                         actionListener="#{selectSellerBean.selectSellerFromDialog(contact)}" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

@@ -71,88 +71,19 @@
                 <br/>
                 <b:panel look="primary">
                     <f:facet name="heading">Seller</f:facet>
-                    <p:dataTable id="datalist" 
-                                 value="#{propertyFlipBean.propertyFlip.seller.contacts}" 
-                                 var="item"
-                                 selectionMode="single" 
-                                 selection="#{propertyBean.property}"
-                                 paginator="true" 
-                                 paginatorPosition="bottom"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 rendered="#{propertyFlipBean.propertyFlip.seller != null and 
-                                             propertyFlipBean.propertyFlip.seller.contact != null}">
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Firstname"/>
-                            </f:facet>
-                            <h:outputText value="#{item.firstname}"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Surname"/>
-                            </f:facet>
-                            <h:outputText value="#{item.surname}"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Home Tel No"/>
-                            </f:facet>
-                            <h:outputText value="#{item.homeTelNumber}"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Work Tel No"/>
-                            </f:facet>
-                            <h:outputText value="#{item.workTelNumber}"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Cell No"/>
-                            </f:facet>
-                            <h:outputText value="#{item.cellNumber}"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Work Email"/>
-                            </f:facet>
-                            <h:outputText value="#{item.workEmail}"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="View"/>
-                            </f:facet>
-                            <h:outputText value="View"/><!-- This should be a command link -->
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Update"/>
-                            </f:facet>
-                            <h:outputText value="Update"/><!-- This should be a command link -->
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Delete"/>
-                            </f:facet>
-                            <h:outputText value="Delete"/><!-- This should be a command link -->
-                        </p:column>
-                    </p:dataTable>
-                    <p:commandButton id="addSellerButton"   
-                                     icon="ui-icon-plus" 
-                                     value="Add Seller"
-                                     action="#{propertyFlipBean.navigateAddSeller}" />
+                    <p:growl id="growl" showDetail="true"/>
+                    <p:commandButton value="Select Seller" 
+                                     icon="ui-icon-extlink" 
+                                     actionListener="#{propertyFlipBean.chooseSeller}">
+                        <p:ajax event="dialogReturn" 
+                                listener="#{propertyFlipBean.onSellerChosen}" />
+                    </p:commandButton>
+                    
+                    
                 </b:panel>
             </h:form>
+            
+            <ui:include src="select-seller.xhtml"/>
         </ui:composition>
     </h:body>
 </html>
