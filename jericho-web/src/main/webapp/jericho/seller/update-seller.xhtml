@@ -16,69 +16,69 @@
                   header="Update Seller">
             <h:form id="SellerUpdateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{sellerBean.seller != null}">
+                    <p:panelGrid columns="2" rendered="#{sellerBean.contact != null}">
                         <p:outputLabel for="firstname" value="Firstname" />
                         <p:inputText id="firstname" 
-                                     value="#{sellerBean.seller.firstname}" 
+                                     value="#{sellerBean.contact.firstname}" 
                                      title="Firstname" />
                         
                         <p:outputLabel for="surname" value="Surname" />
                         <p:inputText id="surname" 
-                                     value="#{sellerBean.seller.surname}" 
+                                     value="#{sellerBean.contact.surname}" 
                                      title="Surname" />
                         
                         <p:outputLabel for="homeTelNumber" value="Home Tel Number" />
                         <p:inputText id="homeTelNumber" 
-                                     value="#{sellerBean.seller.homeTelNumber}" 
+                                     value="#{sellerBean.contact.homeTelNumber}" 
                                      title="Home Tel Number" />
                         
                         <p:outputLabel for="workTelNumber" value="Work Tel Number" />
                         <p:inputText id="workTelNumber" 
-                                     value="#{sellerBean.seller.workTelNumber}" 
+                                     value="#{sellerBean.contact.workTelNumber}" 
                                      title="Work Tel Number" />
                         
                         <p:outputLabel for="cellNumber" value="Cell Number" />
                         <p:inputText id="cellNumber" 
-                                     value="#{sellerBean.seller.cellNumber}" 
+                                     value="#{sellerBean.contact.cellNumber}" 
                                      title="Cell Number" />
                         
                         <p:outputLabel for="faxNumber" value="Fax Number" />
                         <p:inputText id="faxNumber" 
-                                     value="#{sellerBean.seller.faxNumber}" 
+                                     value="#{sellerBean.contact.faxNumber}" 
                                      title="Fax Number" />
                         
                         <p:outputLabel for="workEmail" value="Work Email" />
                         <p:inputText id="workEmail" 
-                                     value="#{sellerBean.seller.workEmail}" 
+                                     value="#{sellerBean.contact.workEmail}" 
                                      title="Work Email" />
                         
                         <p:outputLabel for="personalEmail" value="Personal Email" />
                         <p:inputText id="personalEmail" 
-                                     value="#{sellerBean.seller.personalEmail}" 
+                                     value="#{sellerBean.contact.personalEmail}" 
                                      title="Personal Email" />
                         
                         <p:outputLabel for="idNumber" value="ID Number" />
                         <p:inputText id="idNumber" 
-                                     value="#{sellerBean.seller.idNumber}" 
+                                     value="#{sellerBean.contact.idNumber}" 
                                      title="ID Number" />
                         
                         <p:outputLabel for="passportNumber" value="Passport Number" />
                         <p:inputText id="passportNumber" 
-                                     value="#{sellerBean.seller.passportNumber}" 
+                                     value="#{sellerBean.contact.passportNumber}" 
                                      title="Passport Number" />
                         
                         <p:outputLabel for="maritalStatus" value="Marital Status" />
                         <p:inputText id="maritalStatus" 
-                                     value="#{sellerBean.seller.maritalStatus}" 
+                                     value="#{sellerBean.contact.maritalStatus}" 
                                      title="Marital Status" />
                         
                         <p:outputLabel for="taxNumber" value="Tax Number" />
                         <p:inputText id="taxNumber" 
-                                     value="#{sellerBean.seller.taxNumber}" 
+                                     value="#{sellerBean.contact.taxNumber}" 
                                      title="Tax Number" />
                         
                         <p:outputLabel for="saCitizen" value="SA Citizen" />
-                        <p:selectOneRadio id="saCitizen" value="#{sellerBean.seller.saCitizen}">
+                        <p:selectOneRadio id="saCitizen" value="#{sellerBean.contact.saCitizen}">
                             <f:selectItem itemLabel="Yes" itemValue="true" />
                             <f:selectItem itemLabel="No" itemValue="false" />
                         </p:selectOneRadio>

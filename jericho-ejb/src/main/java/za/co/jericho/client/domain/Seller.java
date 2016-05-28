@@ -20,8 +20,8 @@ import za.co.jericho.propertyflip.domain.PropertyFlip;
 @Table(name="seller", schema = "jericho")
 public class Seller extends AbstractEntity {
 
-    @OneToOne(mappedBy="seller")
-    @JoinColumn(name="property_flip_id")
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "property_flip_id")
     private PropertyFlip propertyFlip;
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name="contact_id")
@@ -61,11 +61,11 @@ public class Seller extends AbstractEntity {
             stringBuilder.append(getId());
         }
         if (getPropertyFlip() != null) {
-            stringBuilder.append("Property Flip ID: ");
+            stringBuilder.append("\nProperty Flip ID: ");
             stringBuilder.append(getPropertyFlip().getId());
         }
         if (getContact() != null) {
-            stringBuilder.append("Contact ID: ");
+            stringBuilder.append("\nContact ID: ");
             stringBuilder.append(getContact().getId());
         }
         return stringBuilder.toString();

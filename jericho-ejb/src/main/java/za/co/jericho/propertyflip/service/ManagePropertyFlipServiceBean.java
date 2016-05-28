@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
+import za.co.jericho.annotations.AuditTrail;
+import za.co.jericho.annotations.SecurityPermission;
+import za.co.jericho.annotations.UserActivityMonitor;
 import za.co.jericho.audit.AuditActivityFactory;
 import za.co.jericho.audit.lookup.AuditActivityType;
 import za.co.jericho.audit.lookup.EntityName;
@@ -11,6 +15,9 @@ import za.co.jericho.common.service.AbstractServiceBean;
 import za.co.jericho.exception.BeanServiceNotSupportedException;
 import za.co.jericho.exception.DeleteNotSupportedException;
 import za.co.jericho.exception.ServiceBeanException;
+import za.co.jericho.interceptors.AuditTrailInterceptor;
+import za.co.jericho.interceptors.SecurityPermissionInterceptor;
+import za.co.jericho.interceptors.UserActivityMonitorInterceptor;
 import za.co.jericho.propertyflip.domain.Milestone;
 import za.co.jericho.propertyflip.domain.PropertyFlip;
 import za.co.jericho.propertyflip.search.*;
@@ -29,16 +36,15 @@ import za.co.jericho.util.validation.EntityValidator;
  */
 @Stateless
 @Remote(ManagePropertyFlipService.class)
+@Interceptors({SecurityPermissionInterceptor.class, AuditTrailInterceptor.class,
+UserActivityMonitorInterceptor.class})
 public class ManagePropertyFlipServiceBean extends AbstractServiceBean
 implements ManagePropertyFlipService {
 
+    @SecurityPermission(serviceName = ServiceName.ADD_PROPERTY_FLIP)
+    @AuditTrail(serviceName = ServiceName.ADD_PROPERTY_FLIP)
     @Override
     public PropertyFlip addPropertyFlip(PropertyFlip propertyFlip) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(propertyFlip.getCreatedBy(), 
-            ServiceName.ADD_PROPERTY_FLIP.getValue());
-        
         /* Validations */
         /* State validation */
         propertyFlip.validate();
@@ -48,24 +54,13 @@ implements ManagePropertyFlipService {
         if (entityValidator.isValidateEntityBeforeCreate(propertyFlip)) {
             getEntityManager().persist(propertyFlip);
         }
-        /* Audit Activity Logging */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.PROPERTY_FLIP, //EntityName entityName
-            ServiceName.ADD_PROPERTY_FLIP.getValue(), //String serviceName
-            AuditActivityType.ADD, //AuditActivityType activityType
-            propertyFlip.toString(), //String description
-            propertyFlip.getCreatedBy())); //User currentUser
         return propertyFlip;
     }
 
+    @SecurityPermission(serviceName = ServiceName.UPDATE_PROPERTY_FLIP)
+    @AuditTrail(serviceName = ServiceName.UPDATE_PROPERTY_FLIP)
     @Override
     public PropertyFlip updatePropertyFlip(PropertyFlip propertyFlip) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(propertyFlip.getLastModifiedBy(), 
-            ServiceName.UPDATE_PROPERTY_FLIP.getValue());
-        
         /* Validations */
         /* State validation */
         propertyFlip.validate();
@@ -75,74 +70,34 @@ implements ManagePropertyFlipService {
         if (entityValidator.isValidateEntityBeforeUpdate(propertyFlip)) {
             getEntityManager().merge(propertyFlip);
         }
-        /* Audit Activity Logging */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.PROPERTY_FLIP, //EntityName entityName
-            ServiceName.UPDATE_PROPERTY_FLIP.getValue(), //String serviceName
-            AuditActivityType.UPDATE, //AuditActivityType auditActivityType
-            propertyFlip.toString(), //String description
-            propertyFlip.getLastModifiedBy())); //User currentUser
         return propertyFlip;
     }
 
+    @SecurityPermission(serviceName = ServiceName.MARK_PROPERTY_FLIP_DELETED)
+    @UserActivityMonitor(serviceName = ServiceName.MARK_PROPERTY_FLIP_DELETED)
     @Override
     public PropertyFlip markPropertyFlipDeleted(PropertyFlip propertyFlip) {
         throw new DeleteNotSupportedException("Deleting a property flip is not supported");
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_PROPERTY_FLIPS)
+    @UserActivityMonitor(serviceName = ServiceName.SEARCH_PROPERTY_FLIPS)
     @Override
-    public List<PropertyFlip> searchPropertyFlips(PropertyFlipSearchCriteria propertyFlipSearchCriteria) {
-        List<PropertyFlip> propertyFlips = new ArrayList<>();
-        if (propertyFlipSearchCriteria != null) {
-            /* Check permissions */
-            PermissionChecker permissionChecker = new UserPermissionChecker();
-            permissionChecker.check(propertyFlipSearchCriteria.getServiceUser(), 
-                ServiceName.SEARCH_PROPERTY_FLIPS.getValue());
-            
-            /* Service logic */
-            StringConvertor stringConvertor = new StringDataConvertor();
-//            User user = userSearchCriteria.getUser();
-            StringBuilder searchUsersStringBuilder = new StringBuilder();
-            searchUsersStringBuilder.append("SELECT pf FROM PropetyFlip pf ");
-            searchUsersStringBuilder.append("WHERE pf.referenceNumber like :referenceNumber ");
-            searchUsersStringBuilder.append("AND pf.titleDeedNumber like :titleDeedNumber ");
-            searchUsersStringBuilder.append("AND pf.caseNumber like :caseNumber ");
-            String referenceNumber = stringConvertor.convertForDatabaseSearch
-                (propertyFlipSearchCriteria.getReferenceNumber(), 
-                propertyFlipSearchCriteria.getSearchType());
-            String titleDeedNumber = stringConvertor.convertForDatabaseSearch
-                (propertyFlipSearchCriteria.getTitleDeedNumber(), 
-                propertyFlipSearchCriteria.getSearchType());
-            String caseNumber = stringConvertor.convertForDatabaseSearch
-                (propertyFlipSearchCriteria.getCaseNumber(), 
-                propertyFlipSearchCriteria.getSearchType());
-            propertyFlips = getEntityManager().createQuery(searchUsersStringBuilder.toString())
-                .setParameter("referenceNumber", referenceNumber)
-                .setParameter("titleDeedNumber", titleDeedNumber)
-                .setParameter("caseNumber", caseNumber)
-                .getResultList();
-            
-            /* Audit Activity Logging */
-            AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-            manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-                (EntityName.PROPERTY_FLIP, //String entityName
-                ServiceName.SEARCH_PROPERTY_FLIPS.getValue(), //String serviceName
-                AuditActivityType.SEARCH, //String activityType
-                propertyFlipSearchCriteria.toString(), //String description
-                propertyFlipSearchCriteria.getServiceUser())); //User currentUser
-        }
-        else {
-            throw new ServiceBeanException("Property Flip search criteria not provided");
-        }
-        return propertyFlips;
+    public List<PropertyFlip> searchPropertyFlips(PropertyFlipSearchCriteria 
+        propertyFlipSearchCriteria) {
+        PropertyFlipSearchUnit propertyFlipSearchUnit = new 
+            PropertyFlipSearchUnit(getEntityManager(), propertyFlipSearchCriteria);
+        propertyFlipSearchUnit.run();
+        return propertyFlipSearchUnit.getPropertyFlips();
     }
     
+    @SecurityPermission(serviceName = ServiceName.SEARCH_PROPERTY_FLIPS)
     @Override
     public PropertyFlip findPropertyFlip(Object id) {
         return getEntityManager().find(PropertyFlip.class, id);
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_PROPERTY_FLIPS)
     @Override
     public List<PropertyFlip> findAllPropertyFlips() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -150,13 +105,10 @@ implements ManagePropertyFlipService {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @SecurityPermission(serviceName = ServiceName.ADD_MILESTONE)
+    @AuditTrail(serviceName = ServiceName.ADD_MILESTONE)
     @Override
     public Milestone addMilestone(Milestone milestone) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(milestone.getCreatedBy(), 
-            ServiceName.ADD_MILESTONE.getValue());
-        
         /* Validations */
         /* State validation */
         milestone.validate();
@@ -166,24 +118,13 @@ implements ManagePropertyFlipService {
         if (entityValidator.isValidateEntityBeforeCreate(milestone)) {
             getEntityManager().persist(milestone);
         }
-        /* Audit Activity Logging */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.MILESTONE, //EntityName entityName
-            ServiceName.ADD_MILESTONE.getValue(), //String serviceName
-            AuditActivityType.ADD, //AuditActivityType activityType
-            milestone.toString(), //String description
-            milestone.getCreatedBy())); //User currentUser
         return milestone;
     }
 
+    @SecurityPermission(serviceName = ServiceName.UPDATE_MILESTONE)
+    @AuditTrail(serviceName = ServiceName.UPDATE_MILESTONE)
     @Override
     public Milestone updateMilestone(Milestone milestone) {
-        /* Check permissions */
-        PermissionChecker permissionChecker = new UserPermissionChecker();
-        permissionChecker.check(milestone.getLastModifiedBy(), 
-            ServiceName.UPDATE_MILESTONE.getValue());
-        
         /* Validations */
         /* State validation */
         milestone.validate();
@@ -193,33 +134,31 @@ implements ManagePropertyFlipService {
         if (entityValidator.isValidateEntityBeforeUpdate(milestone)) {
             getEntityManager().merge(milestone);
         }
-        /* Audit Activity Logging */
-        AuditActivityFactory auditActivityFactory = AuditActivityFactory.getInstance();
-        manageAuditActivityService.addAuditActivity(auditActivityFactory.createAuditActivity
-            (EntityName.MILESTONE, //EntityName entityName
-            ServiceName.UPDATE_MILESTONE.getValue(), //String serviceName
-            AuditActivityType.UPDATE, //AuditActivityType auditActivityType
-            milestone.toString(), //String description
-            milestone.getLastModifiedBy())); //User currentUser
         return milestone;
     }
 
+    @SecurityPermission(serviceName = ServiceName.MARK_MILESTONE_DELETED)
+    @UserActivityMonitor(serviceName = ServiceName.MARK_MILESTONE_DELETED)
     @Override
     public Milestone markMilestoneDeleted(Milestone milestone) {
         throw new DeleteNotSupportedException("Deleting milestones are not supported");
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_MILESTONES)
+    @UserActivityMonitor(serviceName = ServiceName.SEARCH_MILESTONES)
     @Override
     public List searchMilestones(MilestoneSearchCriteria milestoneSearchCriteria) {
         throw new BeanServiceNotSupportedException("Searching milestones are not "
             + "supported yet. Milestones are eagerly loaded with PropertyFlips.");
     }
     
+    @SecurityPermission(serviceName = ServiceName.SEARCH_MILESTONES)
     @Override
     public Milestone findMilestone(Object id) {
         return getEntityManager().find(Milestone.class, id);
     }
 
+    @SecurityPermission(serviceName = ServiceName.SEARCH_MILESTONES)
     @Override
     public List<Milestone> findAllMilestones() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();

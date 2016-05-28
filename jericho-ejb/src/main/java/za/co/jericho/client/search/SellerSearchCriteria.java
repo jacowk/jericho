@@ -16,7 +16,7 @@ public class SellerSearchCriteria extends AbstractSearchCriteria {
     private Long idNumber;
     private String passportNumber;
     /* Property criteria */
-    private String referenceNo;
+    private Long referenceNo;
 
     public String getFirstname() {
         return firstname;
@@ -66,11 +66,11 @@ public class SellerSearchCriteria extends AbstractSearchCriteria {
         this.passportNumber = passportNumber;
     }
 
-    public String getReferenceNo() {
+    public Long getReferenceNo() {
         return referenceNo;
     }
 
-    public void setReferenceNo(String referenceNo) {
+    public void setReferenceNo(Long referenceNo) {
         this.referenceNo = referenceNo;
     }
     

@@ -48,12 +48,16 @@ public class PropertyBean implements Serializable {
     
     @PostConstruct
     public void init() {
+LogManager.getRootLogger().info("PropertyBean: init");
         if (property != null) {
             if (property.getAddress() != null && property.getAddress().getGreaterArea() != null) {
                 /* This code is to ensure that the greater area is preselected on screen in the combobox */
                 GreaterArea greaterArea = (GreaterArea) property.getAddress().getGreaterArea();
                 setSelectedGreaterAreaId(greaterArea.getId());
                 setSelectedGreaterArea(greaterArea);
+            }
+            if (property.getPropertyFlip() != null) {
+                propertyFlip = property.getPropertyFlip();
             }
         }
     }

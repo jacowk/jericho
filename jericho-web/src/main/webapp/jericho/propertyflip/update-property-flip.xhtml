@@ -19,27 +19,32 @@
                                 <p:outputLabel for="referenceNumber" value="Reference Number" />
                                 <p:inputText id="referenceNumber" 
                                              value="#{propertyFlipBean.propertyFlip.referenceNumber}" 
-                                             title="Reference Number"/>
+                                             title="Reference Number"
+                                             rendered="#{propertyFlipBean.propertyFlip != null}"/>
 
                                 <p:outputLabel for="titleDeedNumber" value="Title Deed Number" />
                                 <p:inputText id="titleDeedNumber" 
                                              value="#{propertyFlipBean.propertyFlip.titleDeedNumber}" 
-                                             title="Title Deed Number"/>
+                                             title="Title Deed Number"
+                                             rendered="#{propertyFlipBean.propertyFlip != null}"/>
 
                                 <p:outputLabel for="caseNumber" value="Case Number" />
                                 <p:inputText id="caseNumber" 
                                              value="#{propertyFlipBean.propertyFlip.caseNumber}" 
-                                             title="Case Number"/>
+                                             title="Case Number"
+                                             rendered="#{propertyFlipBean.propertyFlip != null}"/>
                                 
                                 <p:outputLabel for="purchasePrice" value="Purchase Price: "/>
                                 <p:inputText id="purchasePrice"
                                              value="#{propertyFlipBean.propertyFlip.purchasePrice}" 
-                                             title="Purchase Price"/>
+                                             title="Purchase Price"
+                                             rendered="#{propertyFlipBean.propertyFlip != null}"/>
 
                                 <p:outputLabel for="sellingPrice" value="Selling Price: "/>
                                 <p:inputText id="sellingPrice"
                                              value="#{propertyFlipBean.propertyFlip.sellingPrice}" 
-                                             title="Selling Price"/>
+                                             title="Selling Price"
+                                             rendered="#{propertyFlipBean.propertyFlip != null}"/>
                             </p:panelGrid>
                             <p:commandButton value="Add" 
                                              icon="ui-icon-plus" 

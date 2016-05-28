@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <!-- 
+        The following context-param is used to prevent the following exception: 
+        IllegalStateException: Cannot create a session after the response has been committed
+    -->
+    <context-param>
+        <param-name>com.sun.faces.writeStateAtFormEnd</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <!--
+        The following context-param is also used to avoid the IllegalStateException
+        <context-param>
+            <param-name>javax.faces.FACELETS_BUFFER_SIZE</param-name>
+            <param-value>65535</param-value>
+        </context-param>
+    -->
+    
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>

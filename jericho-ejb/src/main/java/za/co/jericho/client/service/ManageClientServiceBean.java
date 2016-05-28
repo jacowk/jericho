@@ -13,6 +13,7 @@ import za.co.jericho.client.domain.Purchaser;
 import za.co.jericho.client.domain.Seller;
 import za.co.jericho.client.search.PurchaserSearchCriteria;
 import za.co.jericho.client.search.SellerSearchCriteria;
+import za.co.jericho.client.search.SellerSearchUnit;
 import za.co.jericho.common.service.AbstractServiceBean;
 import za.co.jericho.exception.DeleteNotSupportedException;
 import za.co.jericho.exception.ServiceBeanException;
@@ -87,35 +88,10 @@ implements ManageClientService{
     @Override
     public Collection<Seller> searchSellers(SellerSearchCriteria sellerSearchCriteria) {
         LogManager.getRootLogger().info("ManageClientService: searchSellers");
-        Collection<Seller> sellers = new ArrayList<>();
-        if (sellerSearchCriteria != null) {
-            /* Service logic */
-            StringConvertor stringConvertor = new StringDataConvertor();
-            StringBuilder searchSellersStringBuilder = new StringBuilder();
-            StringValidator stringValidator = new StringDataValidator();
-            
-            searchSellersStringBuilder.append("SELECT s FROM Seller s ");
-            searchSellersStringBuilder.append("WHERE s.contact.firstname like :firstname ");
-            searchSellersStringBuilder.append("AND s.contact.surname like :surname ");
-            searchSellersStringBuilder.append("AND s.propertyFlip.referenceNumber like :referenceNumber ");
-            
-            String firstname = stringConvertor.convertForDatabaseSearch
-                (sellerSearchCriteria.getFirstname(), sellerSearchCriteria.getSearchType());
-            String surname = stringConvertor.convertForDatabaseSearch
-                (sellerSearchCriteria.getSurname(), sellerSearchCriteria.getSearchType());
-            String referenceNumber = stringConvertor.convertForDatabaseSearch
-                (sellerSearchCriteria.getReferenceNo(), sellerSearchCriteria.getSearchType());
-            
-            sellers = getEntityManager().createQuery(searchSellersStringBuilder.toString())
-                .setParameter("firstname", firstname)
-                .setParameter("surname", surname)
-                .setParameter("referenceNumber", referenceNumber)
-                .getResultList();
-        }
-        else {
-            throw new ServiceBeanException("Seller search criteria not provided");
-        }
-        return sellers;
+        SellerSearchUnit sellerSearchUnit = new SellerSearchUnit(
+            getEntityManager(), sellerSearchCriteria);
+        sellerSearchUnit.run();
+        return sellerSearchUnit.getSellers();
     }
 
     @SecurityPermission(serviceName = ServiceName.SEARCH_SELLERS)

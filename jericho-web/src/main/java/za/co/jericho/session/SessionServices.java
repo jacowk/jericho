@@ -62,7 +62,7 @@ public class SessionServices {
     public User getUserFromSession() {
         LogManager.getRootLogger().info("SessionServices: getUserFromSession");
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
         User user = (User) session.getAttribute(SessionVariables.CURRENT_USER.getValue());
         if (user == null) {
             LogManager.getRootLogger().error("SessionServices: User not found on session.");
@@ -81,7 +81,7 @@ public class SessionServices {
     public void removeUserFromSession() {
         LogManager.getRootLogger().info("SessionServices: removeUserFromSession");
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
         User user = (User) session.getAttribute(SessionVariables.CURRENT_USER.getValue());
         if (user != null) {
             session.removeAttribute(SessionVariables.CURRENT_USER.getValue());
@@ -92,21 +92,21 @@ public class SessionServices {
     public void setEntityOnSession(AbstractEntity abstractEntity) {
         LogManager.getRootLogger().info("SessionServices: setEntityOnSession");
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
         session.setAttribute(SessionVariables.ENTITY.getValue(), abstractEntity);
     }
     
     public AbstractEntity getEntityFromSession() {
         LogManager.getRootLogger().info("SessionServices: getEntityFromSession");
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
         return (AbstractEntity) session.getAttribute(SessionVariables.ENTITY.getValue());
     }
     
     public void removeEntityFromSession() {
         LogManager.getRootLogger().info("SessionServices: removeEntityFromSession");
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
         if (session.getAttribute(SessionVariables.ENTITY.getValue()) != null) {
             session.removeAttribute(SessionVariables.ENTITY.getValue());
         }
@@ -133,7 +133,7 @@ public class SessionServices {
     public Object getObjectFromSession(String sessionVariable) {
         LogManager.getRootLogger().info("SessionServices: getObjectFromSession: " + sessionVariable);
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
         if (session.getAttribute(sessionVariable) != null) {
             return session.getAttribute(sessionVariable);
         }
@@ -143,7 +143,7 @@ public class SessionServices {
     public void removeObjectFromSession(String sessionVariable) {
         LogManager.getRootLogger().info("SessionServices: removeObjectFromSession: " + sessionVariable);
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
         if (session.getAttribute(sessionVariable) != null) {
             session.removeAttribute(sessionVariable);
         }

@@ -1,6 +1,5 @@
 package za.co.jericho.bank.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -10,19 +9,15 @@ import za.co.jericho.annotations.SecurityPermission;
 import za.co.jericho.annotations.UserActivityMonitor;
 import za.co.jericho.bank.domain.Bank;
 import za.co.jericho.bank.search.BankSearchCriteria;
+import za.co.jericho.bank.search.BankSearchUnit;
 import za.co.jericho.common.service.AbstractServiceBean;
 import za.co.jericho.exception.DeleteNotSupportedException;
-import za.co.jericho.exception.ServiceBeanException;
 import za.co.jericho.interceptors.AuditTrailInterceptor;
 import za.co.jericho.interceptors.SecurityPermissionInterceptor;
 import za.co.jericho.interceptors.UserActivityMonitorInterceptor;
 import za.co.jericho.security.ServiceName;
-import za.co.jericho.util.conversion.StringConvertor;
-import za.co.jericho.util.conversion.StringDataConvertor;
 import za.co.jericho.util.validation.EntityStateValidator;
 import za.co.jericho.util.validation.EntityValidator;
-import za.co.jericho.util.validation.StringDataValidator;
-import za.co.jericho.util.validation.StringValidator;
 
 @Stateless
 @Remote(ManageBankService.class)
@@ -76,26 +71,10 @@ implements ManageBankService{
     @UserActivityMonitor(serviceName = ServiceName.SEARCH_BANKS)
     @Override
     public Collection<Bank> searchBanks(BankSearchCriteria bankSearchCriteria) {
-        Collection<Bank> contacts = new ArrayList<>();
-        if (bankSearchCriteria != null) {
-            /* Service logic */
-            StringConvertor stringConvertor = new StringDataConvertor();
-            StringBuilder searchContactsStringBuilder = new StringBuilder();
-            StringValidator stringValidator = new StringDataValidator();
-            
-            searchContactsStringBuilder.append("SELECT b FROM Bank b ");
-            searchContactsStringBuilder.append("WHERE b.name like :name ");
-            String name = stringConvertor.convertForDatabaseSearch
-                (bankSearchCriteria.getName(), bankSearchCriteria.getSearchType());
-            
-            contacts = getEntityManager().createQuery(searchContactsStringBuilder.toString())
-                .setParameter("name", name)
-                .getResultList();
-        }
-        else {
-            throw new ServiceBeanException("Contact search criteria not provided");
-        }
-        return contacts;
+        BankSearchUnit bankSearchUnit = new BankSearchUnit(getEntityManager(),
+            bankSearchCriteria);
+        bankSearchUnit.run();
+        return bankSearchUnit.getBanks();
     }
     
     @SecurityPermission(serviceName = ServiceName.SEARCH_BANKS)

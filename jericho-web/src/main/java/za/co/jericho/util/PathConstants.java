@@ -15,7 +15,7 @@ public enum PathConstants {
     LIST_PERMISSIONS("/jericho/security/permission/list-permissions.xhtml"),
     LIST_AUDIT_ACTIVITY("/jericho/auditactivity/list-audit-activity.xhtml"),
     LIST_PROPERTIES("/jericho/property/list-properties.xhtml"),
-    LIST_SELLERS("/jericho/property/list-sellers.xhtml"),
+    LIST_SELLERS("/jericho/seller/list-sellers.xhtml"),
     LIST_PURCHASERS("/jericho/property/list-purchasers.xhtml"),
     LIST_AREAS("/jericho/address/list-areas.xhtml"),
     LIST_GREATER_AREAS("/jericho/address/list-greater-areas.xhtml"),

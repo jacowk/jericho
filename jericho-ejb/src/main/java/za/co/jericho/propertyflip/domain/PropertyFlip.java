@@ -95,11 +95,9 @@ public class PropertyFlip extends AbstractEntity { //Change to Strategy
         inverseJoinColumns = { 
             @JoinColumn(name = "estate_agent_id", nullable = false, updatable = false) })
     private Collection<EstateAgent> estateAgents;
-    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "seller_id")
+    @OneToOne(mappedBy="propertyFlip")
     private Seller seller;
-    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "purchaser_id")
+    @OneToOne(mappedBy="propertyFlip")
     private Purchaser purchaser;
 //    private PropertyFlipStatus propertyFlipStatus;
 

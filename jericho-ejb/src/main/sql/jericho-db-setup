@@ -215,9 +215,9 @@ insert into property(erf_no, portion_no, property_size, address_id, created_by, 
 insert into property(erf_no, portion_no, property_size, address_id, created_by, create_date) values (2222, 22, 22, 2, 1, curdate());
 
 insert into property_flip(case_number, purchase_price, reference_number, selling_price, title_deed_number, property_id, created_by, create_date) 
-values ('1234', 123.45, 1234, 123.45, '1234', 3, 1, curdate());
+values ('1234', 123.45, 1234, 123.45, '1234', 1, 1, curdate());
 insert into property_flip(case_number, purchase_price, reference_number, selling_price, title_deed_number, property_id, created_by, create_date) 
-values ('1235', 123.45, 1235, 123.45, '1235', 4, 1, curdate());
+values ('1235', 123.45, 1235, 123.45, '1235', 2, 1, curdate());
 
 insert into area(name, created_by, create_date) values("RANDBURG", 1, curdate());
 
@@ -231,3 +231,12 @@ insert into lookup_marital_status(description, created_by, create_date) values('
 insert into lookup_marital_status(description, created_by, create_date) values('Divorced', 1, curdate());
 insert into lookup_marital_status(description, created_by, create_date) values('Widowed', 1, curdate());
 insert into lookup_marital_status(description, created_by, create_date) values('Other', 1, curdate());
+
+insert into contact(firstname, surname, created_by, create_date) values ('John', 'Doe', 1, curdate());
+insert into contact(firstname, surname, created_by, create_date) values ('Jack', 'Doe', 1, curdate());
+
+insert into seller(contact_id, property_flip_id, created_by, create_date) values (1, 1, 1, curdate());
+insert into seller(contact_id, property_flip_id, created_by, create_date) values (2, 2, 1, curdate());
+
+insert into purchaser(contact_id, property_flip_id, created_by, create_date) values (1, 1, 1, curdate());
+insert into purchaser(contact_id, property_flip_id, created_by, create_date) values (2, 2, 1, curdate());

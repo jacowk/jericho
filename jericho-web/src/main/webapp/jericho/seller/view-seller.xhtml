@@ -16,45 +16,81 @@
                   header="View Seller">
             <h:form id="SellerViewForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{sellerBean.seller != null}">
-                        <h:outputText value="ID: "/>
-                        <h:outputText value="#{sellerBean.seller.id}"/>
+                    <p:panelGrid columns="2" rendered="#{sellerBean.seller != null and 
+                                                         sellerBean.seller.contact != null}">
+                        <h:outputText value="Property Flip ID: "/>
+                        <h:outputText value="#{sellerBean.seller.propertyFlip.id}" 
+                                      rendered="#{sellerBean.seller != null and
+                                                  sellerBean.seller.propertyFlip != null}" />
+                        
+                        <h:outputText value="Seller ID: "/>
+                        <h:outputText value="#{sellerBean.seller.id}" 
+                                      rendered="#{sellerBean.seller != null}"/>
+                        
+                        <h:outputText value="Contact ID: "/>
+                        <h:outputText value="#{sellerBean.seller.contact.id}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="Firstname: " />
-                        <h:outputText value="#{sellerBean.seller.firstname}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.firstname}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="Surname: " />
-                        <h:outputText value="#{sellerBean.seller.surname}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.surname}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="Home Tel Number: " />
-                        <h:outputText value="#{sellerBean.seller.homeTelNumber}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.homeTelNumber}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="Work Tel Number: " />
-                        <h:outputText value="#{sellerBean.seller.workTelNumber}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.workTelNumber}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="Cell Number: " />
-                        <h:outputText value="#{sellerBean.seller.cellNumber}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.cellNumber}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="Fax Number: " />
-                        <h:outputText value="#{sellerBean.seller.faxNumber}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.faxNumber}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="Work Email: " />
-                        <h:outputText value="#{sellerBean.seller.workEmail}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.workEmail}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="Personal Email: " />
-                        <h:outputText value="#{sellerBean.seller.personalEmail}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.personalEmail}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="ID Number: " />
-                        <h:outputText value="#{sellerBean.seller.idNumber}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.idNumber}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                                                 
                         <h:outputText value="Passport Number: " />
-                        <h:outputText value="#{sellerBean.seller.passportNumber}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.passportNumber}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="Marital Status: " />
-                        <h:outputText value="#{sellerBean.seller.maritalStatus}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.maritalStatus}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="Tax Number: " />
-                        <h:outputText value="#{sellerBean.seller.taxNumber}"/>
+                        <h:outputText value="#{sellerBean.seller.contact.taxNumber}"
+                                      rendered="#{sellerBean.seller != null and 
+                                                  sellerBean.seller.contact != null}"/>
                         
                         <h:outputText value="SA Citizen: " />
                         <h:outputText value="#{sellerBean.saCitizenValue}"/>

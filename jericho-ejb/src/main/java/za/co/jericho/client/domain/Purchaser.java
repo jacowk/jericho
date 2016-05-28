@@ -21,8 +21,8 @@ import za.co.jericho.propertyflip.domain.PropertyFlip;
 @Table(name="purchaser", schema = "jericho")
 public class Purchaser extends AbstractEntity {
 
-    @OneToOne(mappedBy="purchaser")
-    @JoinColumn(name="property_flip_id")
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "property_flip_id")
     private PropertyFlip propertyFlip;
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name="contact_id")

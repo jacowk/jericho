@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import za.co.jericho.common.domain.AbstractAuditTrailEntity;
 import za.co.jericho.exception.EntityValidationException;
-import za.co.jericho.util.validation.StringDataValidator;
-import za.co.jericho.util.validation.StringValidator;
 
 /**
  *

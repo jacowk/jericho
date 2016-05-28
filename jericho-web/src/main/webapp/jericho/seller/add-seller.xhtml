@@ -17,6 +17,12 @@
             <h:form id="SellerAddForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{sellerBean.contact != null}">
+                        <p:outputLabel value="Property Reference Number" />
+                        <h:outputText value="#{sellerBean.propertyFlip.referenceNumber}" />
+                        
+                        <p:outputLabel value="Property Address" />
+                        <h:outputText value="#{sellerBean.propertyAddress}" />
+                        
                         <p:outputLabel for="firstname" value="Firstname" />
                         <p:inputText id="firstname" 
                                      value="#{sellerBean.contact.firstname}" 

@@ -7,8 +7,6 @@ import org.apache.log4j.LogManager;
 import za.co.jericho.attorney.domain.Attorney;
 import za.co.jericho.common.domain.unit.AbstractPersistenceUnit;
 import za.co.jericho.exception.ServiceBeanException;
-import za.co.jericho.security.domain.Role;
-import za.co.jericho.security.search.RoleSearchCriteria;
 import za.co.jericho.util.conversion.StringConvertor;
 import za.co.jericho.util.conversion.StringDataConvertor;
 import za.co.jericho.util.validation.StringDataValidator;
@@ -19,7 +17,6 @@ import za.co.jericho.util.validation.StringValidator;
  * @author Jaco Koekemoer
  * Date: 2016-01-07
  */
-
 public class AttorneySearchUnit extends AbstractPersistenceUnit {
     
     private final AttorneySearchCriteria attorneySearchCriteria;

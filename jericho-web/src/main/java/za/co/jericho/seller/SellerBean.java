@@ -14,6 +14,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.LogManager;
+import za.co.jericho.address.domain.Address;
 import za.co.jericho.client.domain.Seller;
 import za.co.jericho.contact.lookup.MaritalStatus;
 import za.co.jericho.client.search.SellerSearchCriteria;
@@ -52,6 +53,7 @@ public class SellerBean implements Serializable {
     private ManageContactService manageContactService;
     @ManagedProperty(value = "#{propertyFlipBean}")
     private PropertyFlipBean propertyFlipBean;
+    private String propertyAddress = "";
     
     public SellerBean() {
         
@@ -61,7 +63,23 @@ public class SellerBean implements Serializable {
     public void init() {
         LogManager.getRootLogger().info("SellerBean: init");
         propertyFlip = propertyFlipBean.getPropertyFlip();
-        LogManager.getRootLogger().info("propertyFlip == null: " + (propertyFlip == null));
+        
+        /* This is incorrect, and should be a list of all properties */
+        if (propertyFlip != null && propertyFlip.getProperty() != null &&
+            propertyFlip.getProperty().getAddress() != null) {
+            Address address = propertyFlip.getProperty().getAddress();
+            StringBuilder propertyAddressBuilder = new StringBuilder();
+            propertyAddressBuilder.append(address.getAddressLine1());
+            propertyAddressBuilder.append("\n");
+            propertyAddressBuilder.append(address.getAddressLine2());
+            propertyAddressBuilder.append("\n");
+            propertyAddressBuilder.append(address.getAddressLine3());
+            propertyAddressBuilder.append("\n");
+            propertyAddressBuilder.append(address.getAddressLine4());
+            propertyAddressBuilder.append("\n");
+            propertyAddressBuilder.append(address.getAddressLine5());
+            propertyAddress = propertyAddressBuilder.toString();
+        }
         if (seller == null) {
             seller = new Seller();
         }
@@ -97,6 +115,14 @@ public class SellerBean implements Serializable {
     }
 
     /* Getters and Setters */
+    public String getPropertyAddress() {
+        return propertyAddress;
+    }
+
+    public void setPropertyAddress(String propertyAddress) {
+        this.propertyAddress = propertyAddress;
+    }
+
     public PropertyFlip getPropertyFlip() {
         return propertyFlip;
     }
