@@ -20,7 +20,10 @@
                         <p:outputLabel for="name" value="Name" />
                         <p:inputText id="name" value="#{attorneyBean.attorney.name}" title="Name" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{attorneyBean.addAttorney}" value="Save" update="display,:AttorneyListForm:datalist,:globalMessages" oncomplete="handleSubmit(args,'AttorneyAddDialog');"/>
+                    <p:commandButton actionListener="#{attorneyBean.addAttorney}" 
+                                     value="Save" 
+                                     update="display,:AttorneyListForm:datalist,:globalMessages" 
+                                     oncomplete="handleSubmit(args,'AttorneyAddDialog');"/>
                     <p:commandButton value="Cancel" onclick="AttorneyAddDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -17,27 +17,26 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import org.apache.log4j.LogManager;
-import za.co.jericho.client.domain.Seller;
+import za.co.jericho.client.domain.Purchaser;
 import za.co.jericho.client.service.ManageClientService;
 import za.co.jericho.contact.domain.Contact;
 import za.co.jericho.contact.service.ManageContactService;
 import za.co.jericho.propertyflip.domain.PropertyFlip;
-import za.co.jericho.propertyflip.service.ManagePropertyFlipService;
 import za.co.jericho.security.domain.User;
 import za.co.jericho.session.SessionServices;
 import za.co.jericho.util.JerichoWebUtil;
 import za.co.jericho.util.PathConstants;
 
 /**
- * This managed bean is used with select-seller.xhtml, and is used to select
- * a contact, which will be the seller for a property flip.
+ * This managed bean is used with select-purchaser.xhtml, and is used to select
+ * a contact, which will be the purchaser for a property flip.
  * 
  * @author Jaco Koekemoer
  * Date: 2016-05-28
  */
-@ManagedBean(name = "selectSellerBean")
+@ManagedBean(name = "selectPurchaserBean")
 @SessionScoped
-public class SelectSellerBean implements Serializable {
+public class SelectPurchaserBean implements Serializable {
     
     private Collection<Contact> contacts;
     @EJB
@@ -50,7 +49,7 @@ public class SelectSellerBean implements Serializable {
     /**
      * Constructor
      */
-    public SelectSellerBean() {
+    public SelectPurchaserBean() {
         
     }
     
@@ -59,7 +58,7 @@ public class SelectSellerBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        LogManager.getRootLogger().info("SelectSellerBean: init");
+        LogManager.getRootLogger().info("SelectPurchaserBean: init");
         contacts = manageContactService.findAllContacts();
     }
 
@@ -89,30 +88,30 @@ public class SelectSellerBean implements Serializable {
     }
     
     /* Services */
-    public void selectSellerFromDialog(Contact contact) {
-        LogManager.getRootLogger().info("SelectSellerBean: selectSellerFromDialog 1: " + contact.getId());
+    public void selectPurchaserFromDialog(Contact contact) {
+        LogManager.getRootLogger().info("SelectPurchaserBean: selectPurchaserFromDialog 1: " + contact.getId());
         try {
-            if (!isSellerAlreadySelected(contact)) {
+            if (!isPurchaserAlreadySelected(contact)) {
                 PropertyFlip propertyFlip = propertyFlipBean.getPropertyFlip();
                 if (propertyFlip == null) {
-                    JerichoWebUtil.addErrorMessage("The Property Flip is null. Cannot select a seller.");
+                    JerichoWebUtil.addErrorMessage("The Property Flip is null. Cannot select a purchaser.");
                     return;
                 }
                 if (contact == null) {
-                    JerichoWebUtil.addErrorMessage("A seller was not selected.");
+                    JerichoWebUtil.addErrorMessage("A purchaser was not selected.");
                     return;
                 }
-                Seller currentSeller = propertyFlip.getSeller();
-                if (currentSeller == null) {
-                    addSeller(propertyFlip, contact);
+                Purchaser currentPurchaser = propertyFlip.getPurchaser();
+                if (currentPurchaser == null) {
+                    addPurchaser(propertyFlip, contact);
                 }
                 else {
-                    updateSeller(contact, currentSeller);
+                    updatePurchaser(contact, currentPurchaser);
                 }
                 redirectToPropertyFlip();
             }
             else {
-                StringBuilder errorMessage = new StringBuilder("The seller ");
+                StringBuilder errorMessage = new StringBuilder("The purchaser ");
                 errorMessage.append(contact.getFirstname());
                 errorMessage.append(" ");
                 errorMessage.append(contact.getSurname());
@@ -132,16 +131,16 @@ public class SelectSellerBean implements Serializable {
     }
     
     /**
-     * Determine if the current seller is already selected
+     * Determine if the current purchaser is already selected
      * 
      * @param selectedContact
      * @return 
      */
-    private boolean isSellerAlreadySelected(Contact selectedContact) {
+    private boolean isPurchaserAlreadySelected(Contact selectedContact) {
         PropertyFlip propertyFlip = propertyFlipBean.getPropertyFlip();
-        Seller currentSeller = propertyFlip.getSeller();
-        if (currentSeller.getContact() != null) {
-            if (Objects.equals(currentSeller.getContact().getId(), selectedContact.getId())) {
+        Purchaser currentPurchaser = propertyFlip.getPurchaser();
+        if (currentPurchaser.getContact() != null) {
+            if (Objects.equals(currentPurchaser.getContact().getId(), selectedContact.getId())) {
                 return true;
             }
         }
@@ -149,41 +148,41 @@ public class SelectSellerBean implements Serializable {
     }
     
     /**
-     * Add a new seller
+     * Add a new purchaser
      * 
      * @param propertyFlip
      * @param contact 
      */
-    private void addSeller(PropertyFlip propertyFlip, Contact contact) {
+    private void addPurchaser(PropertyFlip propertyFlip, Contact contact) {
         SessionServices sessionServices = SessionServices.getInstance();
         User currentUser = sessionServices.getUserFromSession();
-        Seller seller = new Seller();
-        seller.setContact(contact);
-        seller.setPropertyFlip(propertyFlip);
-        seller.setCreateDate(new Date());
-        seller.setCreatedBy(currentUser);
-        manageClientService.addSeller(seller);
+        Purchaser purchaser = new Purchaser();
+        purchaser.setContact(contact);
+        purchaser.setPropertyFlip(propertyFlip);
+        purchaser.setCreateDate(new Date());
+        purchaser.setCreatedBy(currentUser);
+        manageClientService.addPurchaser(purchaser);
         JerichoWebUtil.addSuccessMessage(ResourceBundle
             .getBundle("/JerichoWebBundle")
-            .getString("SellerAdded"));
+            .getString("PurchaserAdded"));
     }
     
     /**
-     * Update a current seller
+     * Update a current purchaser
      * 
      * @param contact
-     * @param currentSeller 
+     * @param currentPurchaser 
      */
-    private void updateSeller(Contact contact, Seller currentSeller) {
+    private void updatePurchaser(Contact contact, Purchaser currentPurchaser) {
         SessionServices sessionServices = SessionServices.getInstance();
         User currentUser = sessionServices.getUserFromSession();
-        currentSeller.setContact(contact);
-        currentSeller.setLastModifyDate(new Date());
-        currentSeller.setLastModifiedBy(currentUser);
-        manageClientService.updateSeller(currentSeller);
+        currentPurchaser.setContact(contact);
+        currentPurchaser.setLastModifyDate(new Date());
+        currentPurchaser.setLastModifiedBy(currentUser);
+        manageClientService.updatePurchaser(currentPurchaser);
         JerichoWebUtil.addSuccessMessage(ResourceBundle
             .getBundle("/JerichoWebBundle")
-            .getString("SellerUpdated"));
+            .getString("PurchaserUpdated"));
     }
     
     /**

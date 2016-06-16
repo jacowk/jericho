@@ -8,14 +8,22 @@
 
     <ui:composition>
 
-        <p:dialog id="AttorneyUpdateDlg" widgetVar="AttorneyUpdateDialog" modal="true" resizable="false" appendTo="@(body)" header="Update Attorney">
+        <p:dialog id="AttorneyUpdateDlg" 
+                  widgetVar="AttorneyUpdateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="Update Attorney">
             <h:form id="AttorneyUpdateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{attorneyBean.attorney != null}">
                         <p:outputLabel for="name" value="Name: " />
                         <p:inputText id="name" value="#{attorneyBean.attorney.name}" title="Name: " />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{attorneyBean.updateAttorney}" value="Update" update="display,:AttorneyListForm:datalist,:globalMessages" oncomplete="handleSubmit(args, 'AttorneyUpdateDialog');"/>
+                    <p:commandButton actionListener="#{attorneyBean.updateAttorney}" 
+                                     value="Update" 
+                                     update="display,:AttorneyListForm:datalist,:globalMessages" 
+                                     oncomplete="handleSubmit(args, 'AttorneyUpdateDialog');"/>
                     <p:commandButton value="Cancel" onclick="AttorneyUpdateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

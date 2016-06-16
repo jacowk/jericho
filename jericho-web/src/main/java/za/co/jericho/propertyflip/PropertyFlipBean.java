@@ -4,24 +4,18 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import org.apache.log4j.LogManager;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
-import za.co.jericho.contact.domain.Contact;
 import za.co.jericho.property.PropertyBean;
 import za.co.jericho.property.domain.Property;
 import za.co.jericho.propertyflip.domain.PropertyFlip;
@@ -232,17 +226,28 @@ public class PropertyFlipBean implements Serializable {
     }
     
     /* Method for choosing a seller */
-    public void chooseSeller() {
-        RequestContext.getCurrentInstance().execute("PF('SellerSelectDialog').show()");
+    public void selectSeller() {
+        //RequestContext.getCurrentInstance().execute("PF('SellerSelectDialog').show()");
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            context.redirect(context.getRequestContextPath() + 
+                PathConstants.SELECT_SELLER_PATH.getValue());
+        }
+        catch (IOException ex) {
+            Logger.getLogger(PropertyFlipBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void onSellerChosen(SelectEvent event) {
-        Contact contact = (Contact) event.getObject();
-LogManager.getRootLogger().info("PropertyFlipBean: onSellerChosen: contact: " + contact.getId());
-        //TODO add the logic for storing a contact for a property flip as a seller
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, 
-            "Seller Selected: ", contact.toString());
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    /* Method for choosing a purchaser */
+    public void selectPurchaser() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            context.redirect(context.getRequestContextPath() + 
+                PathConstants.SELECT_PURCHASER_PATH.getValue());
+        }
+        catch (IOException ex) {
+            Logger.getLogger(PropertyFlipBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

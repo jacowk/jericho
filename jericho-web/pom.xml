@@ -53,9 +53,31 @@
         <dependency>
             <groupId>net.bootsfaces</groupId>
             <artifactId>bootsfaces</artifactId>
-            <version>0.6.6</version>
+            <version>0.8.6</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Support for Bootfaces Start -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootswatch</artifactId>
+            <version>3.3.5+4</version>
+        </dependency>
+        <dependency>
+           <groupId>org.webjars</groupId>
+           <artifactId>jquery</artifactId>
+           <version>1.11.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery-ui</artifactId>
+            <version>1.11.4</version>
+        </dependency>
+        <!-- Support for Bootfaces End -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>

@@ -8,7 +8,12 @@
 
     <ui:composition>
 
-        <p:dialog id="AttorneyViewDlg" widgetVar="AttorneyViewDialog" modal="true" resizable="false" appendTo="@(body)" header="View Attorney">
+        <p:dialog id="AttorneyViewDlg" 
+                  widgetVar="AttorneyViewDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="View Attorney">
             <h:form id="AttorneyViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{attorneyBean.attorney != null}">
@@ -19,18 +24,22 @@
                         <h:outputText value="#{attorneyBean.attorney.name}" title="Name"/>
                         
                         <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
-                        <h:outputText value="#{attorneyBean.attorney.createdBy.username}" title="#{jerichoWebBundle.CreatedBy}"/>
+                        <h:outputText value="#{attorneyBean.attorney.createdBy.username}" 
+                                      title="#{jerichoWebBundle.CreatedBy}"/>
                         
                         <h:outputText value="#{jerichoWebBundle.CreateDate}"/>
-                        <h:outputText value="#{attorneyBean.attorney.createDate}" title="#{jerichoWebBundle.CreateDate}">
+                        <h:outputText value="#{attorneyBean.attorney.createDate}" 
+                                      title="#{jerichoWebBundle.CreateDate}">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
                         </h:outputText>
                         
                         <h:outputText value="#{jerichoWebBundle.LastModifiedBy}"/>
-                        <h:outputText value="#{attorneyBean.attorney.lastModifiedBy.username}" title="#{jerichoWebBundle.LastModifiedBy}"/>
+                        <h:outputText value="#{attorneyBean.attorney.lastModifiedBy.username}" 
+                                      title="#{jerichoWebBundle.LastModifiedBy}"/>
                         
                         <h:outputText value="#{jerichoWebBundle.LastModifyDate}"/>
-                        <h:outputText value="#{attorneyBean.attorney.lastModifyDate}" title="#{jerichoWebBundle.LastModifyDate}">
+                        <h:outputText value="#{attorneyBean.attorney.lastModifyDate}" 
+                                      title="#{jerichoWebBundle.LastModifyDate}">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
                         </h:outputText>
                     </p:panelGrid>

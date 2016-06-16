@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -9,81 +9,17 @@
     <h:body>
         <ui:composition>
             <p:messages id="propertyFlipMessages" />
-            <h:form id="PropertyFlipViewForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid id="viewPropertyFlipPanelGrid" 
-                                 columns="2" 
-                                 rendered="#{propertyFlipBean.propertyFlip != null}">
-                        <h:outputText value="ID: "/>
-                        <h:outputText value="#{propertyFlipBean.propertyFlip.id}" title="ID"/>
-                        
-                        <h:outputText value="Reference Number: "/>
-                        <h:outputText value="#{propertyFlipBean.propertyFlip.referenceNumber}" 
-                                      title="Reference Number"/>
-                        
-                        <h:outputText value="Title Deed Number: "/>
-                        <h:outputText value="#{propertyFlipBean.propertyFlip.titleDeedNumber}" 
-                                      title="Title Deed Number"/>
-                        
-                        <h:outputText value="Case Number: "/>
-                        <h:outputText value="#{propertyFlipBean.propertyFlip.caseNumber}" 
-                                      title="Case Number"/>
-                        
-                        <h:outputText value="Purchase Price: "/>
-                        <h:outputText value="#{propertyFlipBean.propertyFlip.purchasePrice}" 
-                                      title="Purchase Price"/>
-                        
-                        <h:outputText value="Selling Price: "/>
-                        <h:outputText value="#{propertyFlipBean.propertyFlip.sellingPrice}" 
-                                      title="Selling Price"/>
-                        
-                        <h:outputText value="#{jerichoWebBundle.CreatedBy}"/>
-                        <h:outputText value="#{propertyFlipBean.propertyFlip.createdBy.username}" 
-                                      title="#{jerichoWebBundle.CreatedBy}"/>
-                        
-                        <h:outputText value="#{jerichoWebBundle.CreateDate}"/>
-                        <h:outputText value="#{propertyFlipBean.propertyFlip.createDate}" 
-                                      title="#{jerichoWebBundle.CreateDate}">
-                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
-                        </h:outputText>
-                        
-                        <h:outputText value="#{jerichoWebBundle.LastModifiedBy}"/>
-                        <h:outputText value="#{propertyFlipBean.propertyFlip.lastModifiedBy.username}" 
-                                      title="#{jerichoWebBundle.LastModifiedBy}"/>
-                        
-                        <h:outputText value="#{jerichoWebBundle.LastModifyDate}"/>
-                        <h:outputText value="#{propertyFlipBean.propertyFlip.lastModifyDate}" 
-                                      title="#{jerichoWebBundle.LastModifyDate}">
-                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
-                        </h:outputText>
-                    </p:panelGrid>
-                    <p:commandButton id="addButton"   
-                                     icon="ui-icon-plus"  
-                                     value="#{jerichoWebBundle.Add}"
-                                     action="#{propertyFlipBean.navigateUpdatePropertyFlip}"
-                                     rendered="#{propertyFlipBean.createPropertyFlip == true}" />
-                    <p:commandButton id="updateButton"   
-                                     icon="ui-icon-pencil" 
-                                     value="#{jerichoWebBundle.Update}"
-                                     action="#{propertyFlipBean.navigateUpdatePropertyFlip}"
-                                     rendered="#{propertyFlipBean.createPropertyFlip == false}" />
-                </h:panelGroup>
-                <br/>
-                <b:panel look="primary">
-                    <f:facet name="heading">Seller</f:facet>
-                    <p:growl id="growl" showDetail="true"/>
-                    <p:commandButton value="Select Seller" 
-                                     icon="ui-icon-extlink" 
-                                     actionListener="#{propertyFlipBean.chooseSeller}">
-                        <p:ajax event="dialogReturn" 
-                                listener="#{propertyFlipBean.onSellerChosen}" />
-                    </p:commandButton>
-                    
-                    
-                </b:panel>
-            </h:form>
-            
-            <ui:include src="select-seller.xhtml"/>
+            <p:accordionPanel id="propertyFlipAccordion">
+                <p:tab title="Property Flip Details">
+                    <ui:include src="view-property-flip-details-tab.xhtml" />
+                </p:tab>
+                <p:tab title="Seller">
+                    <ui:include src="view-property-flip-seller-tab.xhtml" />
+                </p:tab>
+                <p:tab title="Purchaser">
+                    <ui:include src="view-property-flip-purchaser-tab.xhtml" />
+                </p:tab>
+            </p:accordionPanel>    
         </ui:composition>
     </h:body>
 </html>

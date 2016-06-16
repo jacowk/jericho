@@ -4,7 +4,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import za.co.jericho.common.domain.AbstractEntity;
@@ -24,7 +23,7 @@ public class Purchaser extends AbstractEntity {
     @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "property_flip_id")
     private PropertyFlip propertyFlip;
-    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name="contact_id")
     private Contact contact;
 
@@ -40,17 +39,17 @@ public class Purchaser extends AbstractEntity {
         return contact;
     }
 
-    public void setContacts(Contact contact) {
+    public void setContact(Contact contact) {
         this.contact = contact;
     }
 
     @Override
     public void validate() {
         if (getPropertyFlip() == null) {
-            throw new EntityValidationException("A property flip must be provided for the seller");
+            throw new EntityValidationException("A property flip must be provided for the purchaser");
         }
         if (getContact() == null) {
-            throw new EntityValidationException("A contact must be provided for the seller");
+            throw new EntityValidationException("A contact must be provided for the purchaser");
         }
     }
     

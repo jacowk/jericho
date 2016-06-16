@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:body>
+        <ui:composition>
+            <h:form id="PurchaserViewForm">
+                <b:panel look="primary">
+                    <h:panelGroup id="display">
+                        <p:panelGrid id="viewPurchaserPanelGrid" 
+                                     columns="2" 
+                                     rendered="#{propertyFlipBean.propertyFlip != null and
+                                                propertyFlipBean.propertyFlip.purchaser != null and
+                                                propertyFlipBean.propertyFlip.purchaser.contact != null}">
+                            <h:outputText value="Firstname: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.firstname}"/>
+
+                            <h:outputText value="Surname: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.surname}"/>
+
+                            <h:outputText value="Home Tel Number: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.homeTelNumber}"/>
+
+                            <h:outputText value="Work Tel Number: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.workTelNumber}"/>
+
+                            <h:outputText value="Cell Number: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.cellNumber}"/>
+
+                            <h:outputText value="Fax Number: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.faxNumber}"/>
+
+                            <h:outputText value="Work Email: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.workEmail}"/>
+
+                            <h:outputText value="Personal Email: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.personalEmail}"/>
+
+                            <h:outputText value="ID Number: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.idNumber}"/>
+
+                            <h:outputText value="Passport Number: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.passportNumber}"/>
+
+                            <h:outputText value="Marital Status: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.maritalStatus}"/>
+
+                            <h:outputText value="Tax Number: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.contact.taxNumber}"/>
+
+                            <!--<h:outputText value="SA Citizen: " />
+                            <h:outputText value="#{propertyFlipBean.propertyFlip.purchaser.saCitizenValue}"/>-->
+                        </p:panelGrid>
+                    </h:panelGroup>
+                    <p:commandButton value="Select Purchaser" 
+                                     icon="ui-icon-extlink" 
+                                     actionListener="#{propertyFlipBean.selectPurchaser}" />
+                </b:panel>
+            </h:form>   
+        </ui:composition>
+    </h:body>
+</html>

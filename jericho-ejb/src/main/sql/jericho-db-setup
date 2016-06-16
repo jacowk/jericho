@@ -1,44 +1,4 @@
-select * from property;
-select * from property_flip;
-select * from address;
-select * from account_type;
-select * from users;
-select * from user_role;
-select * from role;
-select * from area;
-select * from property_audit_trail;
-select * from contact;
-select * from attorney a;
-show tables;
-select * from role;
-select * from permission_role pr where role_id = 1;
-describe permission_role;
-select * from permission p where p.name like '%Attorney%';
-select * from permission_role pr where pr.permission_id = 45;
-select * from contractor_audit_trail;
-select * from attorney where deleted = 'false';
-select * from attorney_audit_trail;
-select * from property;
-select * from property_flip;
-select * from address;
-select * from audit_activity;
-select * from permission where name like '%Attorney%';
-describe user_activity;
-select * from users;
-show tables;
-select * from bank;
-select * from user_activity;
-select * from bank_audit_trail;
-select * from contractor_audit_trail;
-select * from bank;
-select * from bank_audit_trail;
-select * from user_activity;
-select * from attorney_audit_trail;
-select * from estate_agent;
-select * from estate_agent_audit_trail;
-select * from permission_role pr where pr.permission_id = 45;
-select * from permission where name like 'Test%' and service_name is null;
-
+select * from seller;
 
 --8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918 = admin
 insert into users(firstname, surname, email, username, password, created_by, create_date)
@@ -126,6 +86,11 @@ insert into permission(name, service_name, created_by, create_date) values('Upda
 insert into permission(name, service_name, created_by, create_date) values('Mark Seller Deleted', 'markSellerDeleted', 1, curdate());
 insert into permission(name, service_name, created_by, create_date) values('Search Sellers', 'searchSellers', 1, curdate());
 
+insert into permission(name, service_name, created_by, create_date) values('Add Purchaser', 'addPurchaser', 1, curdate()); --61
+insert into permission(name, service_name, created_by, create_date) values('Update Purchaser', 'updatePurchaser', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Mark Purchaser Deleted', 'markPurchaserDeleted', 1, curdate());
+insert into permission(name, service_name, created_by, create_date) values('Search Purchasers', 'searchPurchasers', 1, curdate());
+
 insert into role(name, created_by, create_date) values('Administrator', 1, curdate());
 insert into role(name, created_by, create_date) values('Manager', 1, curdate());
 insert into role(name, created_by, create_date) values('Supervisor', 1, curdate());
@@ -192,6 +157,11 @@ insert into permission_role(role_id, permission_id) values(1, 57);
 insert into permission_role(role_id, permission_id) values(1, 58);
 insert into permission_role(role_id, permission_id) values(1, 59);
 insert into permission_role(role_id, permission_id) values(1, 60);
+
+insert into permission_role(role_id, permission_id) values(1, 61);
+insert into permission_role(role_id, permission_id) values(1, 62);
+insert into permission_role(role_id, permission_id) values(1, 63);
+insert into permission_role(role_id, permission_id) values(1, 64);
 
 insert into user_role(user_id, role_id) values(1, 1);
 insert into user_role(user_id, role_id) values(2, 1);

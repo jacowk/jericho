@@ -9,10 +9,10 @@
     <ui:composition template="/jericho/template/template.xhtml">
         <ui:define name="contents">
             <b:panel look="primary">
-                <f:facet name="heading">Select Seller</f:facet>
-                <h:form id="SellerSelectForm">
+                <f:facet name="heading">Select Purchaser</f:facet>
+                <h:form id="PurchaserSelectForm">
                     <p:dataTable var="contact" 
-                                 value="#{selectSellerBean.contacts}">
+                                 value="#{selectPurchaserBean.contacts}">
                         <p:column headerText="Id">
                             <h:outputText value="#{contact.id}" />
                         </p:column>
@@ -33,13 +33,13 @@
                         </p:column>
                         <p:column style="width:32px;text-align: center">
                             <p:commandButton icon="ui-icon-search" 
-                                             actionListener="#{selectSellerBean.selectSellerFromDialog(contact)}" />
+                                             actionListener="#{selectPurchaserBean.selectPurchaserFromDialog(contact)}" />
                         </p:column>
                     </p:dataTable>
                     <br/>
                     <p:commandButton value="Back" 
                                      icon="ui-icon-extlink" 
-                                     actionListener="#{selectSellerBean.redirectToPropertyFlip}" />
+                                     actionListener="#{selectPurchaserBean.redirectToPropertyFlip}" />
                 </h:form>
             </b:panel>
         </ui:define>

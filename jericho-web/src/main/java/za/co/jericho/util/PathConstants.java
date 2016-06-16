@@ -28,6 +28,8 @@ public enum PathConstants {
     MANAGE_PROPERTY_FLIP_PATH("/jericho/propertyflip/manage-property-flip.xhtml"),
     UPDATE_PROPERTY_FLIP_PATH("/jericho/propertyflip/update-property-flip.xhtml"),
     ADD_SELLER_PATH("/jericho/seller/add-seller.xhtml"),
+    SELECT_SELLER_PATH("/jericho/propertyflip/select-seller.xhtml"),
+    SELECT_PURCHASER_PATH("/jericho/propertyflip/select-purchaser.xhtml"),
     FACES_REDIRECT("?faces-redirect=true");
 
     PathConstants(String value) {
